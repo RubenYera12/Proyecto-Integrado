@@ -29,4 +29,20 @@ public class CategoryController {
         }
         return outputCategoryDTOList;
     }
+
+    @GetMapping("findByID/{id}")
+    public OutputCategoryDTO findByID(@PathVariable String id) throws Exception {
+        return new OutputCategoryDTO(categoryService.findByID(id));
+    }
+
+    @DeleteMapping("deleteByID/{id}")
+    public String deleteByID(@PathVariable String id) throws Exception {
+        categoryService.deleteByID(id);
+        return "Categoria borrada correctamente.";
+    }
+
+    @PutMapping("update/{id}")
+    public OutputCategoryDTO updateCategory(@PathVariable String id,@RequestBody InputCategoryDTO inputCategoryDTO) throws Exception {
+        return  new OutputCategoryDTO(categoryService.update(id,new Category(inputCategoryDTO)));
+    }
 }

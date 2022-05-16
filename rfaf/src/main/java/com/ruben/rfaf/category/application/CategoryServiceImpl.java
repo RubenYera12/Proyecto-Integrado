@@ -22,4 +22,25 @@ public class CategoryServiceImpl implements CategoryService{
     public List<Category> findAll(){
         return categoryRepository.findAll();
     }
+
+    @Override
+    public Category findByID(String id) throws Exception {
+        return categoryRepository.findById(id).orElseThrow(()->new Exception("No existe una categoria con ID: "+id));
+    }
+
+    @Override
+    public void deleteByID(String id) throws Exception {
+        Category category = findByID(id);
+        categoryRepository.delete(category);
+    }
+
+    @Override
+    public Category update(String id, Category category) throws Exception {
+        Category categoryCheck = categoryRepository.findById(id).orElseThrow(()->new Exception("No se ha encontrado la categoria con ID: "+id));
+        if (category.getName()==null){
+            throw new Exception("No pudes dejar campos vacios");
+        }
+        categoryCheck.setName(category.getName());
+        return category;
+    }
 }
