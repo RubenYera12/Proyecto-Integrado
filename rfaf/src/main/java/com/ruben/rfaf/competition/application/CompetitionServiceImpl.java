@@ -42,9 +42,13 @@ public class CompetitionServiceImpl implements CompetitionService {
     }
 
     @Override
-    public Competition update(Competition competition,String id) throws Exception {
+    public Competition update(Competition competition, String id) throws Exception {
         Competition competitionCheck = findById(id);
-        if (competition.getName()==null)
-            throw new Exception("No nulos");
+        if (competition.getName()!=null)
+            competitionCheck.setName(competition.getName());
+        if(competition.getZone()!=null)
+            competitionCheck.setZone(competition.getZone());
+        return competitionRepository.save(competitionCheck);
+
     }
 }
