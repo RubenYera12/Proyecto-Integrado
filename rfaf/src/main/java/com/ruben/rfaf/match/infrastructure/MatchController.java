@@ -38,12 +38,12 @@ public class MatchController {
         return outputMatchDTOList;
     }
 
-    @PutMapping("cancelAssignment")
+    @PutMapping("assing/cancelAssignment")
     public OutputMatchDTO cancelAssignment(@RequestParam String match_id) throws Exception {
         return new OutputMatchDTO(matchService.cancelAssignment(match_id));
     }
 
-    @PutMapping("assingMatch")
+    @PutMapping("assing/assingMatch")
     public OutputMatchDTO assingMatch(@RequestParam String match_id, @RequestParam String referee_id) throws Exception {
         return new OutputMatchDTO(matchService.assignMatch(match_id,referee_id));
     }
