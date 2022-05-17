@@ -19,10 +19,9 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public Player addPlayer(Player player) throws Exception {
         Optional<Player> optionalPlayer = playerRepository.findByLicenseNum(player.getLicenseNum());
-        if (optionalPlayer.isEmpty()) {
-            return playerRepository.save(player);
-        } else throw new Exception("El jugador con licencia: " + player.getLicenseNum() + " ya existe");
-        // TODO: comprobar id existente
+        if (optionalPlayer.isPresent()) {
+            throw new Exception("El jugador con licencia: " + player.getLicenseNum() + " ya existe");
+        } else return playerRepository.save(player);
     }
 
     @Override

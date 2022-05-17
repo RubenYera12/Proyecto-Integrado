@@ -38,6 +38,7 @@ public class Player {
     @JsonIgnore
     private Team team;
     private int number;
+    private int sancion;
 
     public Player(InputPlayerDTO inputPlayerDTO) {
         setId(inputPlayerDTO.getId());
@@ -47,5 +48,6 @@ public class Player {
         setBirthDate(inputPlayerDTO.getDate());
         setTeam(inputPlayerDTO.getTeam());
         setNumber(inputPlayerDTO.getNumber());
+        setSancion(inputPlayerDTO.getSancion());
     }
 }

@@ -20,4 +20,5 @@ public class InputRefereeDTO {
     private String image_url;
     private Boolean admin;
     private Category category;
+    private boolean nevera;
 }

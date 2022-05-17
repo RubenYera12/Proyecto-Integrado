@@ -17,7 +17,7 @@ public class CategoryController {
 
     private final CategoryService categoryService;
     @PostMapping("create")
-    public OutputCategoryDTO addCategory(@RequestBody InputCategoryDTO inputCategoryDTO){
+    public OutputCategoryDTO addCategory(@RequestBody InputCategoryDTO inputCategoryDTO) throws Exception {
         return new OutputCategoryDTO(categoryService.addCategory(new Category(inputCategoryDTO)));
     }
 

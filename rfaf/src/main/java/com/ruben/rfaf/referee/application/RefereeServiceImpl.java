@@ -29,12 +29,21 @@ public class RefereeServiceImpl implements RefereeService {
     }
 
     @Override
+    public Referee findByLicenseNum(String licenseNum) throws Exception {
+        return refereeRepository
+                .findByLicenseNum(licenseNum)
+                .orElseThrow(() -> new Exception("No se ha podido encontrar el usuario"));
+    }
+
+    @Override
     public Referee addUser(Referee referee) throws Exception {
         Optional<Referee> referee1 = refereeRepository.findByEmail(referee.getEmail());
-        if (referee1.isEmpty()) {
-            return refereeRepository.save(referee);
-        } else throw new Exception("El usuario con email: " + referee.getEmail() + " ya existe");
-        // TODO: comprobar id existente
+        Optional<Referee> referee2 = refereeRepository.findByLicenseNum(referee.getLicenseNum());
+        if (referee1.isPresent())
+            throw new Exception("El usuario con email: " + referee.getEmail() + " ya existe");
+        if (referee2.isPresent())
+            throw new Exception("Ya existe el usuario con licencia: "+referee.getLicenseNum());
+        return refereeRepository.save(referee);
     }
 
     @Override
@@ -46,6 +55,8 @@ public class RefereeServiceImpl implements RefereeService {
         if (!referee1.get().getEmail().equals(referee.getEmail())) {
             throw new Exception("No se puede cambiar el email");
         }
+        if (!referee1.get().getLicenseNum().equals(referee.getLicenseNum()))
+            throw new Exception("No se puede cambiar el numero de licencia");
         // TODO: Comprobar campos nulos
 
         return refereeRepository.save(referee);

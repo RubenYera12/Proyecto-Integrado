@@ -18,4 +18,5 @@ public class InputPlayerDTO {
     private Date date;
     private Team team;
     private int number;
+    private int sancion;
 }

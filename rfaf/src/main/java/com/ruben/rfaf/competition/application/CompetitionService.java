@@ -11,6 +11,8 @@ public interface CompetitionService {
 
     Competition findById(String id) throws Exception;
 
+    Competition findByName(String name) throws Exception;
+
     List<Competition> findAll();
 
     void deleteById(String id) throws Exception;

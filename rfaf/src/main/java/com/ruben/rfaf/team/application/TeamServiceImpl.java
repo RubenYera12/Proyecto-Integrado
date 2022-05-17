@@ -18,24 +18,22 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Team addTeam(Team team) throws Exception {
         Optional<Team> teamOptional = teamRepository.findByName(team.getName());
-        if (teamOptional.isEmpty()) {
-            return teamRepository.save(team);
-        } else throw new Exception("El equipo: " + team.getName() + " ya existe");
-        // TODO: comprobar id existente
+        if (teamOptional.isPresent())
+            throw new Exception("El equipo: " + team.getName() + " ya existe");
+        return teamRepository.save(team);
     }
 
     @Override
     public Team updateTeam(Team team) throws Exception {
-        if (team.getId() == null) {
+        if (team.getId() == null)
             throw new Exception("No se ha podido encontrar el equipo.");
-        }
 
         Optional<Team> teamOptional = teamRepository.findById(team.getId());
-        if (!teamOptional.get().getName().equals(team.getName())){
-            throw  new Exception("No se puede cambiar el Nombre del Equipo");
-        }
+        if (!teamOptional.get().getName().equals(team.getName()))
+            throw new Exception("No se puede cambiar el Nombre del Equipo");
         // TODO: Comprobar campos nulos
-
+        if (team.getStadium().isEmpty())
+            throw new Exception("No puedes dejar al club sin estadio");
         return teamRepository.save(team);
     }
 

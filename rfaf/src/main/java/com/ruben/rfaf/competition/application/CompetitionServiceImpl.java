@@ -16,9 +16,9 @@ public class CompetitionServiceImpl implements CompetitionService {
 
     @Override
     public Competition createCompetition(Competition competition) throws Exception {
-        Optional<Competition> competitionCheck = competitionRepository.findById(competition.getId());
+        Optional<Competition> competitionCheck = competitionRepository.findByName(competition.getName());
         if (competitionCheck.isPresent())
-            throw new Exception("Ya existe una Competición con ID: " + competition.getId());
+            throw new Exception("Ya existe la Competición: " + competition.getName());
         return competitionRepository.save(competition);
     }
 
@@ -27,6 +27,13 @@ public class CompetitionServiceImpl implements CompetitionService {
         return competitionRepository
                 .findById(id)
                 .orElseThrow(() -> new Exception("No se ha encontrado una competicion con ID: " + id));
+    }
+
+    @Override
+    public Competition findByName(String name) throws Exception {
+        return competitionRepository
+                .findByName(name)
+                .orElseThrow(() -> new Exception("No se ha encontrado la competicion: " + name));
     }
 
     @Override

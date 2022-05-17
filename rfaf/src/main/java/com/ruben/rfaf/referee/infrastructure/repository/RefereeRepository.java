@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface RefereeRepository extends JpaRepository<Referee, String> {
     Optional<Referee> findByEmail(String email);
+
+    Optional<Referee> findByLicenseNum(String licenseNum);
 }

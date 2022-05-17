@@ -43,6 +43,7 @@ public class Referee {
     @ManyToOne
     @JsonIgnore
     private Category category;
+    private boolean nevera;
 
     public Referee(InputRefereeDTO userInputDTO) {
         setId(userInputDTO.getId());
@@ -56,6 +57,7 @@ public class Referee {
         setImage_url(userInputDTO.getImage_url());
         setAdmin(userInputDTO.getAdmin());
         setCategory(userInputDTO.getCategory());
+        setNevera(userInputDTO.isNevera());
     }
 
 }

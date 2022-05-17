@@ -18,6 +18,7 @@ public class OutputRefereeDTO {
     private String image_url;
     private Boolean admin;
     private Category category;
+    private boolean nevera;
 
     public OutputRefereeDTO(Referee user){
         setId(user.getId());

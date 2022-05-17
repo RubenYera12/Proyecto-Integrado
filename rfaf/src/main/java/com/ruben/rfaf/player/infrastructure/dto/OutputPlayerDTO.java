@@ -19,7 +19,7 @@ public class OutputPlayerDTO {
     private Date date;
     private Team team;
     private int number;
-
+    private int sancion;
     public OutputPlayerDTO(Player player){
         setId(player.getId());
         setLicencia(player.getLicenseNum());
@@ -28,5 +28,6 @@ public class OutputPlayerDTO {
         setDate(player.getBirthDate());
         setTeam(player.getTeam());
         setNumber(player.getNumber());
+        setSancion(player.getSancion());
     }
 }

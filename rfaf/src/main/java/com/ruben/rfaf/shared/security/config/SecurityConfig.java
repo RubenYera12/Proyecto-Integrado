@@ -16,7 +16,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //TODO: Borrar el metodo, es solo para el desarrollo
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/h2-console/**");
+        web.ignoring().antMatchers("/**");
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -24,12 +24,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
+                .antMatchers()
+                .permitAll()
                 .antMatchers("/login")
                 .permitAll()
                 .antMatchers("/api/match/assing/**")
                 .hasAnyRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/student/addStudent")
-                .hasAnyRole("ADMIN")
+//                .antMatchers(HttpMethod.POST, "/student/addStudent")
+//                .hasAnyRole("ADMIN")
                 .anyRequest()
                 .authenticated();
     }
