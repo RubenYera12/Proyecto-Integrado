@@ -13,7 +13,7 @@ public class OutputRefereeDTO {
     private String name;
     private String firstname;
     private String email;
-    private String city;
+    private String city="Jaén";
     private Date birthDate;
     private String image_url;
     private Boolean admin;

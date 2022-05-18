@@ -36,7 +36,7 @@ public class Referee {
     private String firstname;
     @Column(unique = true)
     private String email;
-    private String city;
+    private String city="Jaén";
     private Date birthDate;
     private String image_url;
     private Boolean admin;
