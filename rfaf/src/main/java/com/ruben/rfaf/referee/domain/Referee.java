@@ -3,6 +3,7 @@ package com.ruben.rfaf.referee.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ruben.rfaf.StringPrefixedSequenceIdGenerator;
 import com.ruben.rfaf.category.domain.Category;
+import com.ruben.rfaf.designation.domain.Designation;
 import com.ruben.rfaf.referee.infrastructure.dto.InputRefereeDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,6 +13,7 @@ import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -36,6 +38,7 @@ public class Referee {
     private String firstname;
     @Column(unique = true)
     private String email;
+    private String telfNumber;
     private String city="Jaén";
     private Date birthDate;
     private String image_url;
@@ -44,6 +47,8 @@ public class Referee {
     @JsonIgnore
     private Category category;
     private boolean nevera;
+    @OneToMany
+    private List<Designation> designationList;
 
     public Referee(InputRefereeDTO userInputDTO) {
         setId(userInputDTO.getId());
@@ -58,6 +63,10 @@ public class Referee {
         setAdmin(userInputDTO.getAdmin());
         setCategory(userInputDTO.getCategory());
         setNevera(userInputDTO.isNevera());
+    }
+
+    public String getNombreCompleto(){
+        return getFirstname()+", "+getName();
     }
 
 }

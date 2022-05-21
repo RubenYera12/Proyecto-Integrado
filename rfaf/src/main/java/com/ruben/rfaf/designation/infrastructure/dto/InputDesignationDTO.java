@@ -33,6 +33,8 @@ public class InputDesignationDTO {
     private Referee mainReferee;
     private Referee assistantReferee1;
     private Referee assistantReferee2;
-    private Float price;
+    private Float priceReferee;
+    private Float priceAssistant;
+    private String status;
 
 }

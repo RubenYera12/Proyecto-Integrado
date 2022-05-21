@@ -13,8 +13,4 @@ public interface MatchService {
     List<Match> findAll();
 
     Match updateGame(Match match, String id) throws Exception;
-
-    Match assignMatch(String match_id, String referee_id) throws Exception;
-
-    Match cancelAssignment(String match_id) throws Exception;
 }

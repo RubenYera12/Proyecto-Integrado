@@ -38,22 +38,4 @@ public class MatchServiceImpl implements MatchService {
         Match matchToChange = gameRepository.findById(id).orElseThrow(()-> new Exception("No se ha encontrado el partido."));
         return gameRepository.save(match);
     }
-
-    @Override
-    public Match assignMatch(String match_id, String referee_id) throws Exception {
-        Match match = gameRepository.findById(match_id).orElseThrow(()->new Exception("No existe un partido con ID: "+match_id));
-        Referee referee = refereeRepository.findById(referee_id).orElseThrow(()->new Exception("No existe un arbitro con ID: "+referee_id));
-        match.setReferee(referee);
-        //Todo: Mandar Correo asignación
-        return gameRepository.save(match);
-    }
-
-    @Override
-    public Match cancelAssignment(String match_id) throws Exception {
-        Match match = gameRepository.findById(match_id).orElseThrow(()->new Exception("No existe un partido con ID: "+match_id));
-        match.setReferee(null);
-
-        //Todo: Mandar correo cancelación
-        return gameRepository.save(match);
-    }
 }

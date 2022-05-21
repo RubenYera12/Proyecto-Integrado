@@ -17,7 +17,6 @@ public class OutputMatchDTO {
     private String season;
     private Team local;
     private Team visitor;
-    private Referee referee;
 
     public OutputMatchDTO(Match match){
         setId(match.getId());
@@ -25,6 +24,5 @@ public class OutputMatchDTO {
         setSeason(match.getSeason());
         setLocal(match.getLocal());
         setVisitor(match.getVisitor());
-        setReferee(match.getReferee());
     }
 }

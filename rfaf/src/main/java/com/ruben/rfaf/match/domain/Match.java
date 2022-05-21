@@ -13,6 +13,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
@@ -34,15 +35,14 @@ public class Match {
     @JsonIgnore
     private Competition competition;
     private String season;
+    private Date matchDate;
+    private Float hour;
     @ManyToOne
     @JsonIgnore
     private Team local;
     @ManyToOne
     @JsonIgnore
     private Team visitor;
-    @ManyToOne
-    @JsonIgnore
-    private Referee referee;
 
     public Match(InputMatchDTO inputMatchDTO) {
         setId(inputMatchDTO.getId());
@@ -50,6 +50,5 @@ public class Match {
         setSeason(inputMatchDTO.getSeason());
         setLocal(inputMatchDTO.getLocal());
         setVisitor(inputMatchDTO.getVisitor());
-        setReferee(inputMatchDTO.getReferee());
     }
 }

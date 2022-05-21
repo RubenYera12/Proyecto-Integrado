@@ -16,5 +16,4 @@ public class InputMatchDTO {
     private String season;
     private Team local;
     private Team visitor;
-    private Referee referee;
 }

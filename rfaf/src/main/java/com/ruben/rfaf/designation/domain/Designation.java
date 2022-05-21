@@ -1,5 +1,6 @@
 package com.ruben.rfaf.designation.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.ruben.rfaf.StringPrefixedSequenceIdGenerator;
 import com.ruben.rfaf.designation.infrastructure.dto.InputDesignationDTO;
 import com.ruben.rfaf.match.domain.Match;
@@ -10,10 +11,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -32,19 +30,23 @@ public class Designation {
                     @Parameter(name = StringPrefixedSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%04d")
             })
     private String id;
-    private Match match;
-    private Referee mainReferee;
-    private Referee assistantReferee1;
-    private Referee assistantReferee2;
-    private Float price;
+    @OneToOne private Match match;
+    @ManyToOne(fetch = FetchType.EAGER) @JsonBackReference private Referee mainReferee;
+    @ManyToOne(fetch = FetchType.EAGER) @JsonBackReference private Referee assistantReferee1;
+    @ManyToOne(fetch = FetchType.EAGER)@JsonBackReference private Referee assistantReferee2;
+    private Float priceReferee;
+    private Float priceAssistant;
+    private String status;
 
-    public Designation(InputDesignationDTO inputDesignationDTO){
+    public Designation(InputDesignationDTO inputDesignationDTO) {
         setId(inputDesignationDTO.getId());
         setMatch(inputDesignationDTO.getMatch());
         setMainReferee(inputDesignationDTO.getMainReferee());
         setAssistantReferee1(inputDesignationDTO.getAssistantReferee1());
         setAssistantReferee2(inputDesignationDTO.getAssistantReferee2());
-        setPrice(inputDesignationDTO.getPrice());
+        setPriceReferee(inputDesignationDTO.getPriceReferee());
+        setPriceAssistant(inputDesignationDTO.getPriceReferee());
+        setStatus(inputDesignationDTO.getStatus());
     }
 
 }

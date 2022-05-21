@@ -1,5 +1,6 @@
 package com.ruben.rfaf.category.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ruben.rfaf.StringPrefixedSequenceIdGenerator;
 import com.ruben.rfaf.category.infrastructure.dto.InputCategoryDTO;
@@ -32,7 +33,7 @@ public class Category {
     private String id;
     private String name;
     @OneToMany(mappedBy = "category")
-    @JsonIgnore
+    @JsonBackReference
     private List<Referee> refereeList;
 
     public Category(InputCategoryDTO inputCategoryDTO) {

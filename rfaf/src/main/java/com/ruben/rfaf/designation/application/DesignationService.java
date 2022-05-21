@@ -5,11 +5,13 @@ import com.ruben.rfaf.designation.domain.Designation;
 import java.util.List;
 
 public interface DesignationService {
-    Designation create(Designation designation);
+    Designation assign(Designation designation) throws Exception;
 
     Designation findById(String id) throws Exception;
 
     List<Designation> findAll();
 
     void remove(String id) throws Exception;
+
+    void cancel(Designation designation) throws Exception;
 }

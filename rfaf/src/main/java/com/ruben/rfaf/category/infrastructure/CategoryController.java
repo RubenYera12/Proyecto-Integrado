@@ -4,7 +4,7 @@ import com.ruben.rfaf.category.application.CategoryService;
 import com.ruben.rfaf.category.domain.Category;
 import com.ruben.rfaf.category.infrastructure.dto.InputCategoryDTO;
 import com.ruben.rfaf.category.infrastructure.dto.OutputCategoryDTO;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -12,19 +12,20 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/category")
-@AllArgsConstructor
 public class CategoryController {
 
-    private final CategoryService categoryService;
-    @PostMapping("create")
+    @Autowired
+    private CategoryService categoryService;
+    @PostMapping(value="create", consumes={"application/json"},media)
     public OutputCategoryDTO addCategory(@RequestBody InputCategoryDTO inputCategoryDTO) throws Exception {
+        System.out.println(inputCategoryDTO);
         return new OutputCategoryDTO(categoryService.addCategory(new Category(inputCategoryDTO)));
     }
 
     @GetMapping("findAll")
-    public List<OutputCategoryDTO> findAll(){
+    public List<OutputCategoryDTO> findAll() {
         List<OutputCategoryDTO> outputCategoryDTOList = new ArrayList<>();
-        for (Category category:categoryService.findAll()) {
+        for (Category category : categoryService.findAll()) {
             outputCategoryDTOList.add(new OutputCategoryDTO(category));
         }
         return outputCategoryDTOList;
@@ -42,7 +43,7 @@ public class CategoryController {
     }
 
     @PutMapping("update/{id}")
-    public OutputCategoryDTO updateCategory(@PathVariable String id,@RequestBody InputCategoryDTO inputCategoryDTO) throws Exception {
-        return  new OutputCategoryDTO(categoryService.update(id,new Category(inputCategoryDTO)));
+    public OutputCategoryDTO updateCategory(@PathVariable String id, @RequestBody InputCategoryDTO inputCategoryDTO) throws Exception {
+        return new OutputCategoryDTO(categoryService.update(id, new Category(inputCategoryDTO)));
     }
 }

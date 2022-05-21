@@ -18,8 +18,14 @@ public class DesignationController {
     private final DesignationService designationService;
 
     @PostMapping("create")
-    public OutputDesignationDTO create(InputDesignationDTO inputDesignationDTO) {
-        return new OutputDesignationDTO(designationService.create(new Designation(inputDesignationDTO)));
+    public OutputDesignationDTO create(InputDesignationDTO inputDesignationDTO) throws Exception {
+        return new OutputDesignationDTO(designationService.assign(new Designation(inputDesignationDTO)));
+    }
+
+    @PostMapping("cancel")
+    public String cancel(InputDesignationDTO inputDesignationDTO) throws Exception {
+        designationService.cancel(new Designation(inputDesignationDTO));
+        return "Designación cancelada correctamente.";
     }
 
     @GetMapping("findById/{id}")
@@ -40,4 +46,5 @@ public class DesignationController {
     public void delete(@PathVariable String id) throws Exception {
         designationService.remove(id);
     }
+
 }

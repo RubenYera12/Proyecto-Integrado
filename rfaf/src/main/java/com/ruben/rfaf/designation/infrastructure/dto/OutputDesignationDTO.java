@@ -34,7 +34,9 @@ public class OutputDesignationDTO {
     private Referee mainReferee;
     private Referee assistantReferee1;
     private Referee assistantReferee2;
-    private Float price;
+    private Float priceReferee;
+    private Float priceAssistant;
+    private String status;
 
     public OutputDesignationDTO(Designation designation){
         setId(designation.getId());
@@ -42,7 +44,9 @@ public class OutputDesignationDTO {
         setMainReferee(designation.getMainReferee());
         setAssistantReferee1(designation.getAssistantReferee1());
         setAssistantReferee2(designation.getAssistantReferee2());
-        setPrice(designation.getPrice());
+        setPriceReferee(designation.getPriceReferee());
+        setPriceAssistant(designation.getPriceAssistant());
+        setStatus(designation.getStatus());
     }
 
 }
