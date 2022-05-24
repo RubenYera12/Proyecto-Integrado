@@ -22,6 +22,11 @@ public class DesignationController {
         return new OutputDesignationDTO(designationService.assign(new Designation(inputDesignationDTO)));
     }
 
+    @PostMapping("update")
+    public OutputDesignationDTO update(InputDesignationDTO inputDesignationDTO) throws Exception {
+        return new OutputDesignationDTO(designationService.assign(new Designation(inputDesignationDTO)));
+    }
+
     @PostMapping("cancel")
     public String cancel(InputDesignationDTO inputDesignationDTO) throws Exception {
         designationService.cancel(new Designation(inputDesignationDTO));

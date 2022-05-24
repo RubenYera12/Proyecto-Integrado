@@ -16,7 +16,7 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
-    @PostMapping(value="create", consumes={"application/json"},media)
+    @PostMapping("create")
     public OutputCategoryDTO addCategory(@RequestBody InputCategoryDTO inputCategoryDTO) throws Exception {
         System.out.println(inputCategoryDTO);
         return new OutputCategoryDTO(categoryService.addCategory(new Category(inputCategoryDTO)));

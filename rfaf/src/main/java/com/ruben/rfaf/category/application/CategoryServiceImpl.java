@@ -16,7 +16,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category addCategory(Category category) throws Exception {
-        Optional<Category> categoryCheck = categoryRepository.findByName(category.getName());
+        Optional<Category> categoryCheck = categoryRepository.findByNameIgnoreCase(category.getName());
         if (categoryCheck.isPresent())
             throw new Exception("Ya existe la categoria: "+category.getName());
         return categoryRepository.save(category);
@@ -34,7 +34,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category findByName(String name) throws Exception {
-        return categoryRepository.findByName(name).orElseThrow(() -> new Exception("No existe la categoria: " + name));
+        return categoryRepository.findByNameIgnoreCase(name).orElseThrow(() -> new Exception("No existe la categoria: " + name));
     }
 
     @Override

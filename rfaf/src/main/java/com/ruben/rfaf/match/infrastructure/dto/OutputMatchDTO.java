@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,6 +17,8 @@ public class OutputMatchDTO {
     private String id;
     private Competition competition;
     private String season;
+    private Date matchDate;
+    private Float hour;
     private Team local;
     private Team visitor;
 
@@ -22,6 +26,8 @@ public class OutputMatchDTO {
         setId(match.getId());
         setCompetition(match.getCompetition());
         setSeason(match.getSeason());
+        setMatchDate(match.getMatchDate());
+        setHour(match.getHour());
         setLocal(match.getLocal());
         setVisitor(match.getVisitor());
     }

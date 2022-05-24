@@ -48,6 +48,8 @@ public class Match {
         setId(inputMatchDTO.getId());
         setCompetition(inputMatchDTO.getCompetition());
         setSeason(inputMatchDTO.getSeason());
+        setMatchDate(inputMatchDTO.getMatchDate());
+        setHour(inputMatchDTO.getHour());
         setLocal(inputMatchDTO.getLocal());
         setVisitor(inputMatchDTO.getVisitor());
     }

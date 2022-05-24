@@ -39,7 +39,8 @@ public class Referee {
     @Column(unique = true)
     private String email;
     private String telfNumber;
-    private String city="Jaén";
+    private String city = "Jaén";
+    @Temporal(TemporalType.DATE)
     private Date birthDate;
     private String image_url;
     private Boolean admin;
@@ -65,8 +66,8 @@ public class Referee {
         setNevera(userInputDTO.isNevera());
     }
 
-    public String getNombreCompleto(){
-        return getFirstname()+", "+getName();
+    public String getNombreCompleto() {
+        return getFirstname() + ", " + getName();
     }
 
 }

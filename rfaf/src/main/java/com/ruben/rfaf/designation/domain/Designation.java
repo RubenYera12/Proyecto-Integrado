@@ -1,6 +1,7 @@
 package com.ruben.rfaf.designation.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ruben.rfaf.StringPrefixedSequenceIdGenerator;
 import com.ruben.rfaf.designation.infrastructure.dto.InputDesignationDTO;
 import com.ruben.rfaf.match.domain.Match;
@@ -30,10 +31,17 @@ public class Designation {
                     @Parameter(name = StringPrefixedSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%04d")
             })
     private String id;
-    @OneToOne private Match match;
-    @ManyToOne(fetch = FetchType.EAGER) @JsonBackReference private Referee mainReferee;
-    @ManyToOne(fetch = FetchType.EAGER) @JsonBackReference private Referee assistantReferee1;
-    @ManyToOne(fetch = FetchType.EAGER)@JsonBackReference private Referee assistantReferee2;
+    @OneToOne
+    private Match match;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Referee mainReferee;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Referee assistantReferee1;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Referee assistantReferee2;
     private Float priceReferee;
     private Float priceAssistant;
     private String status;

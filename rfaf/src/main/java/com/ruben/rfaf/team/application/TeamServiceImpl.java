@@ -17,7 +17,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public Team addTeam(Team team) throws Exception {
-        Optional<Team> teamOptional = teamRepository.findByName(team.getName());
+        Optional<Team> teamOptional = teamRepository.findByNameIgnoreCase(team.getName());
         if (teamOptional.isPresent())
             throw new Exception("El equipo: " + team.getName() + " ya existe");
         return teamRepository.save(team);
@@ -62,7 +62,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public Team findByName(String name) throws Exception {
-        Optional<Team> team = Optional.ofNullable(teamRepository.findByName(name).orElseThrow(() -> new Exception("No se ha podido encontrar el equipo")));
+        Optional<Team> team = Optional.ofNullable(teamRepository.findByNameIgnoreCase(name).orElseThrow(() -> new Exception("No se ha podido encontrar el equipo")));
         return team.get();
     }
 }

@@ -69,7 +69,7 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public List<Player> findByTeam(String name) throws Exception {
         return teamRepository
-                .findByName(name)
+                .findByNameIgnoreCase(name)
                 .orElseThrow(() -> new Exception("No se ha encontrado el equipo: " + name))
                 .getPlayers();
     }

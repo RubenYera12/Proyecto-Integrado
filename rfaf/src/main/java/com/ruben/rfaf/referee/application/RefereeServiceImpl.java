@@ -24,7 +24,7 @@ public class RefereeServiceImpl implements RefereeService {
     @Override
     public Referee findByEmail(String email) throws Exception {
         return refereeRepository
-                .findByEmail(email)
+                .findByEmailIgnoreCase(email)
                 .orElseThrow(() -> new Exception("No se ha podido encontrar el usuario"));
     }
 
@@ -37,7 +37,7 @@ public class RefereeServiceImpl implements RefereeService {
 
     @Override
     public Referee addUser(Referee referee) throws Exception {
-        Optional<Referee> referee1 = refereeRepository.findByEmail(referee.getEmail());
+        Optional<Referee> referee1 = refereeRepository.findByEmailIgnoreCase(referee.getEmail());
         Optional<Referee> referee2 = refereeRepository.findByLicenseNum(referee.getLicenseNum());
         if (referee1.isPresent())
             throw new Exception("El usuario con email: " + referee.getEmail() + " ya existe");
