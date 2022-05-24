@@ -13,6 +13,7 @@ public class OutputRefereeDTO {
     private String name;
     private String firstname;
     private String email;
+    private String telfNumber;
     private String city="Jaén";
     private Date birthDate;
     private String image_url;
@@ -26,6 +27,7 @@ public class OutputRefereeDTO {
         setName(user.getName());
         setFirstname(user.getFirstname());
         setEmail(user.getEmail());
+        setTelfNumber(user.getTelfNumber());
         setCity(user.getCity());
         setBirthDate(user.getBirthDate());
         setImage_url(user.getImage_url());

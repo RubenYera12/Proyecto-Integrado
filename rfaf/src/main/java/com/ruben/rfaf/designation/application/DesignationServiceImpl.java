@@ -37,6 +37,19 @@ public class DesignationServiceImpl implements DesignationService {
 
     @Override
     public Designation assign(Designation designation) throws Exception {
+        //Comprobamos los datos de la designacion
+        designation.setMatch(gameRepository
+                .findById(designation.getMatch().getId())
+                .orElseThrow(()->new Exception("No se ha encontrado el partido.")));
+        designation.setMainReferee(refereeRepository
+                .findById(designation.getMainReferee().getId())
+                .orElseThrow(()->new Exception("No se ha encontrado el arbitro.")));
+        designation.setAssistantReferee1(refereeRepository
+                .findById(designation.getAssistantReferee1().getId())
+                .orElseThrow(()->new Exception("No se ha encontrado el asistente 1.")));
+        designation.setAssistantReferee2(refereeRepository
+                .findById(designation.getAssistantReferee2().getId())
+                .orElseThrow(()->new Exception("No se ha encontrado el asistente 2.")));
         //Comprobamos que los arbitros no esten repetidos
         if (designation.getMainReferee().getEmail().equals(designation.getAssistantReferee1().getEmail()) ||
                 designation.getMainReferee().getEmail().equals(designation.getAssistantReferee2().getEmail()) ||
@@ -44,8 +57,10 @@ public class DesignationServiceImpl implements DesignationService {
             throw new Exception("Arbitro repetido.");
         }
         //Comprobamos que esté aceptada
-        if (designation.getStatus().equals("ACEPTADA"))
-            throw new Exception("La designacion ya ha sido aceptada.");
+        if (designation.getStatus() != null) {
+            if (designation.getStatus().equals("ACEPTADA"))
+                throw new Exception("La designacion ya ha sido aceptada.");
+        }
         designation.setStatus("ACEPTADA");
 
         designation = designationRepository.save(designation);
@@ -68,9 +83,9 @@ public class DesignationServiceImpl implements DesignationService {
 //        emailService.emaiConfirmacionAsistente2(designation, "CANCELACION");
     }
 
-    public void update(Designation designation,String id) throws Exception {
+    public void update(Designation designation, String id) throws Exception {
         Designation designationCancelled = designationRepository.findById(id)
-                .orElseThrow(()->new Exception("No se ha encontrado la designación: "+id));
+                .orElseThrow(() -> new Exception("No se ha encontrado la designación: " + id));
         cancel(designationCancelled);
         assign(designation);
 

@@ -15,6 +15,7 @@ public class InputRefereeDTO {
     private String name;
     private String firstname;
     private String email;
+    private String telfNumber;
     private String city="Jaén";
     private Date birthDate;
     private String image_url;

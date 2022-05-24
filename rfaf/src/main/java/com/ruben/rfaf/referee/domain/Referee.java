@@ -58,6 +58,7 @@ public class Referee {
         setName(userInputDTO.getName());
         setFirstname(userInputDTO.getFirstname());
         setEmail(userInputDTO.getEmail());
+        setTelfNumber(userInputDTO.getTelfNumber());
         setCity(userInputDTO.getCity());
         setBirthDate(userInputDTO.getBirthDate());
         setImage_url(userInputDTO.getImage_url());

@@ -5,6 +5,7 @@ import com.ruben.rfaf.competition.domain.Competition;
 import com.ruben.rfaf.competition.infrastructure.dto.InputCompetitionDTO;
 import com.ruben.rfaf.competition.infrastructure.dto.OutputCompetitionDTO;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -18,32 +19,32 @@ public class CompetitionController {
     private final CompetitionService competitionService;
 
     @PostMapping("create")
-    public OutputCompetitionDTO create(InputCompetitionDTO inputCompetitionDTO) throws Exception {
-        return new OutputCompetitionDTO(competitionService.createCompetition(new Competition(inputCompetitionDTO)));
+    public ResponseEntity<OutputCompetitionDTO> create(@RequestBody InputCompetitionDTO inputCompetitionDTO) throws Exception {
+        return ResponseEntity.ok(new OutputCompetitionDTO(competitionService.createCompetition(new Competition(inputCompetitionDTO))));
     }
 
     @GetMapping("findById/{id}")
-    public OutputCompetitionDTO findById(@PathVariable String id) throws Exception {
-        return new OutputCompetitionDTO(competitionService.findById(id));
+    public ResponseEntity<OutputCompetitionDTO> findById(@PathVariable String id) throws Exception {
+        return ResponseEntity.ok(new OutputCompetitionDTO(competitionService.findById(id)));
     }
 
     @GetMapping("findAll")
-    public List<OutputCompetitionDTO> findAll() {
+    public ResponseEntity<List<OutputCompetitionDTO>> findAll() {
         List<OutputCompetitionDTO> outputCompetitionDTOList = new ArrayList<>();
         for (Competition competition : competitionService.findAll()) {
             outputCompetitionDTOList.add(new OutputCompetitionDTO(competition));
         }
-        return outputCompetitionDTOList;
+        return ResponseEntity.ok(outputCompetitionDTOList);
     }
 
     @DeleteMapping("deleteById/{id}")
-    public String delete(@PathVariable String id) throws Exception {
+    public ResponseEntity<String> delete(@PathVariable String id) throws Exception {
         competitionService.deleteById(id);
-        return "Se ha borrado la competicion correctamente";
+        return ResponseEntity.ok("Se ha borrado la competicion correctamente");
     }
 
     @PutMapping("update/{id}")
-    public OutputCompetitionDTO update(@PathVariable String id, @RequestBody InputCompetitionDTO inputCompetitionDTO) throws Exception {
-        return new OutputCompetitionDTO(competitionService.update(new Competition(inputCompetitionDTO), id));
+    public ResponseEntity<OutputCompetitionDTO> update(@PathVariable String id, @RequestBody InputCompetitionDTO inputCompetitionDTO) throws Exception {
+        return ResponseEntity.ok(new OutputCompetitionDTO(competitionService.update(new Competition(inputCompetitionDTO), id)));
     }
 }

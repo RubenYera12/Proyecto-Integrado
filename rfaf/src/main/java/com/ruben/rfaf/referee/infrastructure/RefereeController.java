@@ -5,6 +5,7 @@ import com.ruben.rfaf.referee.domain.Referee;
 import com.ruben.rfaf.referee.infrastructure.dto.InputRefereeDTO;
 import com.ruben.rfaf.referee.infrastructure.dto.OutputRefereeDTO;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -18,44 +19,44 @@ public class RefereeController {
 
     // Request para insertar un Arbitro en la base de datos
     @PostMapping("/create")
-    public OutputRefereeDTO addReferee(@RequestBody InputRefereeDTO inputRefereeDTO) throws Exception {
+    public ResponseEntity<OutputRefereeDTO> addReferee(@RequestBody InputRefereeDTO inputRefereeDTO) throws Exception {
         Referee referee = new Referee(inputRefereeDTO);
 
-        return new OutputRefereeDTO(refereeService.addUser(referee));
+        return ResponseEntity.ok(new OutputRefereeDTO(refereeService.addUser(referee)));
     }
 
     //Request para leer todos los Arbitro
     @GetMapping("/getAll")
-    public List<OutputRefereeDTO> getReferees() {
+    public ResponseEntity<List<OutputRefereeDTO>> getReferees() {
         List<OutputRefereeDTO> outputRefereeDTOList = new ArrayList<>();
         for (Referee referee : refereeService.findAll()) {
             outputRefereeDTOList.add(new OutputRefereeDTO(referee));
         }
-        return outputRefereeDTOList;
+        return ResponseEntity.ok(outputRefereeDTOList);
     }
 
     //Request para leer un Arbitro por su ID
     @GetMapping("/getByID/{id}")
-    public OutputRefereeDTO getRefereeByID(@PathVariable String id) throws Exception {
-        return new OutputRefereeDTO(refereeService.findById(id));
+    public ResponseEntity<OutputRefereeDTO> getRefereeByID(@PathVariable String id) throws Exception {
+        return ResponseEntity.ok(new OutputRefereeDTO(refereeService.findById(id)));
     }
 
     //Request para leer un Arbitro por su ID
     @GetMapping("/getByEmail/{email}")
-    public OutputRefereeDTO getRefereeByEmail(@PathVariable String email) throws Exception {
-        return new OutputRefereeDTO(refereeService.findByEmail(email));
+    public ResponseEntity<OutputRefereeDTO> getRefereeByEmail(@PathVariable String email) throws Exception {
+        return ResponseEntity.ok(new OutputRefereeDTO(refereeService.findByEmail(email)));
     }
 
     //Request para actualizar un Arbitro
     @PostMapping("/update")
-    public OutputRefereeDTO updateReferee(@RequestBody InputRefereeDTO inputRefereeDTO) throws Exception {
-        return new OutputRefereeDTO(refereeService.updateUser(new Referee(inputRefereeDTO)));
+    public ResponseEntity<OutputRefereeDTO> updateReferee(@RequestBody InputRefereeDTO inputRefereeDTO) throws Exception {
+        return ResponseEntity.ok(new OutputRefereeDTO(refereeService.updateUser(new Referee(inputRefereeDTO))));
     }
 
     //Request para borrar un Arbitro
     @DeleteMapping("/delete/{id}")
-    public String deleteReferee(@PathVariable String id) throws Exception {
+    public ResponseEntity<String> deleteReferee(@PathVariable String id) throws Exception {
 
-        return refereeService.deleteById(id);
+        return ResponseEntity.ok(refereeService.deleteById(id));
     }
 }

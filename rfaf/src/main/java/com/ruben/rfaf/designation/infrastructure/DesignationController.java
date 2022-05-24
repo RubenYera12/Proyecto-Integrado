@@ -18,17 +18,17 @@ public class DesignationController {
     private final DesignationService designationService;
 
     @PostMapping("create")
-    public OutputDesignationDTO create(InputDesignationDTO inputDesignationDTO) throws Exception {
+    public OutputDesignationDTO create(@RequestBody InputDesignationDTO inputDesignationDTO) throws Exception {
         return new OutputDesignationDTO(designationService.assign(new Designation(inputDesignationDTO)));
     }
 
     @PostMapping("update")
-    public OutputDesignationDTO update(InputDesignationDTO inputDesignationDTO) throws Exception {
+    public OutputDesignationDTO update(@RequestBody InputDesignationDTO inputDesignationDTO) throws Exception {
         return new OutputDesignationDTO(designationService.assign(new Designation(inputDesignationDTO)));
     }
 
     @PostMapping("cancel")
-    public String cancel(InputDesignationDTO inputDesignationDTO) throws Exception {
+    public String cancel(@RequestBody InputDesignationDTO inputDesignationDTO) throws Exception {
         designationService.cancel(new Designation(inputDesignationDTO));
         return "Designación cancelada correctamente.";
     }

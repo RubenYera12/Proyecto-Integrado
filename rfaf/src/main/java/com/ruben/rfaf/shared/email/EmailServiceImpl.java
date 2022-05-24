@@ -33,14 +33,14 @@ public class EmailServiceImpl implements EmailService {
                 "En función de: ARBITRO\n \n" +
                 "Fecha partido: " + new Date(designation.getMatch().getMatchDate().getTime()).toLocalDate()
                 .format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + "\n" +
-                String.format("%.2f", designation.getMatch().getHour()) + "\n \n" +
+                "Hora de comienzo: "+String.format("%.2f", designation.getMatch().getHour()) + "\n \n" +
                 "Campo: " + designation.getMatch().getLocal().getStadium() + "\n \n" +
-                "Competición: " + designation.getMatch().getCompetition() +
+                "Competición: " + designation.getMatch().getCompetition().getName() +
                 "Equipo de casa: " + designation.getMatch().getLocal().getName() + "\n" +
                 "Equipo visitante: " + designation.getMatch().getVisitor().getName() + "\n \n" +
-                "ASISTENTE 1: " + designation.getAssistantReferee1() + "\n" +
+                "ASISTENTE 1: " + designation.getAssistantReferee1().getNombreCompleto() + "\n" +
                 "Telefono: " + designation.getAssistantReferee1().getTelfNumber() + "\n \n" +
-                "ASISTENTE 2: " + designation.getAssistantReferee2() +
+                "ASISTENTE 2: " + designation.getAssistantReferee2().getNombreCompleto() +
                 "Telefono: " + designation.getAssistantReferee2().getTelfNumber();
         message.setText(contenido);
         emailSender.send(message);
@@ -63,14 +63,14 @@ public class EmailServiceImpl implements EmailService {
                 "En función de: ASISTENTE\n \n" +
                 "Fecha partido: " + new Date(designation.getMatch().getMatchDate().getTime()).toLocalDate()
                 .format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + "\n" +
-                String.format("%.2f", designation.getMatch().getHour()) + "\n \n" +
+                "Hora de comienzo: "+String.format("%.2f", designation.getMatch().getHour()) + "\n \n" +
                 "Campo: " + designation.getMatch().getLocal().getStadium() + "\n \n" +
-                "Competición: " + designation.getMatch().getCompetition() +
+                "Competición: " + designation.getMatch().getCompetition().getName() +
                 "Equipo de casa: " + designation.getMatch().getLocal().getName() + "\n" +
                 "Equipo visitante: " + designation.getMatch().getVisitor().getName() + "\n \n" +
-                "ARBITRO: " + designation.getMainReferee() + "\n" +
+                "ARBITRO: " + designation.getMainReferee().getNombreCompleto() + "\n" +
                 "Telefono: " + designation.getMainReferee().getTelfNumber() + "\n \n" +
-                "ASISTENTE 2: " + designation.getAssistantReferee2() +
+                "ASISTENTE 2: " + designation.getAssistantReferee2().getNombreCompleto() +
                 "Telefono: " + designation.getAssistantReferee2().getTelfNumber();
         message.setText(contenido);
         emailSender.send(message);
@@ -93,14 +93,14 @@ public class EmailServiceImpl implements EmailService {
                 "En función de: ASISTENTE\n \n" +
                 "Fecha partido: " + new Date(designation.getMatch().getMatchDate().getTime()).toLocalDate()
                 .format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + "\n" +
-                String.format("%.2f", designation.getMatch().getHour()) + "\n \n" +
+                "Hora de comienzo: "+String.format("%.2f", designation.getMatch().getHour()) + "\n \n" +
                 "Campo: " + designation.getMatch().getLocal().getStadium() + "\n \n" +
-                "Competición: " + designation.getMatch().getCompetition() +
+                "Competición: " + designation.getMatch().getCompetition().getName() +"\n "+
                 "Equipo de casa: " + designation.getMatch().getLocal().getName() + "\n" +
                 "Equipo visitante: " + designation.getMatch().getVisitor().getName() + "\n \n" +
-                "ARBITRO: " + designation.getMainReferee() + "\n" +
+                "ARBITRO: " + designation.getMainReferee().getNombreCompleto() + "\n" +
                 "Telefono: " + designation.getMainReferee().getTelfNumber() + "\n \n" +
-                "ASISTENTE 1: " + designation.getAssistantReferee1() +
+                "ASISTENTE 1: " + designation.getAssistantReferee1().getNombreCompleto() +
                 "Telefono: " + designation.getAssistantReferee1().getTelfNumber();
         message.setText(contenido);
         emailSender.send(message);
