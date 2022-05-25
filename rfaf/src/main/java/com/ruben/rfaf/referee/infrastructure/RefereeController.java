@@ -47,10 +47,19 @@ public class RefereeController {
         return ResponseEntity.ok(new OutputRefereeDTO(refereeService.findByEmail(email)));
     }
 
+    @GetMapping("getByCategoryName/{name}")
+    public ResponseEntity<List<OutputRefereeDTO>> getByCategoryName(@PathVariable String name) throws Exception {
+        List<OutputRefereeDTO> outputRefereeDTOList = new ArrayList<>();
+        for (Referee referee:refereeService.findByCategory(name) ) {
+            outputRefereeDTOList.add(new OutputRefereeDTO(referee));
+        }
+        return ResponseEntity.ok(outputRefereeDTOList);
+    }
+
     //Request para actualizar un Arbitro
-    @PostMapping("/update")
-    public ResponseEntity<OutputRefereeDTO> updateReferee(@RequestBody InputRefereeDTO inputRefereeDTO) throws Exception {
-        return ResponseEntity.ok(new OutputRefereeDTO(refereeService.updateUser(new Referee(inputRefereeDTO))));
+    @PostMapping("/update/{id}")
+    public ResponseEntity<OutputRefereeDTO> updateReferee(@RequestBody InputRefereeDTO inputRefereeDTO,@PathVariable String id) throws Exception {
+        return ResponseEntity.ok(new OutputRefereeDTO(refereeService.updateUser(new Referee(inputRefereeDTO),id)));
     }
 
     //Request para borrar un Arbitro

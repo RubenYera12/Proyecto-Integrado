@@ -41,7 +41,6 @@ public class Competition {
     private List<Team> teamList;
 
     public Competition(InputCompetitionDTO inputCompetitionDTO){
-        setId(inputCompetitionDTO.getId());
         setName(inputCompetitionDTO.getName());
         setZone(inputCompetitionDTO.getZone());
     }

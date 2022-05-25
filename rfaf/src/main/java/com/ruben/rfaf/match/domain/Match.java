@@ -45,7 +45,6 @@ public class Match {
     private Team visitor;
 
     public Match(InputMatchDTO inputMatchDTO) {
-        setId(inputMatchDTO.getId());
         setCompetition(inputMatchDTO.getCompetition());
         setSeason(inputMatchDTO.getSeason());
         setMatchDate(inputMatchDTO.getMatchDate());

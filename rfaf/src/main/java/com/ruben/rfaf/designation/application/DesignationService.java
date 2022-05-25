@@ -14,4 +14,6 @@ public interface DesignationService {
     void remove(String id) throws Exception;
 
     void cancel(Designation designation) throws Exception;
+
+    Designation update(Designation designation, String id) throws Exception;
 }

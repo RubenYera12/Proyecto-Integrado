@@ -11,8 +11,11 @@ public interface RefereeService {
     Referee findByLicenseNum(String licenseNum) throws Exception;
 
     Referee addUser(Referee user) throws Exception;
-    Referee updateUser(Referee user) throws Exception;
+    Referee updateUser(Referee user,String id) throws Exception;
     List<Referee> findAll();
+
+    List<Referee> findByCategory(String name) throws Exception;
+
     String deleteById(String id) throws Exception;
     Referee findById(String id) throws Exception;
 }

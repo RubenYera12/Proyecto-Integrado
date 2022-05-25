@@ -19,34 +19,21 @@ import javax.persistence.Id;
 @NoArgsConstructor
 public class OutputDesignationDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "designationSeq")
-    @GenericGenerator(
-            name = "designationSeq",
-            strategy = "com.ruben.rfaf.StringPrefixedSequenceIdGenerator",
-            parameters = {
-                    @Parameter(name = StringPrefixedSequenceIdGenerator.INCREMENT_PARAM, value = "1"),
-                    @Parameter(name = StringPrefixedSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "D"),
-                    @Parameter(name = StringPrefixedSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%04d")
-            })
-    private String id;
     private Match match;
     private Referee mainReferee;
     private Referee assistantReferee1;
     private Referee assistantReferee2;
     private Float priceReferee;
     private Float priceAssistant;
-    private String status;
+
 
     public OutputDesignationDTO(Designation designation){
-        setId(designation.getId());
         setMatch(designation.getMatch());
         setMainReferee(designation.getMainReferee());
         setAssistantReferee1(designation.getAssistantReferee1());
         setAssistantReferee2(designation.getAssistantReferee2());
         setPriceReferee(designation.getPriceReferee());
         setPriceAssistant(designation.getPriceAssistant());
-        setStatus(designation.getStatus());
     }
 
 }

@@ -43,11 +43,9 @@ public class Team {
     private Competition competition;
 
     public Team(InputTeamDTO inputTeamDTO) {
-        setId(inputTeamDTO.getId());
         setName(inputTeamDTO.getName());
         setImage(inputTeamDTO.getImage());
         setCoach(inputTeamDTO.getCoach());
-        setPlayers(inputTeamDTO.getPlayers());
         setStadium(inputTeamDTO.getStadium());
         setCompetition(inputTeamDTO.getCompetition());
     }
