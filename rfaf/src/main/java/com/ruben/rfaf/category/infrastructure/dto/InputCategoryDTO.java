@@ -11,7 +11,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class InputCategoryDTO {
-    private String id;
     private String name;
-    private List<Referee> refereeList;
 }

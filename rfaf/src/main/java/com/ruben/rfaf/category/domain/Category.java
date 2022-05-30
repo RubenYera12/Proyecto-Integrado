@@ -2,6 +2,7 @@ package com.ruben.rfaf.category.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ruben.rfaf.StringPrefixedSequenceIdGenerator;
 import com.ruben.rfaf.category.infrastructure.dto.InputCategoryDTO;
 import com.ruben.rfaf.referee.domain.Referee;
@@ -12,6 +13,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -33,12 +35,10 @@ public class Category {
     private String id;
     private String name;
     @OneToMany(mappedBy = "category")
-    @JsonBackReference
-    private List<Referee> refereeList;
+    @JsonIgnore
+    private List<Referee> refereeList=new ArrayList<>();
 
     public Category(InputCategoryDTO inputCategoryDTO) {
-        setId(inputCategoryDTO.getId());
         setName(inputCategoryDTO.getName());
-        setRefereeList(inputCategoryDTO.getRefereeList());
     }
 }

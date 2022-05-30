@@ -12,13 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OutputCategoryDTO {
-    private String id;
     private String name;
-    private List<Referee> refereeList;
 
     public OutputCategoryDTO(Category category){
-        setId(category.getId());
         setName(category.getName());
-        setRefereeList(category.getRefereeList());
     }
 }

@@ -66,8 +66,8 @@ public class DesignationServiceImpl implements DesignationService {
         designation = designationRepository.save(designation);
 
         emailService.emailDesignacionArbitro(designation, "CONFIRMACION");
-//        emailService.emaiConfirmacionAsistente1(designation, "CONFIRMACION");
-//        emailService.emaiConfirmacionAsistente2(designation, "CONFIRMACION");
+        emailService.emailDesignacionAsistente1(designation, "CONFIRMACION");
+        emailService.emailDesignacionAsistente2(designation, "CONFIRMACION");
 
         return designation;
     }
@@ -79,15 +79,17 @@ public class DesignationServiceImpl implements DesignationService {
         designation.setStatus("CANCELADA");
         designationRepository.save(designation);
         emailService.emailDesignacionArbitro(designation, "CANCELACION");
-//        emailService.emaiConfirmacionAsistente1(designation, "CANCELACION");
-//        emailService.emaiConfirmacionAsistente2(designation, "CANCELACION");
+        emailService.emailDesignacionAsistente1(designation, "CANCELACION");
+        emailService.emailDesignacionAsistente2(designation, "CANCELACION");
     }
 
-    public void update(Designation designation, String id) throws Exception {
+    @Override
+    public Designation update(Designation designation, String id) throws Exception {
         Designation designationCancelled = designationRepository.findById(id)
                 .orElseThrow(() -> new Exception("No se ha encontrado la designación: " + id));
         cancel(designationCancelled);
-        assign(designation);
+        designation.setId(id);
+        return assign(designation);
 
     }
 

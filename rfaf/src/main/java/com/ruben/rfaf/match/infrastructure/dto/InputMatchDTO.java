@@ -13,7 +13,6 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class InputMatchDTO {
-    private String id;
     private Competition competition;
     private String season;
     private Date matchDate;

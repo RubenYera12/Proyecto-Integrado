@@ -1,5 +1,7 @@
 package com.ruben.rfaf.referee.application;
 
+import com.ruben.rfaf.category.domain.Category;
+import com.ruben.rfaf.category.infrastructure.repository.CategoryRepository;
 import com.ruben.rfaf.referee.domain.Referee;
 import com.ruben.rfaf.referee.infrastructure.repository.RefereeRepository;
 import lombok.AllArgsConstructor;
@@ -13,6 +15,7 @@ import java.util.Optional;
 public class RefereeServiceImpl implements RefereeService {
 
     private final RefereeRepository refereeRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public Referee findById(String id) throws Exception {
@@ -47,17 +50,28 @@ public class RefereeServiceImpl implements RefereeService {
     }
 
     @Override
-    public Referee updateUser(Referee referee) throws Exception {
-        if (referee.getId() == null) {
-            throw new Exception("No se ha podido encontrar el usuario.");
-        }
-        Optional<Referee> referee1 = refereeRepository.findById(referee.getId());
-        if (!referee1.get().getEmail().equals(referee.getEmail())) {
+    public Referee updateUser(Referee referee,String id) throws Exception {
+        Referee refereeCheck = refereeRepository.findById(id).orElseThrow(()->new Exception("No se ha encontrado el arbitro"));
+        if (!refereeCheck.getEmail().equals(referee.getEmail())) {
             throw new Exception("No se puede cambiar el email");
         }
-        if (!referee1.get().getLicenseNum().equals(referee.getLicenseNum()))
+        if (!refereeCheck.getLicenseNum().equals(referee.getLicenseNum()))
             throw new Exception("No se puede cambiar el numero de licencia");
         // TODO: Comprobar campos nulos
+        if (referee.getTelfNumber()==null||referee.getTelfNumber().equals(""))
+            referee.setTelfNumber(refereeCheck.getTelfNumber());
+        if (referee.getName()==null||referee.getName().equals(""))
+            referee.setName(refereeCheck.getName());
+        if (referee.getFirstname()==null||referee.getFirstname().equals(""))
+            referee.setFirstname(refereeCheck.getFirstname());
+        if (referee.getBirthDate()==null)
+            referee.setBirthDate(refereeCheck.getBirthDate());
+        if (referee.getCategory()==null)
+            referee.setCategory(refereeCheck.getCategory());
+        if (referee.getCity()==null||referee.getCity().equals(""))
+            referee.setCity(refereeCheck.getCity());
+        if (referee.getImage_url()==null||referee.getImage_url().equals(""))
+            referee.setImage_url(refereeCheck.getImage_url());
 
         return refereeRepository.save(referee);
     }
@@ -65,6 +79,15 @@ public class RefereeServiceImpl implements RefereeService {
     @Override
     public List<Referee> findAll() {
         return refereeRepository.findAll();
+    }
+
+    @Override
+    public List<Referee> findByCategory(String name) throws Exception {
+        Category category = categoryRepository
+                .findByNameIgnoreCase(name)
+                .orElseThrow(()->new Exception("No existe la categoria seleccionada"));
+
+        return refereeRepository.findByCategory_id(category.getId());
     }
 
     @Override

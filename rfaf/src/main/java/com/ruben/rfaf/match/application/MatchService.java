@@ -6,7 +6,7 @@ import com.ruben.rfaf.referee.domain.Referee;
 import java.util.List;
 
 public interface MatchService {
-    Match createGame(Match match);
+    Match createGame(Match match) throws Exception;
 
     Match findById(String id) throws Exception;
 

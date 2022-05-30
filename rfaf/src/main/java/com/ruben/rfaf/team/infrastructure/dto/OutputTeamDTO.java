@@ -12,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 public class OutputTeamDTO {
 
-    private String id;
     private String name;
     private String image;
     private String coach;
@@ -21,7 +20,6 @@ public class OutputTeamDTO {
     private Competition competition;
 
     public OutputTeamDTO(Team team) {
-        setId(team.getId());
         setName(team.getName());
         setImage(team.getImage());
         setCoach(team.getCoach());

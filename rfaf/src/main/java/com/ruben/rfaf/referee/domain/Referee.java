@@ -12,6 +12,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class Referee {
                     @Parameter(name = StringPrefixedSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%04d")
             })
     private String id;
+    @Column(unique = true)
     private String licenseNum;
     private String password;
     private String name;
@@ -42,17 +44,16 @@ public class Referee {
     private String city = "Jaén";
     @Temporal(TemporalType.DATE)
     private Date birthDate;
-    private String image_url;
+    private String image_url="defaultReferee.jpg";
     private Boolean admin;
     @ManyToOne
     @JsonIgnore
     private Category category;
     private boolean nevera;
     @OneToMany
-    private List<Designation> designationList;
+    private List<Designation> designationList=new ArrayList<>();
 
     public Referee(InputRefereeDTO userInputDTO) {
-        setId(userInputDTO.getId());
         setLicenseNum(userInputDTO.getLicenseNum());
         setPassword(userInputDTO.getPassword());
         setName(userInputDTO.getName());

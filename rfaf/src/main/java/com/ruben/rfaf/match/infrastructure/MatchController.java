@@ -21,7 +21,7 @@ public class MatchController {
     private final MatchService matchService;
 
     @PostMapping("create")
-    public ResponseEntity<OutputMatchDTO> addGame(@RequestBody InputMatchDTO inputMatchDTO) {
+    public ResponseEntity<OutputMatchDTO> addGame(@RequestBody InputMatchDTO inputMatchDTO) throws Exception {
         return ResponseEntity.ok(new OutputMatchDTO(matchService.createGame(new Match(inputMatchDTO))));
     }
 

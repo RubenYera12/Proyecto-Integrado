@@ -1,9 +1,14 @@
 package com.ruben.rfaf.match.application;
 
+import com.ruben.rfaf.competition.application.CompetitionService;
+import com.ruben.rfaf.competition.domain.Competition;
+import com.ruben.rfaf.competition.infrastructure.repository.CompetitionRepository;
 import com.ruben.rfaf.match.domain.Match;
 import com.ruben.rfaf.match.infrastructure.repository.GameRepository;
 import com.ruben.rfaf.referee.domain.Referee;
 import com.ruben.rfaf.referee.infrastructure.repository.RefereeRepository;
+import com.ruben.rfaf.team.domain.Team;
+import com.ruben.rfaf.team.infrastructure.repository.TeamRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +19,23 @@ import java.util.List;
 public class MatchServiceImpl implements MatchService {
 
     private final GameRepository gameRepository;
-    private final RefereeRepository refereeRepository;
+    private final CompetitionRepository competitionRepository;
+    private final TeamRepository teamRepository;
 
     @Override
-    public Match createGame(Match match) {
+    public Match createGame(Match match) throws Exception {
+        Competition competition = competitionRepository
+                .findById(match.getCompetition().getId())
+                .orElseThrow(()->new Exception("No se ha encontrado la competicion"));
+        match.setCompetition(competition);
+        Team team = teamRepository
+                .findById(match.getLocal().getId())
+                .orElseThrow(()->new Exception("No se ha encontrado el equipo local"));
+        match.setLocal(team);
+        Team team1 = teamRepository
+                .findById(match.getVisitor().getId())
+                .orElseThrow(()->new Exception("No se ha encontrado el equipo visitante"));
+        match.setVisitor(team1);
         return gameRepository.save(match);
     }
 

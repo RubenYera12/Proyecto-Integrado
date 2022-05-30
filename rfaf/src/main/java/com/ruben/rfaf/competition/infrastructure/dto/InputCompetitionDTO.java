@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class InputCompetitionDTO {
 
-    private String id;
     private String name;
     private String zone;
 }

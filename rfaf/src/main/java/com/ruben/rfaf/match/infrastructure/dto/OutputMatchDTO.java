@@ -14,7 +14,6 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OutputMatchDTO {
-    private String id;
     private Competition competition;
     private String season;
     private Date matchDate;
@@ -23,7 +22,6 @@ public class OutputMatchDTO {
     private Team visitor;
 
     public OutputMatchDTO(Match match){
-        setId(match.getId());
         setCompetition(match.getCompetition());
         setSeason(match.getSeason());
         setMatchDate(match.getMatchDate());

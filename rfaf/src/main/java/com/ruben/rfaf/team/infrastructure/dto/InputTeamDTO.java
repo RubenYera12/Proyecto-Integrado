@@ -11,11 +11,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class InputTeamDTO {
-    private String id;
     private String name;
     private String image;
     private String coach;
-    private List<Player> players;
     private String stadium;
     private Competition competition;
 }

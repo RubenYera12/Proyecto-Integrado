@@ -9,7 +9,6 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 public class InputRefereeDTO {
-    private String id;
     private String licenseNum;
     private String password;
     private String name;

@@ -1,5 +1,7 @@
 package com.ruben.rfaf.team.application;
 
+import com.ruben.rfaf.player.domain.Player;
+import com.ruben.rfaf.player.infrastructure.repository.PlayerRepository;
 import com.ruben.rfaf.team.domain.Team;
 import com.ruben.rfaf.team.infrastructure.repository.TeamRepository;
 import lombok.AllArgsConstructor;
@@ -14,6 +16,7 @@ import java.util.Optional;
 public class TeamServiceImpl implements TeamService {
 
     private final TeamRepository teamRepository;
+    private final PlayerRepository playerRepository;
 
     @Override
     public Team addTeam(Team team) throws Exception {
@@ -28,11 +31,11 @@ public class TeamServiceImpl implements TeamService {
         if (team.getId() == null)
             throw new Exception("No se ha podido encontrar el equipo.");
 
-        Optional<Team> teamOptional = teamRepository.findById(team.getId());
+        Team teamOptional = teamRepository.findById(team.getId()).orElseThrow(()->new Exception(""));
         if (!teamOptional.get().getName().equals(team.getName()))
             throw new Exception("No se puede cambiar el Nombre del Equipo");
         // TODO: Comprobar campos nulos
-        if (team.getStadium().isEmpty())
+        if (team.getStadium()==null||team.getStadium().equals(""))
             throw new Exception("No puedes dejar al club sin estadio");
         return teamRepository.save(team);
     }
@@ -62,7 +65,29 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public Team findByName(String name) throws Exception {
-        Optional<Team> team = Optional.ofNullable(teamRepository.findByNameIgnoreCase(name).orElseThrow(() -> new Exception("No se ha podido encontrar el equipo")));
-        return team.get();
+        return teamRepository
+                .findByNameIgnoreCase(name).orElseThrow(() -> new Exception("No se ha podido encontrar el equipo"));
+    }
+
+    @Override
+    public Team addPlayer(String team_id, String player_id) throws Exception {
+        Team team = teamRepository.findById(team_id).orElseThrow(()->new Exception("No se ha encontrado el equipo"));
+        Player player = playerRepository.findById(player_id).orElseThrow(()->new Exception("No se ha encontrado el jugador"));
+        if (player.getTeam()!=null)
+            throw new Exception("El jugador ya tiene un equipo asociado");
+        team.getPlayers().add(player);
+        player.setTeam(team);
+        return teamRepository.save(team);
+    }
+
+    @Override
+    public Team deletePlayer(String team_id, String player_id) throws Exception {
+        Team team = teamRepository.findById(team_id).orElseThrow(()->new Exception("No se ha encontrado el equipo"));
+        Player player = playerRepository.findById(player_id).orElseThrow(()->new Exception("No se ha encontrado el jugador"));
+        if (player.getTeam()==null)
+            throw new Exception("El jugador no tiene un equipo asociado");
+        team.getPlayers().remove(player);
+        player.setTeam(null);
+        return teamRepository.save(team);
     }
 }

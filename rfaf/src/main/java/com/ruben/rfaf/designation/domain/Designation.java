@@ -1,6 +1,5 @@
 package com.ruben.rfaf.designation.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ruben.rfaf.StringPrefixedSequenceIdGenerator;
 import com.ruben.rfaf.designation.infrastructure.dto.InputDesignationDTO;
@@ -47,14 +46,12 @@ public class Designation {
     private String status;
 
     public Designation(InputDesignationDTO inputDesignationDTO) {
-        setId(inputDesignationDTO.getId());
         setMatch(inputDesignationDTO.getMatch());
         setMainReferee(inputDesignationDTO.getMainReferee());
         setAssistantReferee1(inputDesignationDTO.getAssistantReferee1());
         setAssistantReferee2(inputDesignationDTO.getAssistantReferee2());
         setPriceReferee(inputDesignationDTO.getPriceReferee());
         setPriceAssistant(inputDesignationDTO.getPriceReferee());
-        setStatus(inputDesignationDTO.getStatus());
     }
 
 }
