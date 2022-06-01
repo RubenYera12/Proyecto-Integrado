@@ -39,6 +39,7 @@ public class Category {
     private List<Referee> refereeList=new ArrayList<>();
 
     public Category(InputCategoryDTO inputCategoryDTO) {
-        setName(inputCategoryDTO.getName());
+
+        setId(inputCategoryDTO.getId());setName(inputCategoryDTO.getName());
     }
 }

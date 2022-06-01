@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface TeamService {
     Team addTeam(Team team) throws Exception;
-    Team updateTeam(Team team) throws Exception;
+    Team updateTeam(Team team, String id) throws Exception;
+
     List<Team> findAll();
     String deleteById(String id) throws Exception;
     Team findById(String id) throws Exception;

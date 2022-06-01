@@ -49,8 +49,8 @@ public class TeamController {
 
     //Request para actualizar un equipo
     @PostMapping("/update")
-    public ResponseEntity<OutputTeamDTO> updateTeam(@RequestBody InputTeamDTO inputTeamDTO) throws Exception {
-        return ResponseEntity.ok(new OutputTeamDTO(teamService.updateTeam(new Team(inputTeamDTO))));
+    public ResponseEntity<OutputTeamDTO> updateTeam(@RequestBody InputTeamDTO inputTeamDTO,@PathVariable String id) throws Exception {
+        return ResponseEntity.ok(new OutputTeamDTO(teamService.updateTeam(new Team(inputTeamDTO),id)));
     }
 
     //Request para borrar un equipo
