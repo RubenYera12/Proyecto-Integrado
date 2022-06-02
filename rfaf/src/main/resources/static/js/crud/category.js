@@ -96,8 +96,8 @@ var app = {
                     $("#msg").hide();
                 }, 5000);
             },
-            error : function(error) {
-
+            error : function(message) {
+                alert(message)
             }
         })
     },
@@ -117,15 +117,13 @@ var app = {
                       $("#msg").hide();
                   }, 5000);
               },
-              error : function(error) {
 
-              }
           })
       },
     delete : function(id) {
         $.ajax({
-            url: app.backend + '/delete/'+id,
-            data : JSON.stringify(data),
+            url: app.backend + '/deleteByID/'+id,
+            data : JSON.stringify(id),
             method: 'DELETE',
             dataType : 'json',
             contentType: "application/json; charset=utf-8",
@@ -138,7 +136,7 @@ var app = {
                 }, 5000);
             },
             error : function(error) {
-
+alert("ERRORRRR")
             }
         })
     }
