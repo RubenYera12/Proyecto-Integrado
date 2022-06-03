@@ -3,6 +3,7 @@ package com.ruben.rfaf.referee.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ruben.rfaf.StringPrefixedSequenceIdGenerator;
 import com.ruben.rfaf.category.domain.Category;
+import com.ruben.rfaf.category.infrastructure.repository.CategoryRepository;
 import com.ruben.rfaf.designation.domain.Designation;
 import com.ruben.rfaf.referee.infrastructure.dto.InputRefereeDTO;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Referee {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "refSeq")
@@ -45,7 +48,7 @@ public class Referee {
     @Temporal(TemporalType.DATE)
     private Date birthDate;
     private String image_url="defaultReferee.jpg";
-    private Boolean admin;
+    private Boolean admin=false;
     @ManyToOne
     @JsonIgnore
     private Category category;
@@ -53,7 +56,7 @@ public class Referee {
     @OneToMany
     private List<Designation> designationList=new ArrayList<>();
 
-    public Referee(InputRefereeDTO userInputDTO) {
+    public Referee(InputRefereeDTO userInputDTO) throws Exception {
         setLicenseNum(userInputDTO.getLicenseNum());
         setPassword(userInputDTO.getPassword());
         setName(userInputDTO.getName());
@@ -64,7 +67,6 @@ public class Referee {
         setBirthDate(userInputDTO.getBirthDate());
         setImage_url(userInputDTO.getImage_url());
         setAdmin(userInputDTO.getAdmin());
-        setCategory(userInputDTO.getCategory());
         setNevera(userInputDTO.isNevera());
     }
 

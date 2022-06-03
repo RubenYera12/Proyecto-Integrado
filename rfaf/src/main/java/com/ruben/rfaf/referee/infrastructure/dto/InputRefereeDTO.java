@@ -19,6 +19,6 @@ public class InputRefereeDTO {
     private Date birthDate;
     private String image_url;
     private Boolean admin;
-    private Category category;
+    private String category_id;
     private boolean nevera;
 }

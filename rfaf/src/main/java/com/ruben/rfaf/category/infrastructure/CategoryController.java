@@ -37,7 +37,7 @@ public class CategoryController {
         return ResponseEntity.ok(new OutputCategoryDTO(categoryService.findByID(id)));
     }
 
-    @DeleteMapping("deleteByID/{id}")
+    @PostMapping("deleteByID/{id}")
     public ResponseEntity<String> deleteByID(@PathVariable String id) throws Exception {
         categoryService.deleteByID(id);
         return ResponseEntity.ok("Categoria borrada correctamente.");

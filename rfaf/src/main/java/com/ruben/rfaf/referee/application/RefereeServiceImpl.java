@@ -52,6 +52,7 @@ public class RefereeServiceImpl implements RefereeService {
     @Override
     public Referee updateUser(Referee referee,String id) throws Exception {
         Referee refereeCheck = refereeRepository.findById(id).orElseThrow(()->new Exception("No se ha encontrado el arbitro"));
+        referee.setId(id);
         if (!refereeCheck.getEmail().equals(referee.getEmail())) {
             throw new Exception("No se puede cambiar el email");
         }
@@ -60,6 +61,10 @@ public class RefereeServiceImpl implements RefereeService {
         // TODO: Comprobar campos nulos
         if (referee.getTelfNumber()==null||referee.getTelfNumber().equals(""))
             referee.setTelfNumber(refereeCheck.getTelfNumber());
+        if (referee.getPassword()==null||referee.getPassword().equals(""))
+            referee.setPassword(refereeCheck.getPassword());
+        if (referee.getAdmin()==null)
+            referee.setAdmin(refereeCheck.getAdmin());
         if (referee.getName()==null||referee.getName().equals(""))
             referee.setName(refereeCheck.getName());
         if (referee.getFirstname()==null||referee.getFirstname().equals(""))

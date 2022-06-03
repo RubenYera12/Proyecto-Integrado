@@ -8,6 +8,7 @@ import java.util.Date;
 
 @Data
 public class OutputRefereeDTO {
+    private String id;
     private String licenseNum;
     private String name;
     private String firstname;
@@ -21,7 +22,7 @@ public class OutputRefereeDTO {
     private boolean nevera;
 
     public OutputRefereeDTO(Referee user){
-
+        setId(user.getId());
         setLicenseNum(user.getLicenseNum());
         setName(user.getName());
         setFirstname(user.getFirstname());

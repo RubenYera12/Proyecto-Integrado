@@ -1,5 +1,6 @@
 package com.ruben.rfaf.referee.infrastructure;
 
+import com.ruben.rfaf.category.infrastructure.repository.CategoryRepository;
 import com.ruben.rfaf.referee.application.RefereeService;
 import com.ruben.rfaf.referee.domain.Referee;
 import com.ruben.rfaf.referee.infrastructure.dto.InputRefereeDTO;
@@ -16,11 +17,12 @@ import java.util.List;
 @AllArgsConstructor
 public class RefereeController {
     private final RefereeService refereeService;
-
+    private final CategoryRepository categoryRepository;
     // Request para insertar un Arbitro en la base de datos
     @PostMapping("/create")
     public ResponseEntity<OutputRefereeDTO> addReferee(@RequestBody InputRefereeDTO inputRefereeDTO) throws Exception {
         Referee referee = new Referee(inputRefereeDTO);
+        referee.setCategory(categoryRepository.findById(inputRefereeDTO.getCategory_id()).orElseThrow(()-> new Exception("No se ha encontrado la categoría indicada.")));
 
         return ResponseEntity.ok(new OutputRefereeDTO(refereeService.addUser(referee)));
     }

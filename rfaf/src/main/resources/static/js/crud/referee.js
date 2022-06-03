@@ -1,18 +1,34 @@
 var app = {
-    backend: 'http://localhost:8080/api/category',
+    backend: 'http://localhost:8080/api/referee',
     table : null,
     init: function() {
         app.initDatatable('#categories');
-
+        app.table.column(9).visible(false);
         $("#create").click(function(){
             app.create({
-                name : $('#nombre').val()
+                name : $('#nombre').val(),
+                firstname : $('#apellido').val(),
+                licenseNum : $('#numeroLicencia').val(),
+                email : $('#email').val(),
+                telfNumber : $('#telefono').val(),
+                city : $('#ciudad').val(),
+                birthDate : $('#fechaNac').val(),
+                category_id : $('#category_id').val(),
+                nevera : $('#nevera').val()
             });
         });
         $("#update").click(function(){
             app.update({
                 id: $('#id').val(),
-                name : $('#nombre').val()
+                name : $('#nombre').val(),
+                firstname : $('#apellido').val(),
+                licenseNum : $('#numeroLicencia').val(),
+                email : $('#email').val(),
+                telfNumber : $('#telefono').val(),
+                city : $('#ciudad').val(),
+                birthDate : $('#fechaNac').val(),
+                category_id : $('#category_id').val(),
+                nevera : $('#nevera').val()
             });
         });
 
@@ -20,7 +36,7 @@ var app = {
     initDatatable : function(id) {
         app.table = $(id).DataTable({
             ajax : {
-                url : app.backend + '/findAll',
+                url : app.backend + '/getAll',
                 dataSrc : function(json) {
                     return json;
                 }
@@ -29,6 +45,15 @@ var app = {
             columns : [
                 {data : "id"},
                 {data : "name"},
+                {data : "firstname"},
+                {data : "licenseNum"},
+                {data : "email"},
+                {data : "telfNumber"},
+                {data : "city"},
+                {data : "birthDate"},
+                {data : "category.name"},
+                {data : "category.id"},
+                {data : "nevera"}
             ],
             buttons: [
                 {
@@ -75,10 +100,27 @@ var app = {
     setDataToModal : function(data) {
         $('#id').val(data.id);
         $('#nombre').val(data.name);
+        $('#apellido').val(data.firstname);
+        $('#numeroLicencia').val(data.licenseNum);
+        $('#email').val(data.email);
+        $('#telefono').val(data.telfNumber);
+        $('#ciudad').val(data.city);
+        $('#fechaNac').val(data.birthDate);
+        $('#categoria').val(data.category.name);
+        $('#category_id').val(data.category.id);
+        $('#nevera').val(data.nevera);
     },
     cleanForm : function() {
              $('#id').val('');
              $('#nombre').val('');
+             $('#apellido').val('');
+             $('#numeroLicencia').val('');
+             $('#email').val('');
+             $('#telefono').val('');
+             $('#ciudad').val('');
+             $('#fechaNac').val('');
+             $('#categoria').val('');
+             $('#nevera').val('');
     },
     create : function(data) {
         $.ajax({
@@ -96,16 +138,16 @@ var app = {
                     $("#msg").hide();
                 }, 5000);
             },
-            error : function(message) {
-                alert(message)
-            }
+              error: function(request) {
+                   alert(request.responseJSON.message);
+              }
         })
     },
     update : function(data) {
           $.ajax({
               url: app.backend + '/update/'+data.id,
               data : JSON.stringify(data),
-              method: 'PUT',
+              method: 'POST',
               dataType : 'json',
               contentType: "application/json; charset=utf-8",
               success : function(json) {
@@ -117,14 +159,17 @@ var app = {
                       $("#msg").hide();
                   }, 5000);
               },
+              error: function(request) {
+                   alert(request.responseJSON.message);
+              }
 
           })
       },
     delete : function(id) {
         $.ajax({
-            url: app.backend + '/deleteByID/'+id,
+            url: app.backend + '/delete/'+id,
             data : JSON.stringify(id),
-            method: 'POST',
+            method: 'DELETE',
             contentType: "application/json; charset=utf-8",
             success: function(result) {
             alert(result)
@@ -135,11 +180,9 @@ var app = {
                     $("#msg").hide();
                 }, 5000);
             },
-            error: function(request,msg,error) {
-                console.log(msg);
-                console.log(request);
-                console.log(error);
-            }
+              error: function(request) {
+                   alert(request.responseJSON.message);
+              }
 
         })
     }
