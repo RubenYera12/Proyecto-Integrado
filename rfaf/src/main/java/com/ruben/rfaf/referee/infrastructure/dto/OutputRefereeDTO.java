@@ -33,5 +33,6 @@ public class OutputRefereeDTO {
         setImage_url(user.getImage_url());
         setAdmin(user.getAdmin());
         setCategory(user.getCategory());
+        setNevera(user.isNevera());
     }
 }

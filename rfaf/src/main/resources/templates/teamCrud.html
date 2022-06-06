@@ -1,10 +1,9 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>rfaf - RefereeCrud</title>
+    <title>rfaf - Team CRUD</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css'>
     <link rel='stylesheet' type='text/css' href='https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css'>
@@ -22,37 +21,29 @@
 
 <div th:replace="partials/header">...</div>
 <div class="container" style="margin-top: 20px;">
-    <h1>Referee Crud</h1>
+    <h1>Team Crud</h1>
     <div class="alert alert-primary" id="msg" style="display: none;" role="alert"></div>
-    <table id="categories" class="table table-bordered table-hover table-responsive " style="width:100%">
+    <table id="categories" class="table table-bordered table-hover table-responsive-md" style="width:100%">
         <thead class="table-light">
         <tr>
             <th>ID</th>
+            <th>Escudo</th>
             <th>Nombre</th>
-            <th>Apellidos</th>
-            <th>Licencia</th>
-            <th>Correo</th>
-            <th>Télefono</th>
-            <th>Ciudad</th>
-            <th>Fecha Nacimiento</th>
-            <th>Categoría</th>
-            <th>ID_Categoria</th>
-            <th>Nevera</th>
+            <th>Entrenador</th>
+            <th>Estadio</th>
+            <th>Competición</th>
+            <th>Jugadores</th>
         </tr>
         </thead>
         <tfoot class="table-light">
         <tr>
             <th>ID</th>
+            <th>Escudo</th>
             <th>Nombre</th>
-            <th>Apellidos</th>
-            <th>Licencia</th>
-            <th>Correo</th>
-            <th>Télefono</th>
-            <th>Ciudad</th>
-            <th>Fecha Nacimiento</th>
-            <th>Categoría</th>
-            <th>ID_Categoria</th>
-            <th>Nevera</th>
+            <th>Entrenador</th>
+            <th>Estadio</th>
+            <th>Competición</th>
+            <th>Jugadores</th>
         </tr>
         </tfoot>
     </table>
@@ -74,36 +65,16 @@
                             <input type="hidden" class="form-control" id="id">
                         </div>
                         <div class="form-group">
-                            <label for="apellido">Apellidos</label>
+                            <label for="apellido">Entrenador</label>
                             <input type="text" class="form-control" id="apellido" placeholder="Introduce el apellido">
                         </div>
                         <div class="form-group">
-                            <label for="numeroLicencia">Numero de Licencia</label>
+                            <label for="numeroLicencia">Estadio</label>
                             <input type="text" class="form-control" id="numeroLicencia" placeholder="Introduce el apellido">
                         </div>
                         <div class="form-group">
-                            <label for="email">Correo</label>
-                            <input type="text" class="form-control" id="email" placeholder="Introduce el apellido">
-                        </div>
-                        <div class="form-group">
-                            <label for="telefono">Teléfono</label>
-                            <input type="text" class="form-control" id="telefono" placeholder="Introduce el apellido">
-                        </div>
-                        <div class="form-group">
-                            <label for="ciudad">Ciudad</label>
-                            <input type="text" class="form-control" id="ciudad" placeholder="Introduce el apellido">
-                        </div>
-                        <div class="form-group">
-                            <label for="fechaNac">Fecha de Nacimiento</label>
-                            <input type="text" class="form-control" id="fechaNac" placeholder="Introduce el apellido">
-                        </div>
-                        <div class="form-group">
-                            <label for="categoria">Categoria</label>
-                            <select class="form-control" aria-label=".form-select-lg example" id="categoria"></select>
-                        </div>
-                        <div class="form-group">
-                            <input type="checkbox" class="form-check-label" id="nevera">
-                            <label for="nevera">Nevera</label>
+                            <label for="competicion">Competicion</label>
+                            <select class="form-control" aria-label=".form-select-lg example" id="competicion"></select>
                         </div>
                     </form>
                 </div>
@@ -133,7 +104,7 @@
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
 
-<script src='js/crud/referee.js'></script>
+<script src='js/crud/team.js'></script>
 
 </body>
 

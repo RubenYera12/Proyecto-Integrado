@@ -4,7 +4,6 @@ var app = {
     init: function() {
         app.initDatatable('#categories');
         app.table.column(0).visible(false);
-        app.table.column(9).visible(false);
         $("#create").click(function(){
             app.create({
                 name : $('#nombre').val(),
@@ -37,24 +36,26 @@ var app = {
     initDatatable : function(id) {
         app.table = $(id).DataTable({
             ajax : {
-                url : app.backend + 'referee/getAll',
+                url : app.backend + 'team/getAll',
                 dataSrc : function(json) {
                     return json;
                 }
             },
+            "columnDefs" : [{
+            "targets" : 1 ,
+            "data": "image",
+            "render" : function ( data, type, row, meta ) {
+            return '<img height="50px" width="50px" src="'+data+'"/>';
+            }}] ,
             dom: 'Bfrtip',
             columns : [
                 {data : "id"},
+                {data : "image"},
                 {data : "name"},
-                {data : "firstname"},
-                {data : "licenseNum"},
-                {data : "email"},
-                {data : "telfNumber"},
-                {data : "city"},
-                {data : "birthDate"},
-                {data : "category.name"},
-                {data : "category.id"},
-                {data : "nevera"}
+                {data : "coach"},
+                {data : "stadium"},
+                {data : "competition.name"},
+                {data : "players.length"}
             ],
             buttons: [
                 {
@@ -101,43 +102,33 @@ var app = {
     setDataToModal : function(data) {
         $('#id').val(data.id);
         $('#nombre').val(data.name);
-        $('#apellido').val(data.firstname);
-        $('#numeroLicencia').val(data.licenseNum);
-        $('#email').val(data.email);
-        $('#telefono').val(data.telfNumber);
-        $('#ciudad').val(data.city);
-        $('#fechaNac').val(data.birthDate);
-        $('#nevera').attr('checked',data.nevera);
-        $('#category_id').val(data.category.id);
-        app.loadCategory();
-        $('#categoria').val(data.category.id).set;
-        $('#categoria option')
-     .removeAttr('selected')
-     .filter('[value='+data.category.id+']')
+        $('#entrenador').val(data.coach);
+        $('#estadio').val(data.stadium);
+        app.loadCompetition();
+        $('#competicion').val(data.competition.id).set;
+        $('#competicion option')
+         .removeAttr('selected')
+         .filter('[value='+data.competition.id+']')
          .attr('selected', true)
     },
-    loadCategory : function(){
-        var select = $('#categoria');
+    loadCompetition : function(){
+        var select = $('#competicion');
         select.empty();
-        $.ajax({url: app.backend+'category/findAll', success: function(result){
+        $.ajax({url: app.backend+'competition/findAll', success: function(result){
             result.forEach(element => {
                 select.append($('<option>').attr( "value",element.id).text(element.name));
             });
           }});
     },
     cleanForm : function() {
-             $('#id').val('');
-             $('#nombre').val('');
-             $('#apellido').val('');
-             $('#numeroLicencia').val('');
-             $('#email').val('');
-             $('#telefono').val('');
-             $('#ciudad').val('');
-             $('#fechaNac').val('');
-             app.loadCategory();
-             $('#categoria').val('').set;
-             $('#categoria option')
-             .removeAttr('selected')
+        $('#id').val('');
+        $('#nombre').val('');
+        $('#entrenador').val('');
+        $('#estadio').val('');
+        app.loadCompetition();
+        $('#competicion').val('').set;
+        $('#competicion option')
+         .removeAttr('selected')
     },
     create : function(data) {
         $.ajax({
@@ -163,7 +154,7 @@ var app = {
     update : function(data) {
         console.log(data.category_id);
           $.ajax({
-              url: app.backend + 'referee/update/'+data.id,
+              url: app.backend + 'team/update/'+data.id,
               data : JSON.stringify(data),
               method: 'POST',
               dataType : 'json',

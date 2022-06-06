@@ -19,24 +19,38 @@ public class TemplateController {
 //    }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView mesindexsages() {
+    public ModelAndView index() {
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("standardDate", new Date());
         return mav;
     }
 
-    @RequestMapping("/game")
-    public String game(Model model) {
-        return "game";
+    @RequestMapping(value = "/game", method = RequestMethod.GET)
+    public ModelAndView game() {
+        ModelAndView mav = new ModelAndView("game");
+        mav.addObject("standardDate", new Date());
+        return mav;
     }
 
-    @RequestMapping("/categoryCrud")
-    public String categoryCrud(Model model) {
-        return "categoryCrud";
+    @RequestMapping(value = "/categoryCrud", method = RequestMethod.GET)
+    public ModelAndView categoryCrud() {
+        ModelAndView mav = new ModelAndView("categoryCrud");
+        mav.addObject("standardDate", new Date());
+        return mav;
     }
 
-    @RequestMapping("/refereeCrud")
-    public String refereeCrud(Model model) {
-        return "refereeCrud";
+    @RequestMapping(value = "/refereeCrud", method = RequestMethod.GET)
+    public ModelAndView refereeCrud() {
+        ModelAndView mav = new ModelAndView("refereeCrud");
+        mav.addObject("standardDate", new Date());
+        return mav;
     }
+
+    @RequestMapping(value = "/teamCrud", method = RequestMethod.GET)
+    public ModelAndView teamCrud() {
+        ModelAndView mav = new ModelAndView("teamCrud");
+        mav.addObject("standardDate", new Date());
+        return mav;
+    }
+
 }

@@ -22,6 +22,8 @@ public class RefereeController {
     @PostMapping("/create")
     public ResponseEntity<OutputRefereeDTO> addReferee(@RequestBody InputRefereeDTO inputRefereeDTO) throws Exception {
         Referee referee = new Referee(inputRefereeDTO);
+        if (inputRefereeDTO.getCategory_id()==null)
+            throw new Exception("Selecciona una categoría");
         referee.setCategory(categoryRepository.findById(inputRefereeDTO.getCategory_id()).orElseThrow(()-> new Exception("No se ha encontrado la categoría indicada.")));
 
         return ResponseEntity.ok(new OutputRefereeDTO(refereeService.addUser(referee)));
@@ -61,7 +63,12 @@ public class RefereeController {
     //Request para actualizar un Arbitro
     @PostMapping("/update/{id}")
     public ResponseEntity<OutputRefereeDTO> updateReferee(@RequestBody InputRefereeDTO inputRefereeDTO,@PathVariable String id) throws Exception {
-        return ResponseEntity.ok(new OutputRefereeDTO(refereeService.updateUser(new Referee(inputRefereeDTO),id)));
+        Referee referee = new Referee(inputRefereeDTO);
+        if (inputRefereeDTO.getCategory_id()==null)
+            throw new Exception("Selecciona una categoría");
+        referee.setCategory(categoryRepository.findById(inputRefereeDTO.getCategory_id()).orElseThrow(()-> new Exception("No se ha encontrado la categoría indicada.")));
+
+        return ResponseEntity.ok(new OutputRefereeDTO(refereeService.updateUser(referee,id)));
     }
 
     //Request para borrar un Arbitro
