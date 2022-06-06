@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="css/crud/team.css" type="text/css">
 </head>
 <body>
 
@@ -61,21 +62,38 @@
                     <form>
                         <div class="form-group">
                             <label for="nombre">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" placeholder="Introduce el nombre">
+                            <input type="text" class="form-control" id="nombre" placeholder="Introduce el nombre del equipo">
                             <input type="hidden" class="form-control" id="id">
                         </div>
                         <div class="form-group">
-                            <label for="apellido">Entrenador</label>
-                            <input type="text" class="form-control" id="apellido" placeholder="Introduce el apellido">
+                            <label for="entrenador">Entrenador</label>
+                            <input type="text" class="form-control" id="entrenador" placeholder="Introduce el nombre del entrenador">
                         </div>
                         <div class="form-group">
-                            <label for="numeroLicencia">Estadio</label>
-                            <input type="text" class="form-control" id="numeroLicencia" placeholder="Introduce el apellido">
+                            <label for="estadio">Estadio</label>
+                            <input type="text" class="form-control" id="estadio" placeholder="Introduce el nombre del estadio">
                         </div>
                         <div class="form-group">
                             <label for="competicion">Competicion</label>
                             <select class="form-control" aria-label=".form-select-lg example" id="competicion"></select>
                         </div>
+                        <div class="form-group">
+                            <label for="selectable">Jugadores</label>
+                            <button type="button" id="add" class="btn btn-primary">
+                                Add Players
+                            </button>
+                            <ul id="selectable">
+                                <li class="form-control"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
+                                <li class="form-control"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
+                                <li class="form-control"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
+                                <li class="form-control"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
+                                <li class="form-control"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
+                                <li class="form-control"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
+                                <li class="form-control"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 7</li>
+                            </ul>
+
+                        </div>
+
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -87,6 +105,35 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="playersModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Referee</h5>
+                <button type="button" class="close" aria-label="Close" id="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul id="selectable2">
+                    <li class="form-control"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
+                    <li class="form-control"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
+                    <li class="form-control"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
+                    <li class="form-control"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
+                    <li class="form-control"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
+                    <li class="form-control"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
+                    <li class="form-control"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 7</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="addPlayers" class="btn btn-primary">Create</button>
+                <button type="button" class="btn btn-secondary" id="closePlayers">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div th:insert="~{partials/footer :: footer}">...</div>
 
@@ -103,9 +150,8 @@
 <script src="js/jquery.slicknav.js"></script>
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
-
+<script src="js/jquery-ui-v1.13.1.js"></script>
 <script src='js/crud/team.js'></script>
-
 </body>
 
 </html>

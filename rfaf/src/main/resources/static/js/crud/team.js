@@ -32,6 +32,8 @@ var app = {
             });
         });
 
+        $( "#selectable" ).selectable();
+        $("#add").on("click",app.loadTeamPlayers)
     },
     initDatatable : function(id) {
         app.table = $(id).DataTable({
@@ -110,6 +112,8 @@ var app = {
          .removeAttr('selected')
          .filter('[value='+data.competition.id+']')
          .attr('selected', true)
+         $( "#selectable" ).selectable();
+
     },
     loadCompetition : function(){
         var select = $('#competicion');
@@ -119,6 +123,16 @@ var app = {
                 select.append($('<option>').attr( "value",element.id).text(element.name));
             });
           }});
+    },
+    loadTeamPlayers :function () {
+        $('#playersModal').modal();
+        $('#closePlayers').on("click",function(){
+            $('#playersModal').modal('hide');
+            $('#playersModal').modal('hide');
+            $('#personaModal').modal();
+            console.log("dkfjnskdjfnskdjfs")
+        })
+          
     },
     cleanForm : function() {
         $('#id').val('');
