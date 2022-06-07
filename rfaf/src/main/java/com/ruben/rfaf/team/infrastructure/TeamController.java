@@ -48,7 +48,7 @@ public class TeamController {
     }
 
     //Request para actualizar un equipo
-    @PostMapping("/update")
+    @PostMapping("/update/{id}")
     public ResponseEntity<OutputTeamDTO> updateTeam(@RequestBody InputTeamDTO inputTeamDTO,@PathVariable String id) throws Exception {
         return ResponseEntity.ok(new OutputTeamDTO(teamService.updateTeam(new Team(inputTeamDTO),id)));
     }

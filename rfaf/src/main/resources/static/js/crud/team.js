@@ -18,17 +18,21 @@ var app = {
             });
         });
         $("#update").click(function(){
+            var playerList = [];
+            $("#selectable").children().each(function (index, value) { 
+                var player = {
+                    id: value.id
+                }
+                playerList.push(player)
+            });
+            console.log(playerList)
             app.update({
                 id: $('#id').val(),
                 name : $('#nombre').val(),
-                firstname : $('#apellido').val(),
-                licenseNum : $('#numeroLicencia').val(),
-                email : $('#email').val(),
-                telfNumber : $('#telefono').val(),
-                city : $('#ciudad').val(),
-                birthDate : $('#fechaNac').val(),
-                category_id : $('#categoria').val(),
-                nevera : $('#nevera').is(':checked')
+                coach : $('#entrenador').val(),
+                stadium : $('#estadio').val(),
+                competition : {id:$("#competicion").val()},
+                players : playerList
             });
         });
 
@@ -104,37 +108,39 @@ var app = {
         });
     },
     setDataToModal : function(data) {
+        app.loadCompetition();
         $('#id').val(data.id);
         $('#nombre').val(data.name);
         $('#entrenador').val(data.coach);
         $('#estadio').val(data.stadium);
-        app.loadCompetition();
-        $('#competicion').val(data.competition.id).set;
-        $('#competicion option')
-         .removeAttr('selected')
-         .filter('[value='+data.competition.id+']')
-         .attr('selected', true)
         $( "#selectable" ).selectable();
         $( "#selectable" ).empty();
-        console.log(data.players)
-
+        data.players.forEach(element =>{
+            $("<li>").addClass("form-control").attr("id",element.id).text(element.name+" "+element.firstname+" "+element.number)
+            .append($("<span>").addClass("ui-icon ui-icon-arrowthick-2-n-s")).appendTo($("#selectable"));
+        });
+        $("#competicion").selectedIndex
 
     },
     loadCompetition : function(){
         var select = $('#competicion');
-        select.empty();
+        select.children().each(function (ind, val) { 
+            val.remove() 
+        });
         $.ajax({url: app.backend+'competition/findAll', success: function(result){
             result.forEach(element => {
-                select.append($('<option>').attr( "value",element.id).text(element.name));
+                select.append($('<option>').attr( "id",element.id).val(element.id).text(element.name));
+                console.log(element.id)
             });
-          }});
+        }});
+        select.firstChild
     },
     loadTeamPlayers :function () {
         $.ajax({
             url: app.backend + 'players/findNoTeamPlayers',
             method: 'GET',
             success : function(result) {
-                result.forEach(function(jugador){
+                result.forEach(jugador =>{
                     //Comprueba que no esté el jugador en ningun modal
                     if($("#selectable2 #"+jugador.id).length==0 && $("#selectable #"+jugador.id).length==0 ){
                         $("<li>").addClass("form-control").attr("id",jugador.id).text(jugador.name+" "+jugador.firstname+" "+jugador.number)
@@ -151,6 +157,11 @@ var app = {
         $('#playersModal').addClass("show");
         $('#playersModal').css("display","block");
         $('#closePlayers').on("click",function(){
+            $('#playersModal').removeClass("show");
+            $('#playersModal').css("display","none");
+            console.log("Cerrado el modal de jugadores.");
+        })
+        $('#close').on("click",function(){
             $('#playersModal').removeClass("show");
             $('#playersModal').css("display","none");
             console.log("Cerrado el modal de jugadores.");
@@ -212,7 +223,8 @@ var app = {
                   }, 5000);
               },
               error: function(request) {
-                   alert(request.responseJSON.message);
+                  console.log(data);
+                    alert(request.responseJSON.message);
               }
 
           })

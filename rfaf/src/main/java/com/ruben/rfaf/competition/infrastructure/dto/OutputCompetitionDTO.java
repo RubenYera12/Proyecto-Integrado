@@ -9,11 +9,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OutputCompetitionDTO {
-
+    private String id;
     private String name;
     private String zone;
 
     public OutputCompetitionDTO(Competition competition){
+        setId(competition.getId());
         setName(competition.getName());
         setZone(competition.getZone());
     }

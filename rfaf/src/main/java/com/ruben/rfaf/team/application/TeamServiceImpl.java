@@ -34,6 +34,8 @@ public class TeamServiceImpl implements TeamService {
         // TODO: Comprobar campos nulos
         if (team.getStadium()==null||team.getStadium().equals(""))
             throw new Exception("No puedes dejar al club sin estadio");
+        if(team.getImage()==null||team.getImage().equals(""))
+            team.setImage(teamOptional.getImage());
         team.setId(id);
         return teamRepository.save(team);
     }

@@ -16,4 +16,5 @@ public class InputTeamDTO {
     private String coach;
     private String stadium;
     private Competition competition;
+    private List<Player> players;
 }
