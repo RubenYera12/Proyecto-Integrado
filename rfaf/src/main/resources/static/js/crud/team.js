@@ -33,7 +33,9 @@ var app = {
         });
 
         $( "#selectable" ).selectable();
-        $("#add").on("click",app.loadTeamPlayers)
+        $( "#selectable2" ).selectable();
+        $("#add").on("click",app.loadTeamPlayers);
+        $("#addPlayers").on("click",app.addPlayers);
     },
     initDatatable : function(id) {
         app.table = $(id).DataTable({
@@ -112,7 +114,10 @@ var app = {
          .removeAttr('selected')
          .filter('[value='+data.competition.id+']')
          .attr('selected', true)
-         $( "#selectable" ).selectable();
+        $( "#selectable" ).selectable();
+        $( "#selectable" ).empty();
+        console.log(data.players)
+
 
     },
     loadCompetition : function(){
@@ -125,15 +130,39 @@ var app = {
           }});
     },
     loadTeamPlayers :function () {
-        $('#playersModal').modal();
+        $.ajax({
+            url: app.backend + 'players/findNoTeamPlayers',
+            method: 'GET',
+            success : function(result) {
+                result.forEach(function(jugador){
+                    //Comprueba que no esté el jugador en ningun modal
+                    if($("#selectable2 #"+jugador.id).length==0 && $("#selectable #"+jugador.id).length==0 ){
+                        $("<li>").addClass("form-control").attr("id",jugador.id).text(jugador.name+" "+jugador.firstname+" "+jugador.number)
+                        .append($("<span>").addClass("ui-icon ui-icon-arrowthick-2-n-s")).appendTo($("#selectable2"));
+                    }
+                })
+                
+            },
+            error: function(request) {
+                 alert(request.responseJSON.message);
+            }
+
+        })
+        $('#playersModal').addClass("show");
+        $('#playersModal').css("display","block");
         $('#closePlayers').on("click",function(){
-            $('#playersModal').modal('hide');
-            $('#playersModal').modal('hide');
-            $('#personaModal').modal();
-            console.log("dkfjnskdjfnskdjfs")
+            $('#playersModal').removeClass("show");
+            $('#playersModal').css("display","none");
+            console.log("Cerrado el modal de jugadores.");
         })
           
     },
+    addPlayers : function() {
+        $('#selectable2').children('li.ui-selected').appendTo('#selectable');
+        $('#playersModal').removeClass("show");
+        $('#playersModal').css("display","none");
+    }
+    ,
     cleanForm : function() {
         $('#id').val('');
         $('#nombre').val('');

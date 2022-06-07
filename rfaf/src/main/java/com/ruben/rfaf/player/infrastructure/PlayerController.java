@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("player")
+@RequestMapping("api/players")
 @AllArgsConstructor
 public class PlayerController {
 
@@ -37,6 +37,24 @@ public class PlayerController {
     public ResponseEntity<List<OutputPlayerDTO>> findByTeam(@PathVariable String name) throws Exception {
         List<OutputPlayerDTO> outputPlayerDTOList = new ArrayList<>();
         for (Player player: playerService.findByTeam(name) ) {
+            outputPlayerDTOList.add(new OutputPlayerDTO(player));
+        }
+        return ResponseEntity.ok(outputPlayerDTOList);
+    }
+
+    @GetMapping("findAll")
+    public ResponseEntity<List<OutputPlayerDTO>> findAll() throws Exception {
+        List<OutputPlayerDTO> outputPlayerDTOList = new ArrayList<>();
+        for (Player player: playerService.findAll() ) {
+            outputPlayerDTOList.add(new OutputPlayerDTO(player));
+        }
+        return ResponseEntity.ok(outputPlayerDTOList);
+    }
+
+    @GetMapping("findNoTeamPlayers")
+    public ResponseEntity<List<OutputPlayerDTO>> findNoTeamPlayers() {
+        List<OutputPlayerDTO> outputPlayerDTOList = new ArrayList<>();
+        for (Player player: playerService.findNoTeamPlayers() ) {
             outputPlayerDTOList.add(new OutputPlayerDTO(player));
         }
         return ResponseEntity.ok(outputPlayerDTOList);

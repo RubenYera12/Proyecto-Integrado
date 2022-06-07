@@ -25,6 +25,12 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
+    public List<Player> findNoTeamPlayers() {
+
+        return playerRepository.findByTeamId(null);
+    }
+
+    @Override
     public Player updatePlayer(Player player) throws Exception {
         if (player.getId() == null) {
             throw new Exception("No se ha podido encontrar el jugador.");
@@ -73,4 +79,5 @@ public class PlayerServiceImpl implements PlayerService {
                 .orElseThrow(() -> new Exception("No se ha encontrado el equipo: " + name))
                 .getPlayers();
     }
+
 }

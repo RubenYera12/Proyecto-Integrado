@@ -12,4 +12,5 @@ public interface PlayerService {
     Player findById(String id) throws Exception;
     Player findByLicense(String license) throws Exception;
     List<Player> findByTeam(String name) throws  Exception;
+    List<Player> findNoTeamPlayers();
 }
