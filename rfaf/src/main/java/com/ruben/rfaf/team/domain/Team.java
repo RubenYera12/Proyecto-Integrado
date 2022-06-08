@@ -48,6 +48,7 @@ public class Team {
         setCoach(inputTeamDTO.getCoach());
         setStadium(inputTeamDTO.getStadium());
         setCompetition(inputTeamDTO.getCompetition());
+        setPlayers(inputTeamDTO.getPlayers());
     }
 
 }

@@ -18,9 +18,14 @@ public class PlayerController {
 
     private final PlayerService playerService;
 
-    @PostMapping("/createPlayer")
+    @PostMapping("create")
     public ResponseEntity<OutputPlayerDTO> createPlayer(@RequestBody InputPlayerDTO inputPlayerDTO) throws Exception {
         return ResponseEntity.ok(new OutputPlayerDTO(playerService.addPlayer(new Player(inputPlayerDTO))));
+    }
+
+    @PostMapping("update/{id}")
+    public ResponseEntity<OutputPlayerDTO> updatePlayer(@RequestBody InputPlayerDTO inputPlayerDTO,@PathVariable String id) throws Exception {
+        return ResponseEntity.ok(new OutputPlayerDTO(playerService.updatePlayer(new Player(inputPlayerDTO),id)));
     }
 
     @GetMapping("findById/{id}")
@@ -58,5 +63,10 @@ public class PlayerController {
             outputPlayerDTOList.add(new OutputPlayerDTO(player));
         }
         return ResponseEntity.ok(outputPlayerDTOList);
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<String> deleteById(@PathVariable String id) throws Exception {
+        return ResponseEntity.ok(playerService.deleteById(id));
     }
 }

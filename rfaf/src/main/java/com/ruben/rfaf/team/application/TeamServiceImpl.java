@@ -37,6 +37,13 @@ public class TeamServiceImpl implements TeamService {
         if(team.getImage()==null||team.getImage().equals(""))
             team.setImage(teamOptional.getImage());
         team.setId(id);
+
+        team.getPlayers().forEach(player -> {
+            Player playerFind = playerRepository.findById(player.getId()).get();
+            playerFind.setTeam(team);
+            playerRepository.save(playerFind);
+        });
+
         return teamRepository.save(team);
     }
 

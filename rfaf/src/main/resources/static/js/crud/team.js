@@ -4,17 +4,23 @@ var app = {
     init: function() {
         app.initDatatable('#categories');
         app.table.column(0).visible(false);
+        app.loadCompetition();
         $("#create").click(function(){
+            var playerList = [];
+            $("#selectable").children().each(function (index, value) { 
+                var player = {
+                    id: value.id
+                }
+                playerList.push(player)
+            });
+            console.log(playerList);
             app.create({
+                id: $('#id').val(),
                 name : $('#nombre').val(),
-                firstname : $('#apellido').val(),
-                licenseNum : $('#numeroLicencia').val(),
-                email : $('#email').val(),
-                telfNumber : $('#telefono').val(),
-                city : $('#ciudad').val(),
-                birthDate : $('#fechaNac').val(),
-                category_id : $('#categoria').val(),
-                nevera : $('#nevera').is(':checked')
+                coach : $('#entrenador').val(),
+                stadium : $('#estadio').val(),
+                competition : {id:$("#competicion").val()},
+                players : playerList
             });
         });
         $("#update").click(function(){
@@ -25,7 +31,7 @@ var app = {
                 }
                 playerList.push(player)
             });
-            console.log(playerList)
+            console.log(playerList);
             app.update({
                 id: $('#id').val(),
                 name : $('#nombre').val(),
@@ -89,7 +95,7 @@ var app = {
                     text : 'Eliminar',
                     action : function(e, dt, node, config) {
                         var data = dt.rows('.table-active').data()[0];
-                        if(confirm('¿Seguro que quieres eliminar la categoría '+data.id+'?')){
+                        if(confirm('¿Seguro que quieres eliminar el equipo '+data.id+'?')){
                             app.delete(data.id)
                         }
                     }
@@ -108,7 +114,6 @@ var app = {
         });
     },
     setDataToModal : function(data) {
-        app.loadCompetition();
         $('#id').val(data.id);
         $('#nombre').val(data.name);
         $('#entrenador').val(data.coach);
@@ -119,21 +124,17 @@ var app = {
             $("<li>").addClass("form-control").attr("id",element.id).text(element.name+" "+element.firstname+" "+element.number)
             .append($("<span>").addClass("ui-icon ui-icon-arrowthick-2-n-s")).appendTo($("#selectable"));
         });
-        $("#competicion").selectedIndex
+        $("#competicion").val(data.competition.id)
 
     },
     loadCompetition : function(){
         var select = $('#competicion');
-        select.children().each(function (ind, val) { 
-            val.remove() 
-        });
         $.ajax({url: app.backend+'competition/findAll', success: function(result){
             result.forEach(element => {
                 select.append($('<option>').attr( "id",element.id).val(element.id).text(element.name));
                 console.log(element.id)
             });
         }});
-        select.firstChild
     },
     loadTeamPlayers :function () {
         $.ajax({
@@ -179,10 +180,8 @@ var app = {
         $('#nombre').val('');
         $('#entrenador').val('');
         $('#estadio').val('');
-        app.loadCompetition();
-        $('#competicion').val('').set;
-        $('#competicion option')
-         .removeAttr('selected')
+        $('#competicion').val('');
+        $("#selectable").empty();
     },
     create : function(data) {
         $.ajax({
@@ -192,7 +191,7 @@ var app = {
             dataType : 'json',
             contentType: "application/json; charset=utf-8",
             success : function(json) {
-                $("#msg").text('Se guardó la categoría correctamente');
+                $("#msg").text('Se guardó el equipo correctamente');
                 $("#msg").show();
                 $('#personaModal').modal('hide');
                 app.table.ajax.reload();
@@ -214,7 +213,7 @@ var app = {
               dataType : 'json',
               contentType: "application/json; charset=utf-8",
               success : function(json) {
-                  $("#msg").text('Se actualizó la categoría correctamente');
+                  $("#msg").text('Se actualizó el equipo correctamente');
                   $("#msg").show();
                   $('#personaModal').modal('hide');
                   app.table.ajax.reload();
@@ -237,7 +236,7 @@ var app = {
             contentType: "application/json; charset=utf-8",
             success: function(result) {
             alert(result)
-                $("#msg").text('Se eliminó la categoría correctamente');
+                $("#msg").text('Se eliminó el equipo correctamente');
                 $("#msg").show();
                 app.table.ajax.reload();
                 setTimeout(function(){

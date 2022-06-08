@@ -31,15 +31,21 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Player updatePlayer(Player player) throws Exception {
-        if (player.getId() == null) {
-            throw new Exception("No se ha podido encontrar el jugador.");
-        }
-        Optional<Player> optionalPlayer = playerRepository.findById(player.getId());
-        if (!optionalPlayer.get().getLicenseNum().equals(player.getLicenseNum())) {
+    public Player updatePlayer(Player player, String id) throws Exception {
+        Player optionalPlayer = playerRepository
+                .findById(id)
+                .orElseThrow(()-> new Exception("No se ha podido encontrar el jugador."));
+        if (!optionalPlayer.getLicenseNum().equals(player.getLicenseNum())) {
             throw new Exception("No se puede cambiar el número de licencia");
         }
+        if (player.getName()==null||player.getName().equals("")) {
+            throw new Exception("No se puede dejar sin nombre al jugador");
+        }
+        if (player.getFirstname()==null||player.getFirstname().equals("")) {
+            throw new Exception("No se puede dejar sin apellido al jugador");
+        }
         // TODO: Comprobar campos nulos
+        player.setId(id);
         return playerRepository.save(player);
     }
 

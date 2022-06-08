@@ -53,4 +53,9 @@ public class TemplateController {
         return mav;
     }
 
+    @RequestMapping(value = "/playerCrud", method = RequestMethod.GET)
+    public ModelAndView playerCrud() {
+        return new ModelAndView("playerCrud");
+    }
+
 }

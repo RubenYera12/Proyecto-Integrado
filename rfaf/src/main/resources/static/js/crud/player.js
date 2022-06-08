@@ -4,19 +4,17 @@ var app = {
     init: function() {
         app.initDatatable('#categories');
         app.table.column(0).visible(false);
-        app.table.column(9).visible(false);
-        app.loadCategory();
+        app.table.column(6).visible(false);
+        app.loadTeam();
         $("#create").click(function(){
             app.create({
                 name : $('#nombre').val(),
                 firstname : $('#apellido').val(),
-                licenseNum : $('#numeroLicencia').val(),
-                email : $('#email').val(),
-                telfNumber : $('#telefono').val(),
-                city : $('#ciudad').val(),
-                birthDate : $('#fechaNac').val(),
-                category_id : $('#categoria').val(),
-                nevera : $('#nevera').is(':checked')
+                licencia : $('#licencia').val(),
+                date : $('#fecha').val(),
+                number : $('#numero').val(),
+                sancion : $('#sancion').val(),
+                team : {id:$('#equipo').val()}
             });
         });
         $("#update").click(function(){
@@ -24,13 +22,11 @@ var app = {
                 id: $('#id').val(),
                 name : $('#nombre').val(),
                 firstname : $('#apellido').val(),
-                licenseNum : $('#numeroLicencia').val(),
-                email : $('#email').val(),
-                telfNumber : $('#telefono').val(),
-                city : $('#ciudad').val(),
-                birthDate : $('#fechaNac').val(),
-                category_id : $('#categoria').val(),
-                nevera : $('#nevera').is(':checked')
+                licencia : $('#licencia').val(),
+                date : $('#fecha').val(),
+                number : $('#numero').val(),
+                sancion : $('#sancion').val(),
+                team : {id:$('#equipo').val()}
             });
         });
 
@@ -38,7 +34,7 @@ var app = {
     initDatatable : function(id) {
         app.table = $(id).DataTable({
             ajax : {
-                url : app.backend + 'referee/getAll',
+                url : app.backend + 'players/findAll',
                 dataSrc : function(json) {
                     return json;
                 }
@@ -46,16 +42,14 @@ var app = {
             dom: 'Bfrtip',
             columns : [
                 {data : "id"},
+                {data : "licencia"},
                 {data : "name"},
                 {data : "firstname"},
-                {data : "licenseNum"},
-                {data : "email"},
-                {data : "telfNumber"},
-                {data : "city"},
-                {data : "birthDate"},
-                {data : "category.name"},
-                {data : "category.id"},
-                {data : "nevera"}
+                {data : "date"},
+                {data : "team.name"},
+                {data : "team.id"},
+                {data : "number"},
+                {data : "sancion"}
             ],
             buttons: [
                 {
@@ -81,7 +75,7 @@ var app = {
                     text : 'Eliminar',
                     action : function(e, dt, node, config) {
                         var data = dt.rows('.table-active').data()[0];
-                        if(confirm('¿Seguro que quieres eliminar el arbitro '+data.id+'?')){
+                        if(confirm('¿Seguro que quieres eliminar el jugador '+data.id+'?')){
                             app.delete(data.id)
                         }
                     }
@@ -103,44 +97,39 @@ var app = {
         $('#id').val(data.id);
         $('#nombre').val(data.name);
         $('#apellido').val(data.firstname);
-        $('#numeroLicencia').val(data.licenseNum);
-        $('#email').val(data.email);
-        $('#telefono').val(data.telfNumber);
-        $('#ciudad').val(data.city);
-        $('#fechaNac').val(data.birthDate);
-        $('#nevera').attr('checked',data.nevera);
-        $('#category_id').val(data.category.id);
-        $("#categoria").val(data.category.id);
-        console.log($('#categoria').val())
+        $('#licencia').val(data.licencia);
+        $('#equipo').val(data.team.id);
+        $('#fecha').val(data.date);
+        $('#numero').val(data.number);
+        $('#sancion').val(data.sancion);
     },
-    loadCategory : function(){
-        var select = $('#categoria');
-        $.ajax({url: app.backend+'category/findAll', success: function(result){
+    loadTeam : function(){
+        var select = $('#equipo');
+        $.ajax({url: app.backend+'team/getAll', success: function(result){
             result.forEach(element => {
                 select.append($('<option>').attr( "value",element.id).text(element.name));
             });
           }});
     },
     cleanForm : function() {
-             $('#id').val('');
-             $('#nombre').val('');
-             $('#apellido').val('');
-             $('#numeroLicencia').val('');
-             $('#email').val('');
-             $('#telefono').val('');
-             $('#ciudad').val('');
-             $('#fechaNac').val('');
-             $('#categoria').val('');
+        $('#id').val('');
+        $('#nombre').val('');
+        $('#apellido').val('');
+        $('#licencia').val('');
+        $('#equipo').val('');
+        $('#fecha').val('');
+        $('#numero').val('');
+        $('#sancion').val('');
     },
     create : function(data) {
         $.ajax({
-            url: app.backend + 'referee/create',
+            url: app.backend + 'players/create',
             data : JSON.stringify(data),
             method: 'POST',
             dataType : 'json',
             contentType: "application/json; charset=utf-8",
             success : function(json) {
-                $("#msg").text('Se guardó la categoría correctamente');
+                $("#msg").text('Se guardó el jugador correctamente');
                 $("#msg").show();
                 $('#personaModal').modal('hide');
                 app.table.ajax.reload();
@@ -154,15 +143,15 @@ var app = {
         })
     },
     update : function(data) {
-        console.log(data.category_id);
+        console.log(data.id);
           $.ajax({
-              url: app.backend + 'referee/update/'+data.id,
+              url: app.backend + 'players/update/'+data.id,
               data : JSON.stringify(data),
               method: 'POST',
               dataType : 'json',
               contentType: "application/json; charset=utf-8",
               success : function(json) {
-                  $("#msg").text('Se actualizó la categoría correctamente');
+                  $("#msg").text('Se actualizó el jugador correctamente');
                   $("#msg").show();
                   $('#personaModal').modal('hide');
                   app.table.ajax.reload();
@@ -178,13 +167,13 @@ var app = {
       },
     delete : function(id) {
         $.ajax({
-            url: app.backend + 'referee/delete/'+id,
+            url: app.backend + 'players/delete/'+id,
             data : JSON.stringify(id),
             method: 'DELETE',
             contentType: "application/json; charset=utf-8",
             success: function(result) {
             alert(result)
-                $("#msg").text('Se eliminó la categoría correctamente');
+                $("#msg").text('Se eliminó el jugador correctamente');
                 $("#msg").show();
                 app.table.ajax.reload();
                 setTimeout(function(){

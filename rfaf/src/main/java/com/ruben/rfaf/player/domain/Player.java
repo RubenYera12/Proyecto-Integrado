@@ -33,6 +33,7 @@ public class Player {
     private String licenseNum;
     private String name;
     private String firstname;
+    @Temporal(TemporalType.DATE)
     private Date birthDate;
     @ManyToOne
     @JsonIgnore

@@ -3,7 +3,7 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>rfaf - Team CRUD</title>
+    <title>rfaf - Player CRUD</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css'>
     <link rel='stylesheet' type='text/css' href='https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css'>
@@ -22,29 +22,33 @@
 
 <div th:replace="partials/header">...</div>
 <div class="container" style="margin-top: 20px;">
-    <h1>Team Crud</h1>
+    <h1>Player Crud</h1>
     <div class="alert alert-primary" id="msg" style="display: none;" role="alert"></div>
     <table id="categories" class="table table-bordered table-hover table-responsive-md" style="width:100%">
         <thead class="table-light">
         <tr>
             <th>ID</th>
-            <th>Escudo</th>
+            <th>Licencia</th>
             <th>Nombre</th>
-            <th>Entrenador</th>
-            <th>Estadio</th>
-            <th>Competición</th>
-            <th>Jugadores</th>
+            <th>Apellido</th>
+            <th>Fecha Nacimiento</th>
+            <th>Equipo</th>
+            <th>ID Equipo</th>
+            <th>Dorsal</th>
+            <th>Partidos de Sanción</th>
         </tr>
         </thead>
         <tfoot class="table-light">
         <tr>
             <th>ID</th>
-            <th>Escudo</th>
+            <th>Licencia</th>
             <th>Nombre</th>
-            <th>Entrenador</th>
-            <th>Estadio</th>
-            <th>Competición</th>
-            <th>Jugadores</th>
+            <th>Apellido</th>
+            <th>Fecha Nacimiento</th>
+            <th>Equipo</th>
+            <th>ID Equipo</th>
+            <th>Dorsal</th>
+            <th>Partidos de Sanción</th>
         </tr>
         </tfoot>
     </table>
@@ -53,7 +57,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">Equipo</h5>
+                    <h5 class="modal-title" id="modalTitle">Jugador</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -62,36 +66,34 @@
                     <form>
                         <div class="form-group">
                             <label for="nombre">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" placeholder="Introduce el nombre del equipo">
+                            <input type="text" class="form-control" id="nombre" placeholder="Introduce un nombre">
                             <input type="hidden" class="form-control" id="id">
                         </div>
-                        <div class="">
-                            <label for="imagen">Escudo</label>
-                            <input type="file" class="" id="imagen" accept="image/png, image/jpeg" placeholder="Seleccione una imagen">
+                        <div class="form-group">
+                            <label for="apellido">Apellido</label>
+                            <input type="text" class="form-control" id="apellido" placeholder="Introduce un apellido">
                         </div>
                         <div class="form-group">
-                            <label for="entrenador">Entrenador</label>
-                            <input type="text" class="form-control" id="entrenador" placeholder="Introduce el nombre del entrenador">
+                            <label for="licencia">Licencia</label>
+                            <input type="text" class="form-control" id="licencia" placeholder="Introduce un número de licencia">
                         </div>
                         <div class="form-group">
-                            <label for="estadio">Estadio</label>
-                            <input type="text" class="form-control" id="estadio" placeholder="Introduce el nombre del estadio">
-                        </div>
-                        <div class="form-group">
-                            <label for="competicion">Competicion</label>
-                            <select class="form-control" aria-label=".form-select-lg example" id="competicion">
+                            <label for="equipo">Equipo</label>
+                            <select class="form-control" aria-label=".form-select-lg example" id="equipo">
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="selectable">Jugadores</label>
-                            <button type="button" id="add" class="btn btn-primary">
-                                Add Players
-                            </button>
-                            <ul id="selectable" class="jugadores">
-                            </ul>
-
+                            <label for="fecha">Fecha Nacimiento</label>
+                            <input type="text" class="form-control" id="fecha" placeholder="Introduce una fecha">
                         </div>
-
+                        <div class="form-group">
+                            <label for="numero">Dorsal</label>
+                            <input type="text" class="form-control" id="numero" placeholder="Introduce un dorsal">
+                        </div>
+                        <div class="form-group">
+                            <label for="sancion">Partidos de sanción</label>
+                            <input type="text" class="form-control" id="sancion" placeholder="Introduce los partidos de sanción">
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -103,29 +105,6 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="playersModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Jugadores sin equipo</h5>
-                <button type="button" class="close" aria-label="Close" id="close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <ul id="selectable2">
-
-                </ul>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="addPlayers" class="btn btn-primary">Add</button>
-                <button type="button" class="btn btn-secondary" id="closePlayers">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <div th:insert="~{partials/footer :: footer}">...</div>
 
@@ -143,7 +122,7 @@
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
 <script src="js/jquery-ui-v1.13.1.js"></script>
-<script src='js/crud/team.js'></script>
+<script src='js/crud/player.js'></script>
 </body>
 
 </html>
