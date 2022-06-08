@@ -36,6 +36,12 @@ var app = {
             ajax : {
                 url : app.backend + 'players/findAll',
                 dataSrc : function(json) {
+                    json.forEach(element =>{
+                        if(element.team==null){
+                            element.team={name:"Agente libre"}
+                        }
+                    })
+                    console.log(json);
                     return json;
                 }
             },
@@ -75,7 +81,7 @@ var app = {
                     text : 'Eliminar',
                     action : function(e, dt, node, config) {
                         var data = dt.rows('.table-active').data()[0];
-                        if(confirm('¿Seguro que quieres eliminar el jugador '+data.id+'?')){
+                        if(confirm('¿Seguro que quieres eliminar el jugador '+data.name+" "+data.firstname+'?')){
                             app.delete(data.id)
                         }
                     }
@@ -98,7 +104,11 @@ var app = {
         $('#nombre').val(data.name);
         $('#apellido').val(data.firstname);
         $('#licencia').val(data.licencia);
-        $('#equipo').val(data.team.id);
+        try {
+            $('#equipo').val(data.team.id);
+        } catch (error) {
+            $('#equipo').val('');
+        }
         $('#fecha').val(data.date);
         $('#numero').val(data.number);
         $('#sancion').val(data.sancion);
@@ -106,6 +116,7 @@ var app = {
     loadTeam : function(){
         var select = $('#equipo');
         $.ajax({url: app.backend+'team/getAll', success: function(result){
+            select.append($('<option>').attr( "value",'').text("Agente libre"));
             result.forEach(element => {
                 select.append($('<option>').attr( "value",element.id).text(element.name));
             });

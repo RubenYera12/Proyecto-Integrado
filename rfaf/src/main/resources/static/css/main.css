@@ -7,8 +7,8 @@
     margin-bottom: 20px;
 }
 
-input[type=file]::-webkit-file-upload-button {
-    background-color:#007bff;
+input[type=file]::-webkit-file-upload-button,.dt-button {
+    background-color:#28a745;
     color: #fff;
     display: inline-block;
     font-weight: 400;
@@ -21,7 +21,7 @@ input[type=file]::-webkit-file-upload-button {
     border-radius: 0.25rem;
 }
 
-input[type=file]::-webkit-file-upload-button:hover{
+input[type=file]::-webkit-file-upload-button:hover, .dt-button{
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     transition-property: color, background-color, border-color, box-shadow;
     transition-duration: 0.15s, 0.15s, 0.15s, 0.15s;

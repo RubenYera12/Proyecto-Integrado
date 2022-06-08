@@ -81,7 +81,7 @@ var app = {
                     text : 'Eliminar',
                     action : function(e, dt, node, config) {
                         var data = dt.rows('.table-active').data()[0];
-                        if(confirm('¿Seguro que quieres eliminar el arbitro '+data.id+'?')){
+                        if(confirm('¿Seguro que quieres eliminar el arbitro '+data.name+" "+data.firstname+'?')){
                             app.delete(data.id)
                         }
                     }
@@ -140,7 +140,7 @@ var app = {
             dataType : 'json',
             contentType: "application/json; charset=utf-8",
             success : function(json) {
-                $("#msg").text('Se guardó la categoría correctamente');
+                $("#msg").text('Se guardó el árbitro correctamente');
                 $("#msg").show();
                 $('#personaModal').modal('hide');
                 app.table.ajax.reload();
@@ -162,7 +162,7 @@ var app = {
               dataType : 'json',
               contentType: "application/json; charset=utf-8",
               success : function(json) {
-                  $("#msg").text('Se actualizó la categoría correctamente');
+                  $("#msg").text('Se actualizó el árbitro correctamente');
                   $("#msg").show();
                   $('#personaModal').modal('hide');
                   app.table.ajax.reload();
@@ -183,8 +183,7 @@ var app = {
             method: 'DELETE',
             contentType: "application/json; charset=utf-8",
             success: function(result) {
-            alert(result)
-                $("#msg").text('Se eliminó la categoría correctamente');
+                $("#msg").text('Se eliminó el árbitro correctamente');
                 $("#msg").show();
                 app.table.ajax.reload();
                 setTimeout(function(){

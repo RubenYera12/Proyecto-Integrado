@@ -44,6 +44,8 @@ public class PlayerServiceImpl implements PlayerService {
         if (player.getFirstname()==null||player.getFirstname().equals("")) {
             throw new Exception("No se puede dejar sin apellido al jugador");
         }
+        if(player.getTeam().getId()==null)
+            player.setTeam(null);
         // TODO: Comprobar campos nulos
         player.setId(id);
         return playerRepository.save(player);

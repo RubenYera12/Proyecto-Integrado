@@ -54,7 +54,7 @@ var app = {
                     text : 'Eliminar',
                     action : function(e, dt, node, config) {
                         var data = dt.rows('.table-active').data()[0];
-                        if(confirm('¿Seguro que quieres eliminar la categoría '+data.id+'?')){
+                        if(confirm('¿Seguro que quieres eliminar la categoría '+data.name+'?')){
                             app.delete(data.id)
                         }
                     }
