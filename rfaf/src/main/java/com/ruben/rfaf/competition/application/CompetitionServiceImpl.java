@@ -2,6 +2,9 @@ package com.ruben.rfaf.competition.application;
 
 import com.ruben.rfaf.competition.domain.Competition;
 import com.ruben.rfaf.competition.infrastructure.repository.CompetitionRepository;
+import com.ruben.rfaf.player.domain.Player;
+import com.ruben.rfaf.team.domain.Team;
+import com.ruben.rfaf.team.infrastructure.repository.TeamRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,7 @@ import java.util.Optional;
 public class CompetitionServiceImpl implements CompetitionService {
 
     private CompetitionRepository competitionRepository;
+    private TeamRepository teamRepository;
 
     @Override
     public Competition createCompetition(Competition competition) throws Exception {
@@ -55,6 +59,14 @@ public class CompetitionServiceImpl implements CompetitionService {
             competitionCheck.setName(competition.getName());
         if(competition.getZone()!=null)
             competitionCheck.setZone(competition.getZone());
+
+        competition.setId(id);
+
+        competition.getTeamList().forEach(team -> {
+            Team teamFind = teamRepository.findById(team.getId()).get();
+            teamFind.setCompetition(competition);
+            teamRepository.save(teamFind);
+        });
         return competitionRepository.save(competitionCheck);
 
     }

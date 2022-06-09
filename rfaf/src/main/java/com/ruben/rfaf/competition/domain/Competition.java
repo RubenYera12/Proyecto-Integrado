@@ -32,6 +32,7 @@ public class Competition {
             })
     private String id;
     private String name;
+    private String image;
     private String zone;
     @OneToMany
     @JsonIgnore
@@ -41,8 +42,11 @@ public class Competition {
     private List<Team> teamList;
 
     public Competition(InputCompetitionDTO inputCompetitionDTO){
+        setId(inputCompetitionDTO.getId());
         setName(inputCompetitionDTO.getName());
+        setImage(inputCompetitionDTO.getImage());
         setZone(inputCompetitionDTO.getZone());
+        setTeamList(inputCompetitionDTO.getTeamList());
     }
 
 }

@@ -37,7 +37,7 @@ public class CompetitionController {
         return ResponseEntity.ok(outputCompetitionDTOList);
     }
 
-    @DeleteMapping("deleteById/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<String> delete(@PathVariable String id) throws Exception {
         competitionService.deleteById(id);
         return ResponseEntity.ok("Se ha borrado la competicion correctamente");

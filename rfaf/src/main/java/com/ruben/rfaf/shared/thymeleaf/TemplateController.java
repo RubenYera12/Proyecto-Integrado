@@ -58,4 +58,9 @@ public class TemplateController {
         return new ModelAndView("playerCrud");
     }
 
+    @RequestMapping(value = "/competitionCrud", method = RequestMethod.GET)
+    public ModelAndView competitionCrud(){
+        return new ModelAndView("competitionCrud");
+    }
+
 }

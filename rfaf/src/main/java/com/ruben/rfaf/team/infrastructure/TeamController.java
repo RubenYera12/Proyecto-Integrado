@@ -53,6 +53,15 @@ public class TeamController {
         return ResponseEntity.ok(new OutputTeamDTO(teamService.updateTeam(new Team(inputTeamDTO),id)));
     }
 
+    @GetMapping("/noCompetitionTeams")
+    public ResponseEntity<List<OutputTeamDTO>> noCompetitionTeams() {
+        List<OutputTeamDTO> outputTeamDTOList = new ArrayList<>();
+        for (Team team : teamService.noCompetitionTeams()) {
+            outputTeamDTOList.add(new OutputTeamDTO(team));
+        }
+        return ResponseEntity.ok(outputTeamDTOList);
+    }
+
     //Request para borrar un equipo
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteTeam(@PathVariable String id) throws Exception {

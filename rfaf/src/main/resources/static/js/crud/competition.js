@@ -4,55 +4,49 @@ var app = {
     init: function() {
         app.initDatatable('#categories');
         app.table.column(0).visible(false);
-        app.loadCompetition();
         $("#create").click(function(){
-            var playerList = [];
+            var teamList = [];
             $("#selectable").children().each(function (index, value) { 
-                var player = {
+                var team = {
                     id: value.id
                 }
-                playerList.push(player)
+                teamList.push(team)
             });
-            console.log(playerList);
+            console.log(teamList);
             app.create({
-                id: $('#id').val(),
                 name : $('#nombre').val(),
-                coach : $('#entrenador').val(),
-                stadium : $('#estadio').val(),
-                competition : {id:$("#competicion").val()},
-                players : playerList,
+                zone : $('#zona').val(),
+                teams : teamList,
                 image : 'img/'+$("#imagen").val().substr(12)
             });
         });
         $("#update").click(function(){
-            var playerList = [];
+            var teamList = [];
             $("#selectable").children().each(function (index, value) { 
-                var player = {
+                var team = {
                     id: value.id
                 }
-                playerList.push(player)
+                teamList.push(team)
             });
-            console.log(playerList);
+            console.log(teamList);
             app.update({
                 id: $('#id').val(),
                 name : $('#nombre').val(),
-                coach : $('#entrenador').val(),
-                stadium : $('#estadio').val(),
-                competition : {id:$("#competicion").val()},
-                players : playerList,
+                zone : $('#zona').val(),
+                teams : teamList,
                 image : 'img/'+$("#imagen").val().substr(12)
             });
         });
 
         $( "#selectable" ).selectable();
         $( "#selectable2" ).selectable();
-        $("#add").on("click",app.loadTeamPlayers);
+        $("#add").on("click",app.loadTeams);
         $("#addPlayers").on("click",app.addPlayers);
     },
     initDatatable : function(id) {
         app.table = $(id).DataTable({
             ajax : {
-                url : app.backend + 'team/getAll',
+                url : app.backend + 'competition/findAll',
                 dataSrc : function(json) {
                     return json;
                 }
@@ -68,10 +62,8 @@ var app = {
                 {data : "id"},
                 {data : "image"},
                 {data : "name"},
-                {data : "coach"},
-                {data : "stadium"},
-                {data : "competition.name"},
-                {data : "players.length"}
+                {data : "zone"},
+                {data : "teams.length"}
             ],
             buttons: [
                 {
@@ -97,7 +89,7 @@ var app = {
                     text : 'Eliminar',
                     action : function(e, dt, node, config) {
                         var data = dt.rows('.table-active').data()[0];
-                        if(confirm('¿Seguro que quieres eliminar el equipo '+data.name+'?')){
+                        if(confirm('¿Seguro que quieres eliminar la competición '+data.name+'?')){
                             app.delete(data.id)
                         }
                     }
@@ -116,77 +108,18 @@ var app = {
         });
     },
     setDataToModal : function(data) {
+        console.log(data);
         $('#id').val(data.id);
         $('#nombre').val(data.name);
-        $('#entrenador').val(data.coach);
-        $('#estadio').val(data.stadium);
-        console.log(data.image);
+        $('#zone').val(data.zone);
         app.loadURLToInputFiled(data.image);
         $( "#selectable" ).selectable();
         $( "#selectable" ).empty();
-        data.players.forEach(element =>{
-            $("<li>").addClass("form-control").attr("id",element.id).text(element.name+" "+element.firstname+" "+element.number)
+        data.teams.forEach(element =>{
+            $("<li>").addClass("form-control").attr("id",element.id).text(element.name)
             .append($("<span>").addClass("ui-icon ui-icon-arrowthick-2-n-s")).appendTo($("#selectable"));
         });
-        $("#competicion").val(data.competition.id)
 
-    },
-    loadCompetition : function(){
-        var select = $('#competicion');
-        $.ajax({url: app.backend+'competition/findAll', success: function(result){
-            result.forEach(element => {
-                select.append($('<option>').attr( "id",element.id).val(element.id).text(element.name));
-                console.log(element.id)
-            });
-        }});
-    },
-    loadTeamPlayers :function () {
-        $.ajax({
-            url: app.backend + 'players/findNoTeamPlayers',
-            method: 'GET',
-            success : function(result) {
-                result.forEach(jugador =>{
-                    //Comprueba que no esté el jugador en ningun modal
-                    if($("#selectable2 #"+jugador.id).length==0 && $("#selectable #"+jugador.id).length==0 ){
-                        $("<li>").addClass("form-control").attr("id",jugador.id).text(jugador.name+" "+jugador.firstname+" "+jugador.number)
-                        .append($("<span>").addClass("ui-icon ui-icon-arrowthick-2-n-s")).appendTo($("#selectable2"));
-                    }
-                })
-                
-            },
-            error: function(request) {
-                 alert(request.responseJSON.message);
-            }
-
-        })
-        $('#playersModal').addClass("show");
-        $('#playersModal').css("display","block");
-        $('#closePlayers').on("click",function(){
-            $('#playersModal').removeClass("show");
-            $('#playersModal').css("display","none");
-            console.log("Cerrado el modal de jugadores.");
-        })
-        $('#close').on("click",function(){
-            $('#playersModal').removeClass("show");
-            $('#playersModal').css("display","none");
-            console.log("Cerrado el modal de jugadores.");
-        })
-          
-    },
-    addPlayers : function() {
-        $('#selectable2').children('li.ui-selected').appendTo('#selectable');
-        $('#playersModal').removeClass("show");
-        $('#playersModal').css("display","none");
-    }
-    ,
-    cleanForm : function() {
-        $('#id').val('');
-        $('#nombre').val('');
-        $('#entrenador').val('');
-        app.loadURLToInputFiled('defaultTeam.png');
-        $('#estadio').val('');
-        $('#competicion').val('');
-        $("#selectable").empty();
     },
     loadURLToInputFiled : function(url){
         app.getImgURL(url, (imgBlob)=>{
@@ -209,15 +142,61 @@ var app = {
         xhr.responseType = 'blob';
         xhr.send();
       },
+    loadTeams :function () {
+        $.ajax({
+            url: app.backend + 'team/noCompetitionTeams',
+            method: 'GET',
+            success : function(result) {
+                result.forEach(team =>{
+                    //Comprueba que no esté el jugador en ningun modal
+                    if($("#selectable2 #"+team.id).length==0 && $("#selectable #"+team.id).length==0 ){
+                        $("<li>").addClass("form-control").attr("id",team.id).text(team.name)
+                        .append($("<span>").addClass("ui-icon ui-icon-arrowthick-2-n-s")).appendTo($("#selectable2"));
+                    }
+                })
+                
+            },
+            error: function(request) {
+                 alert(request.responseJSON.message);
+            }
+
+        })
+        $('#playersModal').addClass("show");
+        $('#playersModal').css("display","block");
+        $('#closePlayers').on("click",function(){
+            $('#playersModal').removeClass("show");
+            $('#playersModal').css("display","none");
+            console.log("Cerrado el modal de equipos.");
+        })
+        $('#close').on("click",function(){
+            $('#playersModal').removeClass("show");
+            $('#playersModal').css("display","none");
+            console.log("Cerrado el modal de jugadores.");
+        })
+          
+    },
+    addPlayers : function() {
+        $('#selectable2').children('li.ui-selected').appendTo('#selectable');
+        $('#playersModal').removeClass("show");
+        $('#playersModal').css("display","none");
+    }
+    ,
+    cleanForm : function() {
+        $('#id').val('');
+        $('#nombre').val('');
+        $('#zone').val('');
+        app.loadURLToInputFiled('defaultTeam.png');
+        $("#selectable").empty();
+    },
     create : function(data) {
         $.ajax({
-            url: app.backend + 'team/create',
+            url: app.backend + 'competition/create',
             data : JSON.stringify(data),
             method: 'POST',
             dataType : 'json',
             contentType: "application/json; charset=utf-8",
             success : function(json) {
-                $("#msg").text('Se guardó el equipo correctamente');
+                $("#msg").text('Se guardó la competición correctamente');
                 $("#msg").show();
                 $('#personaModal').modal('hide');
                 app.table.ajax.reload();
@@ -233,14 +212,13 @@ var app = {
     update : function(data) {
         console.log(data.category_id);
           $.ajax({
-              url: app.backend + 'team/update/'+data.id,
+              url: app.backend + 'competition/update/'+data.id,
               data : JSON.stringify(data),
               method: 'POST',
               dataType : 'json',
               contentType: "application/json; charset=utf-8",
               success : function(json) {
-                  console.log(data.image)
-                  $("#msg").text('Se actualizó el equipo correctamente');
+                  $("#msg").text('Se actualizó la competición correctamente');
                   $("#msg").show();
                   $('#personaModal').modal('hide');
                   app.table.ajax.reload();
@@ -257,13 +235,13 @@ var app = {
       },
     delete : function(id) {
         $.ajax({
-            url: app.backend + 'team/delete/'+id,
+            url: app.backend + 'competition/delete/'+id,
             data : JSON.stringify(id),
             method: 'DELETE',
             contentType: "application/json; charset=utf-8",
             success: function(result) {
             alert(result)
-                $("#msg").text('Se eliminó el equipo correctamente');
+                $("#msg").text('Se eliminó la competición correctamente');
                 $("#msg").show();
                 app.table.ajax.reload();
                 setTimeout(function(){

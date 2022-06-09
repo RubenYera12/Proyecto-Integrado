@@ -28,3 +28,8 @@ input[type=file]::-webkit-file-upload-button:hover, .dt-button{
     transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out;
     transition-delay: 0s, 0s, 0s, 0s;
 }
+
+.page-item.active .page-link{
+    background-color: #28a745;
+    border-color: #dee2e6;
+}
