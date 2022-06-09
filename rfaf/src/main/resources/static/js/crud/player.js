@@ -38,7 +38,7 @@ var app = {
                 dataSrc : function(json) {
                     json.forEach(element =>{
                         if(element.team==null){
-                            element.team={name:"Agente libre"}
+                            element.team={name:"Agente libre",id:""}
                         }
                     })
                     console.log(json);

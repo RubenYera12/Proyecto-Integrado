@@ -2,6 +2,7 @@ package com.ruben.rfaf.player.application;
 
 import com.ruben.rfaf.player.domain.Player;
 import com.ruben.rfaf.player.infrastructure.repository.PlayerRepository;
+import com.ruben.rfaf.team.domain.Team;
 import com.ruben.rfaf.team.infrastructure.repository.TeamRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,26 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Player addPlayer(Player player) throws Exception {
-        Optional<Player> optionalPlayer = playerRepository.findByLicenseNum(player.getLicenseNum());
-        if (optionalPlayer.isPresent()) {
+        Optional<Player> playerCheck = playerRepository.findByLicenseNum(player.getLicenseNum());
+        if (playerCheck.isPresent())
             throw new Exception("El jugador con licencia: " + player.getLicenseNum() + " ya existe");
-        } else return playerRepository.save(player);
+        //TODO:Comprobar null
+        if(player.getBirthDate()==null){
+            throw new Exception("No se ha introducido fecha de nacimiento");
+        }
+        if (player.getNumber()<=0||player.getNumber()>99){
+            throw new Exception("Introduce un dorsal entre 1 y 99");
+        }
+        if (player.getTeam().getId() != null && !player.getTeam().getId().equals("")) {
+            Team team = teamRepository.findById(player.getTeam().getId()).orElseThrow(() -> new Exception("No se ha encontrado el equipo"));
+            player.setTeam(team);
+            playerRepository.save(player);
+            team.getPlayers().add(player);
+            teamRepository.save(team);
+            return player;
+        }
+        player.setTeam(null);
+        return playerRepository.save(player);
     }
 
     @Override
@@ -34,20 +51,42 @@ public class PlayerServiceImpl implements PlayerService {
     public Player updatePlayer(Player player, String id) throws Exception {
         Player optionalPlayer = playerRepository
                 .findById(id)
-                .orElseThrow(()-> new Exception("No se ha podido encontrar el jugador."));
+                .orElseThrow(() -> new Exception("No se ha podido encontrar el jugador."));
+        player.setId(id);
         if (!optionalPlayer.getLicenseNum().equals(player.getLicenseNum())) {
             throw new Exception("No se puede cambiar el número de licencia");
         }
-        if (player.getName()==null||player.getName().equals("")) {
+        if (player.getName() == null || player.getName().equals("")) {
             throw new Exception("No se puede dejar sin nombre al jugador");
         }
-        if (player.getFirstname()==null||player.getFirstname().equals("")) {
+        if (player.getFirstname() == null || player.getFirstname().equals("")) {
             throw new Exception("No se puede dejar sin apellido al jugador");
         }
-        if(player.getTeam().getId()==null)
-            player.setTeam(null);
+
         // TODO: Comprobar campos nulos
-        player.setId(id);
+
+        if (player.getTeam().getId() == null || player.getTeam().getId().equals("")) {
+            player.setTeam(null);
+            Team teamCheck = optionalPlayer.getTeam();
+            if (teamCheck != null) {
+                for (Player player1 : teamCheck.getPlayers()) {
+                    if (player1.getId().equals(player.getId())) {
+                        teamCheck.getPlayers().remove(player1);
+                        teamRepository.save(teamCheck);
+                        return playerRepository.save(player);
+                    }
+                }
+            }
+        } else {
+            Team team = teamRepository.findById(player.getTeam().getId()).orElseThrow(() -> new Exception("No se ha encontrado el equipo"));
+            for (Player player1 : team.getPlayers()) {
+                if (player.getId().equals(player1.getId())) {
+                    return playerRepository.save(player);
+                }
+            }
+            team.getPlayers().add(player);
+            teamRepository.save(team);
+        }
         return playerRepository.save(player);
     }
 

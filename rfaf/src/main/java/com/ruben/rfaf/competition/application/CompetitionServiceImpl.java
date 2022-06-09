@@ -49,16 +49,21 @@ public class CompetitionServiceImpl implements CompetitionService {
     @Override
     public void deleteById(String id) throws Exception {
         Competition competition = findById(id);
+        competition.getTeamList().forEach(team -> {
+            Team teamFind = teamRepository.findById(team.getId()).get();
+            teamFind.setCompetition(null);
+            teamRepository.save(teamFind);
+        });
         competitionRepository.delete(competition);
     }
 
     @Override
     public Competition update(Competition competition, String id) throws Exception {
         Competition competitionCheck = findById(id);
-        if (competition.getName()!=null)
-            competitionCheck.setName(competition.getName());
-        if(competition.getZone()!=null)
-            competitionCheck.setZone(competition.getZone());
+        if (competition.getName()==null||competition.getName().equals(""))
+            competition.setName(competitionCheck.getName());
+        if(competition.getZone()==null||competition.getZone().equals(""))
+            competition.setZone(competitionCheck.getZone());
 
         competition.setId(id);
 
@@ -67,7 +72,7 @@ public class CompetitionServiceImpl implements CompetitionService {
             teamFind.setCompetition(competition);
             teamRepository.save(teamFind);
         });
-        return competitionRepository.save(competitionCheck);
+        return competitionRepository.save(competition);
 
     }
 }

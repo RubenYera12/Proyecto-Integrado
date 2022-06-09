@@ -54,6 +54,12 @@ var app = {
             ajax : {
                 url : app.backend + 'team/getAll',
                 dataSrc : function(json) {
+                    json.forEach(element =>{
+                        if(element.competition==null){
+                            element.competition={name:"Sin competición",id:""}
+                        }
+                    })
+                    console.log(json);
                     return json;
                 }
             },
@@ -134,6 +140,7 @@ var app = {
     loadCompetition : function(){
         var select = $('#competicion');
         $.ajax({url: app.backend+'competition/findAll', success: function(result){
+            select.append($('<option>').attr( "value",'').text("Sin competicion"));
             result.forEach(element => {
                 select.append($('<option>').attr( "id",element.id).val(element.id).text(element.name));
                 console.log(element.id)
@@ -183,7 +190,7 @@ var app = {
         $('#id').val('');
         $('#nombre').val('');
         $('#entrenador').val('');
-        app.loadURLToInputFiled('defaultTeam.png');
+        app.loadURLToInputFiled('defadefaultTeam.png');
         $('#estadio').val('');
         $('#competicion').val('');
         $("#selectable").empty();

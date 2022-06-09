@@ -43,7 +43,7 @@ public class CompetitionController {
         return ResponseEntity.ok("Se ha borrado la competicion correctamente");
     }
 
-    @PutMapping("update/{id}")
+    @PostMapping("update/{id}")
     public ResponseEntity<OutputCompetitionDTO> update(@PathVariable String id, @RequestBody InputCompetitionDTO inputCompetitionDTO) throws Exception {
         return ResponseEntity.ok(new OutputCompetitionDTO(competitionService.update(new Competition(inputCompetitionDTO), id)));
     }

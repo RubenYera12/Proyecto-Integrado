@@ -33,12 +33,21 @@ public class TeamServiceImpl implements TeamService {
             playerRepository.save(playerFind);
         });
 
-        Competition competition = competitionRepository
-                .findById(team.getCompetition().getId())
-                .orElseThrow(() -> new Exception("No se ha encontrado la competición"));
-        if (!competition.getTeamList().contains(team)) {
-            competition.getTeamList().add(team);
-            competitionRepository.save(competition);
+        if (team.getCompetition().getId()==null||team.getCompetition().getId().equals("")){
+            team.setCompetition(null);
+        }else {
+            Competition competition = competitionRepository
+                    .findById(team.getCompetition().getId())
+                    .orElseThrow(() -> new Exception("No se ha encontrado la competición"));
+            boolean comp = false;
+            for (Team team1 : competition.getTeamList()) {
+                if (team1.getId().equalsIgnoreCase(team.getId()))
+                    comp = true;
+            }
+            if (!comp) {
+                competition.getTeamList().add(team);
+                competitionRepository.save(competition);
+            }
         }
         return teamRepository.save(team);
     }
@@ -61,17 +70,21 @@ public class TeamServiceImpl implements TeamService {
             playerRepository.save(playerFind);
         });
 
-        Competition competition = competitionRepository
-                .findById(team.getCompetition().getId())
-                .orElseThrow(() -> new Exception("No se ha encontrado la competición"));
-        boolean comp = false;
-        for(Team team1:competition.getTeamList()) {
-            if(team1.getId().equalsIgnoreCase(team.getId()))
-                comp=true;
-        }
-        if (!comp){
-            competition.getTeamList().add(team);
-            competitionRepository.save(competition);
+        if (team.getCompetition().getId()==null||team.getCompetition().getId().equals("")){
+            team.setCompetition(null);
+        }else {
+            Competition competition = competitionRepository
+                    .findById(team.getCompetition().getId())
+                    .orElseThrow(() -> new Exception("No se ha encontrado la competición"));
+            boolean comp = false;
+            for (Team team1 : competition.getTeamList()) {
+                if (team1.getId().equalsIgnoreCase(team.getId()))
+                    comp = true;
+            }
+            if (!comp) {
+                competition.getTeamList().add(team);
+                competitionRepository.save(competition);
+            }
         }
 
         return teamRepository.save(team);
@@ -89,12 +102,26 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public String deleteById(String id) throws Exception {
-        try {
-            teamRepository.deleteById(id);
-        } catch (Exception e) {
-            throw new Exception("Fallo inesperado");
+        Team team = teamRepository.findById(id).orElseThrow(()->new Exception("No se ha encontrado el equipo"));
+
+        Competition competition = competitionRepository
+                .findById(team.getCompetition().getId())
+                .orElseThrow(() -> new Exception("No se ha encontrado la competición"));
+        boolean comp = false;
+        for(Team team1:competition.getTeamList()) {
+            if(team1.getId().equalsIgnoreCase(team.getId())){
+                competition.getTeamList().remove(team1);
+                competitionRepository.save(competition);
+                break;
+            }
+
+        }
+        for (Player player:team.getPlayers() ) {
+            player.setTeam(null);
+            playerRepository.save(player);
         }
 
+        teamRepository.deleteById(id);
         return "Se ha borrado correctamente al equipo";
     }
 

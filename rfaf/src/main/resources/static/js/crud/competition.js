@@ -15,8 +15,8 @@ var app = {
             console.log(teamList);
             app.create({
                 name : $('#nombre').val(),
-                zone : $('#zona').val(),
-                teams : teamList,
+                zone : $('#zone').val(),
+                teamList : teamList,
                 image : 'img/'+$("#imagen").val().substr(12)
             });
         });
@@ -32,8 +32,8 @@ var app = {
             app.update({
                 id: $('#id').val(),
                 name : $('#nombre').val(),
-                zone : $('#zona').val(),
-                teams : teamList,
+                zone : $('#zone').val(),
+                teamList : teamList,
                 image : 'img/'+$("#imagen").val().substr(12)
             });
         });
@@ -185,7 +185,7 @@ var app = {
         $('#id').val('');
         $('#nombre').val('');
         $('#zone').val('');
-        app.loadURLToInputFiled('defaultTeam.png');
+        app.loadURLToInputFiled('CaaafakepathaadefaultCompetition.png');
         $("#selectable").empty();
     },
     create : function(data) {
@@ -210,7 +210,7 @@ var app = {
         })
     },
     update : function(data) {
-        console.log(data.category_id);
+        console.log(data);
           $.ajax({
               url: app.backend + 'competition/update/'+data.id,
               data : JSON.stringify(data),
