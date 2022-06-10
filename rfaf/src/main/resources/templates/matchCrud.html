@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <link rel="stylesheet" href="css/main.css" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.css" type="text/css">
+    <link rel="stylesheet" href="css/main.css" type="text/css">
 </head>
 <body>
 
@@ -62,12 +64,22 @@
                     <form>
                         <div class="form-group">
                             <label for="local">Local</label>
-                            <input type="text" class="form-control" id="local" placeholder="Selecciona el equipo local">
-                            <input type="hidden" class="form-control" id="id">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control form-control-8" id="local" placeholder="Equipo local" readonly>
+                                <button type="button" id="addLocal" class="btn btn-success">
+                                    Seleccionar
+                                </button>
+                                <input type="hidden" class="form-control" id="id">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="visitante">Visitante</label>
-                            <input type="text" class="form-control" id="visitante" placeholder="Selecciona el equipo visitante">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control form-control-8" id="visitante" placeholder="Equipo visitante" readonly>
+                                <button type="button" id="addVisitor" class="btn btn-success">
+                                    Seleccionar
+                                </button>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="fecha">Fecha</label>
@@ -93,6 +105,31 @@
                     <button type="button" id="update" class="btn btn-success">Update</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="playersModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Equipo</h5>
+                <button type="button" class="close" aria-label="Close" id="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="tabs">
+                    <ul id="competiciones">
+
+                    </ul>
+                  </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnAddLocal" class="btn btn-success">Añadir</button>
+                <button type="button" id="btnAddVisitor" class="btn btn-success">Añadir</button>
+                <button type="button" class="btn btn-secondary" id="closePlayers">Cerrar</button>
             </div>
         </div>
     </div>

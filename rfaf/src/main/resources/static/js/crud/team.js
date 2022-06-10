@@ -156,7 +156,7 @@ var app = {
                     //Comprueba que no esté el jugador en ningun modal
                     if($("#selectable2 #"+jugador.id).length==0 && $("#selectable #"+jugador.id).length==0 ){
                         $("<li>").addClass("form-control").attr("id",jugador.id).text(jugador.name+" "+jugador.firstname+" "+jugador.number)
-                        .append($("<span>").addClass("ui-icon ui-icon-arrowthick-2-n-s")).appendTo($("#selectable2"));
+                        .appendTo($("#selectable2"));
                     }
                 })
                 

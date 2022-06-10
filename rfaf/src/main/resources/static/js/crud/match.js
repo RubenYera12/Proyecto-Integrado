@@ -28,6 +28,16 @@ var app = {
                 season: $("#temporada").val()
             });
         });
+        $("#addLocal").on("click",function(){
+            $('#btnAddVisitor').hide();
+            $('#btnAddLocal').show();
+            app.loadTeams();
+        });
+        $("#addVisitor").on("click",function(){
+            $('#btnAddLocal').hide();
+            $('#btnAddVisitor').show();
+            app.loadTeams();
+        });
     },
     initDatatable : function(id) {
         app.table = $(id).DataTable({
@@ -109,13 +119,51 @@ var app = {
     },
     loadCompetition : function(){
         var select = $('#competicion');
+        var tab = $('#tabs');
+        var cabecera = $('#tabs ul#competiciones');
         $.ajax({url: app.backend+'competition/findAll', success: function(result){
             select.append($('<option>').attr( "value",'').text("Amistoso"));
+            //variable para controlar las competiciones
+            var com = 1;
             result.forEach(element => {
+                //Cargamos la competición en el formulario
                 select.append($('<option>').attr( "id",element.id).val(element.id).text(element.name));
-                console.log(element.id)
+                console.log(element)
+
+                //Cargamos la competición y sus equipos en los tabs para elegir equpipo local y visitante
+                cabecera.append($('<li>').append($('<a>').attr("href","#tabs-"+element.id).text(element.name)));
+                var compHeader = $('<div>').attr('id','tabs-'+element.id);
+                tab.append(compHeader);
+                var teamlist = $("<ol.selectable>")
+                element.teams.forEach(team=>{
+                    var teamDiv = $('<li>').attr('id',team.id).addClass("form-control").text(team.name);
+                    console.log(teamDiv);
+                    $(teamlist).append(teamDiv);
+                })
+                $(compHeader).append(teamlist);
+                teamlist.selectable({
+                    tolerance: "fit"
+                }); 
             });
+            tab.tabs();
+            //TODO: VALIDAR EQUIPOS SELECCIONADOS
         }});
+        
+    },
+    loadTeams : function(){
+
+        $('#playersModal').addClass("show");
+        $('#playersModal').css("display","block");
+        $('#closePlayers').on("click",function(){
+            $('#playersModal').removeClass("show");
+            $('#playersModal').css("display","none");
+            console.log("Cerrado el modal de jugadores.");
+        })
+        $('#close').on("click",function(){
+            $('#playersModal').removeClass("show");
+            $('#playersModal').css("display","none");
+            console.log("Cerrado el modal de jugadores.");
+        })
     },
     cleanForm : function() {
         $('#id').val('');

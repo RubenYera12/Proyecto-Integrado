@@ -185,7 +185,7 @@ var app = {
         $('#id').val('');
         $('#nombre').val('');
         $('#zone').val('');
-        app.loadURLToInputFiled('CaaafakepathaadefaultCompetition.png');
+        app.loadURLToInputFiled('CaaafakepathaadefaultCompetition.png');//TODO: COMPROBAR LA RUTA BIEN
         $("#selectable").empty();
     },
     create : function(data) {

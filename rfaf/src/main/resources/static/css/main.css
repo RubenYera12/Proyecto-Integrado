@@ -29,7 +29,7 @@ input[type=file]::-webkit-file-upload-button:hover, .dt-button{
     transition-delay: 0s, 0s, 0s, 0s;
 }
 
-.page-item.active .page-link{
+.page-item.active .page-link,.ui-button:active,.ui-state-active{
     background-color: #28a745;
     border-color: #dee2e6;
 }
