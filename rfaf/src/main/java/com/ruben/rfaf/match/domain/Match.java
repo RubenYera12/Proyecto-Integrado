@@ -35,6 +35,7 @@ public class Match {
     @JsonIgnore
     private Competition competition;
     private String season;
+    @Temporal(TemporalType.DATE)
     private Date matchDate;
     private Float hour;
     @ManyToOne
@@ -45,6 +46,7 @@ public class Match {
     private Team visitor;
 
     public Match(InputMatchDTO inputMatchDTO) {
+        setId(inputMatchDTO.getId());
         setCompetition(inputMatchDTO.getCompetition());
         setSeason(inputMatchDTO.getSeason());
         setMatchDate(inputMatchDTO.getMatchDate());

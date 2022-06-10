@@ -13,4 +13,6 @@ public interface MatchService {
     List<Match> findAll();
 
     Match updateGame(Match match, String id) throws Exception;
+
+    String delete(String id) throws Exception;
 }

@@ -1,22 +1,14 @@
 package com.ruben.rfaf.shared.thymeleaf;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 @Controller
 public class TemplateController {
-
-//    @RequestMapping("/")
-//    public String index(Model model) {
-//        model.addAttribute("fecha","xdfxsdfsdf");
-//        return "index";
-//    }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView index() {
@@ -59,8 +51,13 @@ public class TemplateController {
     }
 
     @RequestMapping(value = "/competitionCrud", method = RequestMethod.GET)
-    public ModelAndView competitionCrud(){
+    public ModelAndView competitionCrud() {
         return new ModelAndView("competitionCrud");
+    }
+
+    @RequestMapping(value = "/matchCrud", method = RequestMethod.GET)
+    public ModelAndView matchCrud() {
+        return new ModelAndView("matchCrud");
     }
 
 }

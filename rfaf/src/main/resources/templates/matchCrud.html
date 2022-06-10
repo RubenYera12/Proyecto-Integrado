@@ -1,0 +1,120 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>rfaf - Team CRUD</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css'>
+    <link rel='stylesheet' type='text/css' href='https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css'>
+    <link rel='stylesheet' type='text/css' href='https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css'>
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="css/main.css" type="text/css">
+</head>
+<body>
+
+<div th:replace="partials/header">...</div>
+<div class="container" style="margin-top: 20px;">
+    <h1>Team Crud</h1>
+    <div class="alert alert-primary" id="msg" style="display: none;" role="alert"></div>
+    <table id="categories" class="table table-bordered table-hover table-responsive-md" style="width:100%">
+        <thead class="table-light">
+        <tr>
+            <th>ID</th>
+            <th>Local</th>
+            <th>Visitante</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Competición</th>
+            <th>Temporada</th>
+        </tr>
+        </thead>
+        <tfoot class="table-light">
+        <tr>
+            <th>ID</th>
+            <th>Local</th>
+            <th>Visitante</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Competición</th>
+            <th>Temporada</th>
+        </tr>
+        </tfoot>
+    </table>
+
+    <div class="modal fade" id="personaModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Equipo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="local">Local</label>
+                            <input type="text" class="form-control" id="local" placeholder="Selecciona el equipo local">
+                            <input type="hidden" class="form-control" id="id">
+                        </div>
+                        <div class="form-group">
+                            <label for="visitante">Visitante</label>
+                            <input type="text" class="form-control" id="visitante" placeholder="Selecciona el equipo visitante">
+                        </div>
+                        <div class="form-group">
+                            <label for="fecha">Fecha</label>
+                            <input type="date" class="form-control" id="fecha">
+                        </div>
+                        <div class="form-group">
+                            <label for="hora">Hora</label>
+                            <input type="text" class="form-control" id="hora" placeholder="Introduce la hora del encuentro">
+                        </div>
+                        <div class="form-group">
+                            <label for="competicion">Competicion</label>
+                            <select class="form-control" aria-label=".form-select-lg example" id="competicion">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="temporada">Temporada</label>
+                            <input type="text" class="form-control" id="temporada" placeholder="Introduce la temporada">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="create" class="btn btn-success">Create</button>
+                    <button type="button" id="update" class="btn btn-success">Update</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:insert="~{partials/footer :: footer}">...</div>
+
+
+<script src="js/jquery-3.3.1.min.js" ></script>
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<!-- Js Plugins -->
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.magnific-popup.min.js"></script>
+<script src="js/jquery.slicknav.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/main.js"></script>
+<script src="js/jquery-ui-v1.13.1.js"></script>
+<script src='js/crud/match.js'></script>
+</body>
+
+</html>

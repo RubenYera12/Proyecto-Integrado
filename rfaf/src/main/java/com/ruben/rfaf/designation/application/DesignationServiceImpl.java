@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -41,6 +42,12 @@ public class DesignationServiceImpl implements DesignationService {
         designation.setMatch(gameRepository
                 .findById(designation.getMatch().getId())
                 .orElseThrow(()->new Exception("No se ha encontrado el partido.")));
+
+        //Comprobamos que el partido seleccionado no tenga una designacion asociada
+        Optional<Designation> designationCheck = designationRepository.findByMatchId(designation.getMatch().getId());
+        if (designationCheck.isPresent())
+            throw new Exception("El partido seleccionado ya tiene una designación asociada");
+
         designation.setMainReferee(refereeRepository
                 .findById(designation.getMainReferee().getId())
                 .orElseThrow(()->new Exception("No se ha encontrado el arbitro.")));

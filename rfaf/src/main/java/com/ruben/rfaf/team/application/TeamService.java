@@ -16,6 +16,8 @@ public interface TeamService {
     Team findById(String id) throws Exception;
     Team findByName(String name) throws Exception;
 
+    List<Team> findByCompeticion(String id);
+
     Team addPlayer(String team_id, String player_id) throws Exception;
 
     Team deletePlayer(String team_id, String player_id) throws Exception;

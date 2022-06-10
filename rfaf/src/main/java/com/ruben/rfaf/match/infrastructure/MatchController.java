@@ -38,4 +38,9 @@ public class MatchController {
         }
         return ResponseEntity.ok(outputMatchDTOList);
     }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<String> delete(@PathVariable String id) throws Exception {
+        return ResponseEntity.ok(matchService.delete(id));
+    }
 }
