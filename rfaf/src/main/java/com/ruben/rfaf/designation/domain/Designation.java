@@ -46,6 +46,7 @@ public class Designation {
     private String status;
 
     public Designation(InputDesignationDTO inputDesignationDTO) {
+        setId(inputDesignationDTO.getId());
         setMatch(inputDesignationDTO.getMatch());
         setMainReferee(inputDesignationDTO.getMainReferee());
         setAssistantReferee1(inputDesignationDTO.getAssistantReferee1());

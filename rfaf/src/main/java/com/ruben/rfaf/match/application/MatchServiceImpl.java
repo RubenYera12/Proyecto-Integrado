@@ -25,10 +25,14 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public Match createGame(Match match) throws Exception {
-        Competition competition = competitionRepository
-                .findById(match.getCompetition().getId())
-                .orElseThrow(()->new Exception("No se ha encontrado la competicion"));
-        match.setCompetition(competition);
+        Optional<Competition> competition = competitionRepository
+                .findById(match.getCompetition().getId());
+        if (competition.isPresent()){
+            match.setCompetition(competition.get());
+        }else {
+            match.setCompetition(null);
+        }
+
         Team team = teamRepository
                 .findById(match.getLocal().getId())
                 .orElseThrow(()->new Exception("No se ha encontrado el equipo local"));

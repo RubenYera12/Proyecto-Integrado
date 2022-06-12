@@ -17,6 +17,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 public class InputDesignationDTO {
+    private String id;
     private Match match;
     private Referee mainReferee;
     private Referee assistantReferee1;

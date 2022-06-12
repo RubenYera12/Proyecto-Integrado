@@ -6,22 +6,22 @@ var app = {
         app.table.column(0).visible(false);
         app.loadCompetition();
         $("#create").click(function(){
-            console.log(playerList);
             app.create({
                 id: $('#id').val(),
-                local: {id:$("#localId").val()},
-                visitor: {id:$("#visitanteId").val()},
+                local: $("#local").data(),
+                visitor: $("#visitante").data(),
                 matchDate: $("#fecha").val(),
                 hour: $("#hora").val(),
                 competition : {id:$("#competicion").val()},
                 season: $("#temporada").val()
             });
         });
-        $("#update").click(function(){
+        $("#update").click(function () { 
+            
             app.update({
                 id: $('#id').val(),
-                local: {id:$("#localId").val()},
-                visitor: {id:$("#visitanteId").val()},
+                local: $("#local").data(),
+                visitor: $("#visitante").data(),
                 matchDate: $("#fecha").val(),
                 hour: $("#hora").val(),
                 competition : {id:$("#competicion").val()},
@@ -29,14 +29,14 @@ var app = {
             });
         });
         $("#addLocal").on("click",function(){
-            $('#btnAddVisitor').hide();
-            $('#btnAddLocal').show();
-            app.loadTeams();
+            $("#btnAddVisitor").hide();
+            $("#btnAddLocal").show();
+            app.loadTeam();
         });
         $("#addVisitor").on("click",function(){
-            $('#btnAddLocal').hide();
-            $('#btnAddVisitor').show();
-            app.loadTeams();
+            $("#btnAddLocal").hide();
+            $("#btnAddVisitor").show();
+            app.loadTeam();
         });
     },
     initDatatable : function(id) {
@@ -49,7 +49,6 @@ var app = {
                             element.competition={name:"Amistoso",id:""}
                         }
                     })
-                    console.log(json);
                     return json;
                 }
             },
@@ -108,12 +107,12 @@ var app = {
     setDataToModal : function(data) {
         $('#id').val(data.id);
         $("#localId").val(data.local.id);
-        $('#local').val(data.local.name);
+        $('#local').val(data.local.name).data(data.local);
         $("#visitanteId").val(data.visitor.id);
-        $('#visitante').val(data.visitor.name);
+        $('#visitante').val(data.visitor.name).data(data.visitor);
         $('#fecha').val(data.matchDate);
         $( "#hora" ).val(data.hour);
-        $("#competicion").val(data.competition.id);
+        $("#competicion").val(data.competition.id).data(data.competition);
         $("#temporada").val(data.season);
 
     },
@@ -124,20 +123,25 @@ var app = {
         $.ajax({url: app.backend+'competition/findAll', success: function(result){
             select.append($('<option>').attr( "value",'').text("Amistoso"));
             //variable para controlar las competiciones
-            var com = 1;
             result.forEach(element => {
                 //Cargamos la competición en el formulario
                 select.append($('<option>').attr( "id",element.id).val(element.id).text(element.name));
-                console.log(element)
 
                 //Cargamos la competición y sus equipos en los tabs para elegir equpipo local y visitante
                 cabecera.append($('<li>').append($('<a>').attr("href","#tabs-"+element.id).text(element.name)));
                 var compHeader = $('<div>').attr('id','tabs-'+element.id);
                 tab.append(compHeader);
-                var teamlist = $("<ol.selectable>")
+                var teamlist = $("<ol>")
+                teamlist.addClass("selectable")
                 element.teams.forEach(team=>{
                     var teamDiv = $('<li>').attr('id',team.id).addClass("form-control").text(team.name);
-                    console.log(teamDiv);
+                    teamDiv.data("team",team);
+                    teamDiv.data("competition",element);
+                    teamDiv.on("click",function (e) { 
+                        if(e.ctrlKey){
+                            e.preventDefault();
+                        }
+                    });
                     $(teamlist).append(teamDiv);
                 })
                 $(compHeader).append(teamlist);
@@ -147,30 +151,22 @@ var app = {
             });
             tab.tabs();
             //TODO: VALIDAR EQUIPOS SELECCIONADOS
+
         }});
         
     },
-    loadTeams : function(){
-
+    loadTeam : function(){
         $('#playersModal').addClass("show");
         $('#playersModal').css("display","block");
-        $('#closePlayers').on("click",function(){
-            $('#playersModal').removeClass("show");
-            $('#playersModal').css("display","none");
-            console.log("Cerrado el modal de jugadores.");
-        })
-        $('#close').on("click",function(){
-            $('#playersModal').removeClass("show");
-            $('#playersModal').css("display","none");
-            console.log("Cerrado el modal de jugadores.");
-        })
+        $(".ui-selected").removeClass("ui-selected");
+
     },
     cleanForm : function() {
         $('#id').val('');
         $("#localId").val('');
-        $('#local').val('');
+        $('#local').val('').removeData();
         $("#visitanteId").val('');
-        $('#visitante').val('');
+        $('#visitante').val('').removeData();
         $('#fecha').val('');
         $( "#hora" ).val('');
         $("#competicion").val('');
@@ -198,28 +194,28 @@ var app = {
         })
     },
     update : function(data) {
-          $.ajax({
-              url: app.backend + 'match/update/'+data.id,
-              data : JSON.stringify(data),
-              method: 'POST',
-              dataType : 'json',
-              contentType: "application/json; charset=utf-8",
-              success : function(json) {
-                  console.log(data.image)
-                  $("#msg").text('Se actualizó el partido correctamente');
-                  $("#msg").show();
-                  $('#personaModal').modal('hide');
-                  app.table.ajax.reload();
-                  setTimeout(function(){
-                      $("#msg").hide();
-                  }, 5000);
-              },
-              error: function(request) {
-                  console.log(data);
-                    alert(request.responseJSON.message);
-              }
+        $.ajax({
+            url: app.backend + 'match/update/'+data.id,
+            data : JSON.stringify(data),
+            method: 'POST',
+            dataType : 'json',
+            contentType: "application/json; charset=utf-8",
+            success : function(json) {
+                console.log(data.image)
+                $("#msg").text('Se actualizó el partido correctamente');
+                $("#msg").show();
+                $('#personaModal').modal('hide');
+                app.table.ajax.reload();
+                setTimeout(function(){
+                    $("#msg").hide();
+                }, 5000);
+            },
+            error: function(request) {
+                console.log(data);
+                alert(request.responseJSON.message);
+            }
 
-          })
+        })
       },
     delete : function(id) {
         $.ajax({
@@ -246,4 +242,45 @@ var app = {
 
 $(document).ready(function(){
     app.init();
+    $("#btnAddLocal").on("click",function () {
+        var local = $(".ui-selected");
+
+        if(local.length>1){
+            alert("No puedes seleccionar más de un equipo")
+        }else{
+            if(local.data().team.id===$("#visitante").data().id){
+                alert("Ya has seleccionado al "+local.data().team.name+" como equipo visitante.")
+            }else{
+                $("#local").val(local.data().team.name).removeData().data(local.data().team)
+                $('#playersModal').removeClass("show");
+                $('#playersModal').css("display","none");
+            }
+        }
+    })
+    $("#btnAddVisitor").on("click",function () {
+        var visitante = $(".ui-selected");
+    
+        if(visitante.length>1){
+            alert("No puedes seleccionar más de un equipo.")
+        }else{
+            if(visitante.data().team.id===$("#local").data().id){
+                alert("Ya has seleccionado al "+visitante.data().team.name+" como equipo local.")
+            }else{
+                $("#visitante").val(visitante.data().team.name).removeData().data(visitante.data().team)
+                $('#playersModal').removeClass("show");
+                $('#playersModal').css("display","none");
+            }
+        }
+    })
+
+    $('#closePlayers').on("click",function(){
+        $('#playersModal').removeClass("show");
+        $('#playersModal').css("display","none");
+        console.log("Cerrado el modal de jugadores.");
+    })
+    $('#close').on("click",function(){
+        $('#playersModal').removeClass("show");
+        $('#playersModal').css("display","none");
+        console.log("Cerrado el modal de jugadores.");
+    })
 });

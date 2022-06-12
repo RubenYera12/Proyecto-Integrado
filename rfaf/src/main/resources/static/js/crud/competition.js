@@ -13,6 +13,7 @@ var app = {
                 teamList.push(team)
             });
             console.log(teamList);
+            console.log($("#imagen").val())
             app.create({
                 name : $('#nombre').val(),
                 zone : $('#zone').val(),
@@ -130,6 +131,7 @@ var app = {
           let container = new DataTransfer(); 
           container.items.add(file);
           document.querySelector('#imagen').files = container.files;
+          console.log(container.files)
         })
       },
       // xmlHTTP return blob respond
@@ -185,10 +187,11 @@ var app = {
         $('#id').val('');
         $('#nombre').val('');
         $('#zone').val('');
-        app.loadURLToInputFiled('CaaafakepathaadefaultCompetition.png');//TODO: COMPROBAR LA RUTA BIEN
+        app.loadURLToInputFiled('img/defaultCompetition.png');//TODO: COMPROBAR LA RUTA BIEN
         $("#selectable").empty();
     },
     create : function(data) {
+        console.log(data)
         $.ajax({
             url: app.backend + 'competition/create',
             data : JSON.stringify(data),

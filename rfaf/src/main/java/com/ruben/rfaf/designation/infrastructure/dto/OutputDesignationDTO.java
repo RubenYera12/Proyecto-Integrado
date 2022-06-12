@@ -18,7 +18,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OutputDesignationDTO {
-
+    private String id;
     private Match match;
     private Referee mainReferee;
     private Referee assistantReferee1;
@@ -28,6 +28,7 @@ public class OutputDesignationDTO {
 
 
     public OutputDesignationDTO(Designation designation){
+        setId(designation.getId());
         setMatch(designation.getMatch());
         setMainReferee(designation.getMainReferee());
         setAssistantReferee1(designation.getAssistantReferee1());

@@ -60,4 +60,9 @@ public class TemplateController {
         return new ModelAndView("matchCrud");
     }
 
+    @RequestMapping(value = "/designationCrud",method = RequestMethod.GET)
+    public ModelAndView designationCud(){
+        return new ModelAndView("designationCrud");
+    }
+
 }
