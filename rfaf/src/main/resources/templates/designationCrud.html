@@ -30,25 +30,23 @@
         <thead>
         <tr>
             <th>ID</th>
-            <th>Local</th>
-            <th>Visitante</th>
+            <th>Partido</th>
             <th>Árbitro</th>
             <th>Asistente 1</th>
             <th>Asistente 2</th>
-            <th>Sueldo árbitro</th>
-            <th>Sueldo asistentes</th>
+            <th>Sueldo árbitro (€)</th>
+            <th>Sueldo asistentes (€)</th>
         </tr>
         </thead>
         <tfoot>
         <tr>
             <th>ID</th>
-            <th>Local</th>
-            <th>Visitante</th>
+            <th>Partido</th>
             <th>Árbitro</th>
             <th>Asistente 1</th>
             <th>Asistente 2</th>
-            <th>Sueldo árbitro</th>
-            <th>Sueldo asistentes</th>
+            <th>Sueldo árbitro (€)</th>
+            <th>Sueldo asistentes (€)</th>
         </tr>
         </tfoot>
     </table>
@@ -66,28 +64,56 @@
                     <form>
                         <div class="form-group">
                             <label for="match">Partido</label>
-                            <input type="text" class="form-control" id="match" readonly>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="match" placeholder="Seleccione el partido" readonly>
+                                <button type="button" id="addMatch" class="btn btn-success">
+                                    Seleccionar
+                                </button>
+                            </div>
                             <input type="hidden" class="form-control" id="id">
                         </div>
                         <div class="form-group">
                             <label for="referee">Árbitro</label>
-                            <input type="text" class="form-control" id="referee" readonly>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="referee" placeholder="Seleccione el árbitro" readonly>
+                                <button type="button" id="addReff" class="btn btn-success">
+                                    Seleccionar
+                                </button>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="assistant1">Asistente 1</label>
-                            <input type="text" class="form-control" id="assistant1" readonly>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="assistant1" placeholder="Seleccione el asistente 1" readonly>
+                                <button type="button" id="addAssistant1" class="btn btn-success">
+                                    Seleccionar
+                                </button>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="assistant2">Asistente 2</label>
-                            <input type="text" class="form-control" id="assistant2" readonly>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="assistant2" placeholder="Seleccione el asistente 2" readonly>
+                                <button type="button" id="addAssistant2" class="btn btn-success">
+                                    Seleccionar
+                                </button>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="sueldoArbitro">Sueldo Árbitro</label>
-                            <input type="text" class="form-control" id="referee" readonly>
+                            <label for="validationDefaultUsername">Sueldo Árbitro</label>
+                            <div class="input-group">
+                              <input type="number" min="0.00" max="10000.00" step="0.01" class="form-control" id="sueldoArbitro" placeholder="Sueldo Árbitro" aria-describedby="inputGroupPrepend2" required>
+                              <div class="input-group-append">
+                                <span class="input-group-text" id="inputGroupPrepend2">€</span>
+                              </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="sueldoAsistente">Sueldo Asistentes</label>
-                            <input type="text" class="form-control" id="referee" readonly>
+                            <div class="input-group">
+                              <input type="number" min="0.00" max="10000.00" step="0.01" class="form-control" id="sueldoAsistente" placeholder="Sueldo Árbitro" aria-describedby="inputGroupPrepend1" required>
+                                <span class="input-group-text" id="inputGroupPrepend1">€</span>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -105,19 +131,23 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Equipos sin competicion</h5>
+                <h5 class="modal-title">Árbitros</h5>
                 <button type="button" class="close" aria-label="Close" id="close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <ul id="selectable2">
+                <div id="tabs">
+                    <ul id="arbitros">
 
-                </ul>
+                    </ul>
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="addPlayers" class="btn btn-success">Add</button>
-                <button type="button" class="btn btn-secondary" id="closePlayers">Close</button>
+                <button type="button" id="addReferee" class="btn btn-success">Añadir</button>
+                <button type="button" id="btnAddAs1" class="btn btn-success">Añadir</button>
+                <button type="button" id="btnAddAs2" class="btn btn-success">Añadir</button>
+                <button type="button" class="btn btn-secondary" id="closeReferee">Cerrar</button>
             </div>
         </div>
     </div>
@@ -139,7 +169,7 @@
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
 <script src="js/jquery-ui-v1.13.1.js"></script>
-<script src='js/crud/designation.js'></script>
+<script src="js/crud/designation.js"></script>
 </body>
 
 </html>

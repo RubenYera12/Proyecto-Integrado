@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -14,9 +15,11 @@ import java.util.List;
 public class OutputCategoryDTO {
     private String id;
     private String name;
+    private List<Referee> refereeList;
 
     public OutputCategoryDTO(Category category){
         setId(category.getId());
         setName(category.getName());
+        setRefereeList(category.getRefereeList());
     }
 }

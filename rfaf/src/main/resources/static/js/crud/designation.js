@@ -3,7 +3,7 @@ var app = {
     table : null,
     init: function() {
         app.initDatatable('#categories');
-        app.table.column(0).visible(false);
+        app.loadReferee();
         $("#create").click(function(){
             var teamList = [];
             $("#selectable").children().each(function (index, value) { 
@@ -38,11 +38,24 @@ var app = {
                 image : 'img/'+$("#imagen").val().substr(12)
             });
         });
-
-        $( "#selectable" ).selectable();
-        $( "#selectable2" ).selectable();
-        $("#add").on("click",app.loadTeams);
-        $("#addPlayers").on("click",app.addPlayers);
+        $("#addReff").on("click",function(){
+            $("#btnAddReferee").show();
+            $("#btnAddAs1").hide();
+            $("#btnAddAs2").hide();
+            app.showRef();
+        });
+        $("#addAssistant1").on("click",function(){
+            $("#btnAddAs1").show();
+            $("#btnAddReferee").hide();
+            $("#btnAddAs2").hide();
+            app.showRef();
+        });
+        $("#addAssistant2").on("click",function(){
+            $("#btnAddAs2").show();
+            $("#btnAddAs1").hide();
+            $("#btnAddReferee").hide();
+            app.showRef();
+        });
     },
     initDatatable : function(id) {
         app.table = $(id).DataTable({
@@ -52,11 +65,16 @@ var app = {
                     return json;
                 }
             },
+            "columnDefs" : [{
+            "targets" : 1 ,
+            "data": "match",
+            "render" : function ( data, type, row, meta ) {
+            return data.local.name+" vs "+data.visitor.name;
+            }}] ,
             dom: 'Bfrtip',
             columns : [
                 {data : "id"},
-                {data : "match.local.name"},
-                {data : "match.visitor.name"},
+                {data : "match"},
                 {data : "mainReferee.email"},
                 {data : "assistantReferee1.email"},
                 {data : "assistantReferee2.email"},
@@ -107,23 +125,56 @@ var app = {
     },
     setDataToModal : function(data) {
         console.log(data);
-        $('#id').val(data.id);
-        $('#match').val(data.match.local.name+" vs "+data.match.visitor.name)
-        $('#referee').val(data.mainReferee.name).removeData().data(data.mainReferee);
-        $('#assistant1').val(data.assistantReferee1.name).removeData().data(data.assistantReferee1);
-        $('#assistant2').val(data.assistantReferee2.name).removeData().data(data.assistantReferee2);
+        $('#id').val(data.id).removeData().data(data.id);
+        $('#match').val(data.match.local.name+" vs "+data.match.visitor.name).removeData().data(data.match)
+        $('#referee').val(data.mainReferee.firstname+", "+data.mainReferee.name).removeData().data(data.mainReferee);
+        $('#assistant1').val(data.assistantReferee1.firstname+", "+data.assistantReferee1.name).removeData().data(data.assistantReferee1);
+        $('#assistant2').val(data.assistantReferee1.firstname+", "+data.assistantReferee2.name).removeData().data(data.assistantReferee2);
         $('#sueldoArbitro').val(data.priceReferee)
         $('#sueldoAsistente').val(data.priceAssistant)
     },
-    addPlayers : function() {
-        $('#selectable2').children('li.ui-selected').appendTo('#selectable');
-        $('#playersModal').removeClass("show");
-        $('#playersModal').css("display","none");
-    }
-    ,
+    loadReferee : function(){
+        var select = $('#competicion');
+        var tab = $('#tabs');
+        var cabecera = $('#tabs ul#arbitros');
+        $.ajax({url: app.backend+'category/findAll', success: function(result){
+            result.forEach(element => {
+                //Cargamos la competición y sus equipos en los tabs para elegir equpipo local y visitante
+                cabecera.append($('<li>').append($('<a>').attr("href","#tabs-"+element.id).text(element.name)));
+                var compHeader = $('<div>').attr('id','tabs-'+element.id);
+                tab.append(compHeader);
+                var teamlist = $("<ol>")
+                teamlist.addClass("selectable")
+                element.refereeList.forEach(team=>{
+                    var teamDiv = $('<li>').attr('id',team.id).addClass("form-control").text(team.name);
+                    teamDiv.data("team",team);
+                    teamDiv.data("competition",element);
+                    teamDiv.on("click",function (e) { 
+                        if(e.ctrlKey){
+                            e.preventDefault();
+                        }
+                    });
+                    $(teamlist).append(teamDiv);
+                })
+                $(compHeader).append(teamlist);
+                teamlist.selectable({
+                    tolerance: "fit"
+                }); 
+            });
+            tab.tabs();
+            //TODO: VALIDAR EQUIPOS SELECCIONADOS
+
+        }});
+        
+    },
+    showRef : function () {  
+        $('#playersModal').addClass("show");
+        $('#playersModal').css("display","block");
+        $(".ui-selected").removeClass("ui-selected");
+    },
     cleanForm : function() {
-        $('#id').val('');
-        $('#match').val('')
+        $('#id').val('').removeData();
+        $('#match').val('').removeData();
         $('#referee').val('').removeData();
         $('#assistant1').val('').removeData();
         $('#assistant2').val('').removeData();
