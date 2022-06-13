@@ -107,9 +107,9 @@ var app = {
     setDataToModal : function(data) {
         $('#id').val(data.id);
         $("#localId").val(data.local.id);
-        $('#local').val(data.local.name).data(data.local);
+        $('#local').val(data.local.name).removeData().data(data.local);
         $("#visitanteId").val(data.visitor.id);
-        $('#visitante').val(data.visitor.name).data(data.visitor);
+        $('#visitante').val(data.visitor.name).removeData().data(data.visitor);
         $('#fecha').val(data.matchDate);
         $( "#hora" ).val(data.hour);
         $("#competicion").val(data.competition.id).data(data.competition);
@@ -242,6 +242,7 @@ var app = {
 
 $(document).ready(function(){
     app.init();
+    localStorage.setItem("secret","ESTA ES MI CLAVE SECRETA");
     $("#btnAddLocal").on("click",function () {
         var local = $(".ui-selected");
 

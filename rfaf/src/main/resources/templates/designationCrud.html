@@ -65,26 +65,29 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label for="nombre">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" placeholder="Introduce el nombre">
+                            <label for="match">Partido</label>
+                            <input type="text" class="form-control" id="match" readonly>
                             <input type="hidden" class="form-control" id="id">
                         </div>
                         <div class="form-group">
-                            <label for="zone">Zona</label>
-                            <input type="text" class="form-control" id="zone" placeholder="Introduce el nombre">
-                        </div>
-                        <div class="">
-                            <label for="imagen">Logo</label>
-                            <input type="file" class="" id="imagen" accept="image/png">
+                            <label for="referee">Árbitro</label>
+                            <input type="text" class="form-control" id="referee" readonly>
                         </div>
                         <div class="form-group">
-                            <label for="selectable">Teams</label>
-                            <button type="button" id="add" class="btn btn-success">
-                                Add Teams
-                            </button>
-                            <ul id="selectable" class="jugadores">
-                            </ul>
-
+                            <label for="assistant1">Asistente 1</label>
+                            <input type="text" class="form-control" id="assistant1" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="assistant2">Asistente 2</label>
+                            <input type="text" class="form-control" id="assistant2" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="sueldoArbitro">Sueldo Árbitro</label>
+                            <input type="text" class="form-control" id="referee" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="sueldoAsistente">Sueldo Asistentes</label>
+                            <input type="text" class="form-control" id="referee" readonly>
                         </div>
                     </form>
                 </div>

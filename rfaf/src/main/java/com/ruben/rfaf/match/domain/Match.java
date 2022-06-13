@@ -39,10 +39,9 @@ public class Match {
     private Date matchDate;
     private Float hour;
     @ManyToOne
-    @JsonIgnore
+
     private Team local;
     @ManyToOne
-    @JsonIgnore
     private Team visitor;
 
     public Match(InputMatchDTO inputMatchDTO) {

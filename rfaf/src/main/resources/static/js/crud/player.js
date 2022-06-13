@@ -45,7 +45,7 @@ var app = {
                     return json;
                 }
             },
-            dom: 'Bfrtip',
+            dom: 'Bfrtp',
             columns : [
                 {data : "id"},
                 {data : "licencia"},
@@ -60,6 +60,7 @@ var app = {
             buttons: [
                 {
                     text : 'Crear',
+                    className:'btn btn-success',
                     action : function(e, dt, node, config) {
                         app.cleanForm();
                         $('#update').hide();
@@ -69,6 +70,7 @@ var app = {
                 },
                 {
                     text : 'Editar',
+                    className:'btn btn-success',
                     action : function(e, dt, node, config) {
                         $('#create').hide();
                         $('#update').show();
@@ -79,6 +81,7 @@ var app = {
                 },
                 {
                     text : 'Eliminar',
+                    className:'btn btn-success',
                     action : function(e, dt, node, config) {
                         var data = dt.rows('.table-active').data()[0];
                         if(confirm('¿Seguro que quieres eliminar el jugador '+data.name+" "+data.firstname+'?')){
@@ -88,7 +91,10 @@ var app = {
                 },
 
             ]
+
         });
+        //Para quitar el aspecto de los botones por defecto
+        $(".dt-button").removeClass("dt-button")
 
         $('#categories tbody').on('click', 'tr', function(){
             if ($(this).hasClass('table-active')) {

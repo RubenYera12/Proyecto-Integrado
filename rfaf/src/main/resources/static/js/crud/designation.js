@@ -57,11 +57,11 @@ var app = {
                 {data : "id"},
                 {data : "match.local.name"},
                 {data : "match.visitor.name"},
-                {data : "name"},
-                {data : "zone"},
-                {data : "teams.length"},
-                {data : "name"},
-                {data : "name"}
+                {data : "mainReferee.email"},
+                {data : "assistantReferee1.email"},
+                {data : "assistantReferee2.email"},
+                {data : "priceReferee"},
+                {data : "priceAssistant"}
             ],
             buttons: [
                 {
@@ -87,7 +87,7 @@ var app = {
                     text : 'Eliminar',
                     action : function(e, dt, node, config) {
                         var data = dt.rows('.table-active').data()[0];
-                        if(confirm('¿Seguro que quieres eliminar la competición '+data.name+'?')){
+                        if(confirm('¿Seguro que quieres eliminar la designación '+data.id+'?')){
                             app.delete(data.id)
                         }
                     }
@@ -108,71 +108,12 @@ var app = {
     setDataToModal : function(data) {
         console.log(data);
         $('#id').val(data.id);
-        $('#nombre').val(data.name);
-        $('#zone').val(data.zone);
-        app.loadURLToInputFiled(data.image);
-        $( "#selectable" ).selectable();
-        $( "#selectable" ).empty();
-        data.teams.forEach(element =>{
-            $("<li>").addClass("form-control").attr("id",element.id).text(element.name)
-            .append($("<span>").addClass("ui-icon ui-icon-arrowthick-2-n-s")).appendTo($("#selectable"));
-        });
-
-    },
-    loadURLToInputFiled : function(url){
-        app.getImgURL(url, (imgBlob)=>{
-          // Load img blob to input
-          // WIP: UTF8 character error
-          let fileName = url.substr(4);
-          let file = new File([imgBlob], fileName,{type:"image/png", lastModified:new Date().getTime()}, 'utf-8');
-          let container = new DataTransfer(); 
-          container.items.add(file);
-          document.querySelector('#imagen').files = container.files;
-          console.log(container.files)
-        })
-      },
-      // xmlHTTP return blob respond
-      getImgURL : function(url, callback){
-        var xhr = new XMLHttpRequest();
-        xhr.onload = function() {
-            callback(xhr.response);
-        };
-        xhr.open('GET', url);
-        xhr.responseType = 'blob';
-        xhr.send();
-      },
-    loadTeams :function () {
-        $.ajax({
-            url: app.backend + 'team/noCompetitionTeams',
-            method: 'GET',
-            success : function(result) {
-                result.forEach(team =>{
-                    //Comprueba que no esté el jugador en ningun modal
-                    if($("#selectable2 #"+team.id).length==0 && $("#selectable #"+team.id).length==0 ){
-                        $("<li>").addClass("form-control").attr("id",team.id).text(team.name)
-                        .append($("<span>").addClass("ui-icon ui-icon-arrowthick-2-n-s")).appendTo($("#selectable2"));
-                    }
-                })
-                
-            },
-            error: function(request) {
-                 alert(request.responseJSON.message);
-            }
-
-        })
-        $('#playersModal').addClass("show");
-        $('#playersModal').css("display","block");
-        $('#closePlayers').on("click",function(){
-            $('#playersModal').removeClass("show");
-            $('#playersModal').css("display","none");
-            console.log("Cerrado el modal de equipos.");
-        })
-        $('#close').on("click",function(){
-            $('#playersModal').removeClass("show");
-            $('#playersModal').css("display","none");
-            console.log("Cerrado el modal de jugadores.");
-        })
-          
+        $('#match').val(data.match.local.name+" vs "+data.match.visitor.name)
+        $('#referee').val(data.mainReferee.name).removeData().data(data.mainReferee);
+        $('#assistant1').val(data.assistantReferee1.name).removeData().data(data.assistantReferee1);
+        $('#assistant2').val(data.assistantReferee2.name).removeData().data(data.assistantReferee2);
+        $('#sueldoArbitro').val(data.priceReferee)
+        $('#sueldoAsistente').val(data.priceAssistant)
     },
     addPlayers : function() {
         $('#selectable2').children('li.ui-selected').appendTo('#selectable');
@@ -182,21 +123,23 @@ var app = {
     ,
     cleanForm : function() {
         $('#id').val('');
-        $('#nombre').val('');
-        $('#zone').val('');
-        app.loadURLToInputFiled('img/defaultCompetition.png');//TODO: COMPROBAR LA RUTA BIEN
-        $("#selectable").empty();
+        $('#match').val('')
+        $('#referee').val('').removeData();
+        $('#assistant1').val('').removeData();
+        $('#assistant2').val('').removeData();
+        $('#sueldoArbitro').val('')
+        $('#sueldoAsistente').val('')
     },
     create : function(data) {
         console.log(data)
         $.ajax({
-            url: app.backend + 'competition/create',
+            url: app.backend + 'designation/create',
             data : JSON.stringify(data),
             method: 'POST',
             dataType : 'json',
             contentType: "application/json; charset=utf-8",
             success : function(json) {
-                $("#msg").text('Se guardó la competición correctamente');
+                $("#msg").text('Se guardó la designación correctamente');
                 $("#msg").show();
                 $('#personaModal').modal('hide');
                 app.table.ajax.reload();
@@ -212,13 +155,13 @@ var app = {
     update : function(data) {
         console.log(data);
           $.ajax({
-              url: app.backend + 'competition/update/'+data.id,
+              url: app.backend + 'designation/update/'+data.id,
               data : JSON.stringify(data),
               method: 'POST',
               dataType : 'json',
               contentType: "application/json; charset=utf-8",
               success : function(json) {
-                  $("#msg").text('Se actualizó la competición correctamente');
+                  $("#msg").text('Se actualizó la designacióno correctamente');
                   $("#msg").show();
                   $('#personaModal').modal('hide');
                   app.table.ajax.reload();
@@ -235,13 +178,13 @@ var app = {
       },
     delete : function(id) {
         $.ajax({
-            url: app.backend + 'competition/delete/'+id,
+            url: app.backend + 'designation/delete/'+id,
             data : JSON.stringify(id),
             method: 'DELETE',
             contentType: "application/json; charset=utf-8",
             success: function(result) {
             alert(result)
-                $("#msg").text('Se eliminó la competición correctamente');
+                $("#msg").text('Se eliminó la designación correctamente');
                 $("#msg").show();
                 app.table.ajax.reload();
                 setTimeout(function(){
