@@ -136,13 +136,22 @@ var app = {
     loadReferee : function(){
         var select = $('#competicion');
         var tab = $('#tabs');
-        var cabecera = $('#tabs ul#arbitros');
+        var cabecera = $('#myTab');
         $.ajax({url: app.backend+'category/findAll', success: function(result){
+            var cont = 0;
             result.forEach(element => {
                 //Cargamos la competición y sus equipos en los tabs para elegir equpipo local y visitante
-                cabecera.append($('<li>').append($('<a>').attr("href","#tabs-"+element.id).text(element.name)));
-                var compHeader = $('<div>').attr('id','tabs-'+element.id);
-                tab.append(compHeader);
+                var btn = $('<button>').addClass("nav-link").attr("id",element.name+"-tab")
+                .attr("data-bs.toggle","tab").attr("data-bs-target","#"+element.name)
+                .attr("role","tab").attr("aria-controls",element.name).attr("aria-selected","false").text(element.name);
+                if(cont==0){btn.addClass("active").attr("aria-selected","true");}
+                cabecera.append($('<li>').addClass("nav-item").attr("role","presentation").append(btn));
+                var container = $("#myTabContent");
+                var compHeader = $('<div>').attr('id',element.name).addClass("tab-pane fade").attr("role","tabpanel")
+                .attr("aria-labelledby",element.name+"-tab");
+                if(cont==0){compHeader.addClass("show active");}
+
+                container.append(compHeader);
                 var teamlist = $("<ol>")
                 teamlist.addClass("selectable")
                 element.refereeList.forEach(team=>{
@@ -159,9 +168,10 @@ var app = {
                 $(compHeader).append(teamlist);
                 teamlist.selectable({
                     tolerance: "fit"
-                }); 
+                });
+                cont++; 
             });
-            tab.tabs();
+            
             //TODO: VALIDAR EQUIPOS SELECCIONADOS
 
         }});
