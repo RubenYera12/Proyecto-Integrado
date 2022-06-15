@@ -4,9 +4,12 @@ import com.ruben.rfaf.designation.domain.Designation;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.time.format.DateTimeFormatter;
 import java.sql.Date;
@@ -17,16 +20,17 @@ public class EmailServiceImpl implements EmailService {
     private final JavaMailSender emailSender;
 
     @Override
-    public void emailDesignacionArbitro(Designation designation, String estado) throws UnsupportedEncodingException {
+    public void emailDesignacionArbitro(Designation designation, String estado) throws MessagingException, UnsupportedEncodingException {
         if (estado.equals("CONFIRMACION")) {
             estado = "Le ha sido asignada la siguiente designación:";
         } else {
             estado = "Su designación ha sido cancelada:";
         }
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(String.valueOf(new InternetAddress("no_reply@example.com", "Comité Árbitros")));
-        message.setTo(designation.getMainReferee().getEmail());
-        message.setSubject("Aviso desde el Comité de Árbitros.");
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+        helper.setFrom(new InternetAddress("no_reply@example.com", "Comité Árbitros"));
+        helper.setTo(designation.getMainReferee().getEmail());
+        helper.setSubject("Aviso desde el Comité de Árbitros.");
         String contenido = estado + "\n \n" +
                 "Código designación:" + designation.getId() + "\n" +
                 "Para: " + designation.getMainReferee().getNombreCompleto() + "\n" +
@@ -42,21 +46,22 @@ public class EmailServiceImpl implements EmailService {
                 "Telefono: " + designation.getAssistantReferee1().getTelfNumber() + "\n \n" +
                 "ASISTENTE 2: " + designation.getAssistantReferee2().getNombreCompleto() +"\n"+
                 "Telefono: " + designation.getAssistantReferee2().getTelfNumber();
-        message.setText(contenido);
+        helper.setText(contenido);
         emailSender.send(message);
     }
 
     @Override
-    public void emailDesignacionAsistente1(Designation designation, String estado) throws UnsupportedEncodingException {
+    public void emailDesignacionAsistente1(Designation designation, String estado) throws UnsupportedEncodingException, MessagingException {
         if (estado.equals("CONFIRMACION")) {
             estado = "Le ha sido asignada la siguiente designación:";
         } else {
             estado = "Su designación ha sido cancelada:";
         }
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(String.valueOf(new InternetAddress("no_reply@example.com", "Comité Árbitros")));
-        message.setTo(designation.getAssistantReferee1().getEmail());
-        message.setSubject("Aviso desde el Comité de Árbitros.");
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+        helper.setFrom(new InternetAddress("no_reply@example.com", "Comité Árbitros"));
+        helper.setTo(designation.getMainReferee().getEmail());
+        helper.setSubject("Aviso desde el Comité de Árbitros.");
         String contenido = estado+"\n \n" +
                 "Código designación:" + designation.getId() + "\n" +
                 "Para: " + designation.getAssistantReferee1().getNombreCompleto() + "\n" +
@@ -77,16 +82,17 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void emailDesignacionAsistente2(Designation designation, String estado) throws UnsupportedEncodingException {
+    public void emailDesignacionAsistente2(Designation designation, String estado) throws UnsupportedEncodingException, MessagingException {
         if (estado.equals("CONFIRMACION")) {
             estado = "Le ha sido asignada la siguiente designación:";
         } else {
             estado = "Su designación ha sido cancelada:";
         }
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(String.valueOf(new InternetAddress("no_reply@example.com", "Aviso desde el Comité de Árbitros")));
-        message.setTo(designation.getAssistantReferee1().getEmail());
-        message.setSubject("Aviso desde el Comité de Árbitros.");
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+        helper.setFrom(new InternetAddress("no_reply@example.com", "Comité Árbitros"));
+        helper.setTo(designation.getMainReferee().getEmail());
+        helper.setSubject("Aviso desde el Comité de Árbitros.");
         String contenido = estado+"\n \n" +
                 "Código designación:" + designation.getId() + "\n" +
                 "Para: " + designation.getAssistantReferee2().getNombreCompleto() + "\n" +
