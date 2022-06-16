@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -42,11 +43,17 @@ public class DesignationServiceImpl implements DesignationService {
                 .findById(designation.getMatch().getId())
                 .orElseThrow(()->new Exception("No se ha encontrado el partido.")));
 
-//        //Comprobamos que el partido seleccionado no tenga una designacion asociada
-//        Optional<Designation> designationCheck = designationRepository.findByMatchId(designation.getMatch().getId());
-//        if (designationCheck.isPresent())
-//            throw new Exception("El partido seleccionado ya tiene una designación asociada");
+        //Comprobamos que el partido seleccionado no tenga una designacion asociada
+        Optional<Designation> designationCheck = designationRepository.findByMatchId(designation.getMatch().getId());
+        if (designationCheck.isPresent())
+            throw new Exception("El partido seleccionado ya tiene una designación asociada");
 
+        //Comprobamos que los arbitros no esten repetidos
+        if (designation.getMainReferee().getEmail().equals(designation.getAssistantReferee1().getEmail()) ||
+                designation.getMainReferee().getEmail().equals(designation.getAssistantReferee2().getEmail()) ||
+                designation.getAssistantReferee1().getEmail().equals(designation.getAssistantReferee2().getEmail())) {
+            throw new Exception("Arbitro repetido.");
+        }
         designation.setMainReferee(refereeRepository
                 .findById(designation.getMainReferee().getId())
                 .orElseThrow(()->new Exception("No se ha encontrado el arbitro.")));
@@ -56,12 +63,7 @@ public class DesignationServiceImpl implements DesignationService {
         designation.setAssistantReferee2(refereeRepository
                 .findById(designation.getAssistantReferee2().getId())
                 .orElseThrow(()->new Exception("No se ha encontrado el asistente 2.")));
-        //Comprobamos que los arbitros no esten repetidos
-        if (designation.getMainReferee().getEmail().equals(designation.getAssistantReferee1().getEmail()) ||
-                designation.getMainReferee().getEmail().equals(designation.getAssistantReferee2().getEmail()) ||
-                designation.getAssistantReferee1().getEmail().equals(designation.getAssistantReferee2().getEmail())) {
-            throw new Exception("Arbitro repetido.");
-        }
+
         //Comprobamos que esté aceptada
         if (designation.getStatus() != null) {
             if (designation.getStatus().equals("ACEPTADA"))

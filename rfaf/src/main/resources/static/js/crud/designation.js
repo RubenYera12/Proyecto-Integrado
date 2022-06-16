@@ -4,58 +4,49 @@ var app = {
     init: function() {
         app.initDatatable('#categories');
         app.loadReferee();
+        app.loadMatch();
         $("#create").click(function(){
-            var teamList = [];
-            $("#selectable").children().each(function (index, value) { 
-                var team = {
-                    id: value.id
-                }
-                teamList.push(team)
-            });
-            console.log(teamList);
-            console.log($("#imagen").val())
             app.create({
-                name : $('#nombre').val(),
-                zone : $('#zone').val(),
-                teamList : teamList,
-                image : 'img/'+$("#imagen").val().substr(12)
+                match : $('#match').data().match,
+                mainReferee : $('#referee').data().referee,
+                assistantReferee1 : $('#assistant1').data().referee,
+                assistantReferee2 : $('#assistant2').data().referee,
+                priceReferee: $('#sueldoArbitro').val(),
+                priceReferee: $('#sueldoAsistente').val()
             });
         });
         $("#update").click(function(){
-            var teamList = [];
-            $("#selectable").children().each(function (index, value) { 
-                var team = {
-                    id: value.id
-                }
-                teamList.push(team)
-            });
-            console.log(teamList);
             app.update({
                 id: $('#id').val(),
-                name : $('#nombre').val(),
-                zone : $('#zone').val(),
-                teamList : teamList,
-                image : 'img/'+$("#imagen").val().substr(12)
+                match : $('#match').data().match,
+                mainReferee : $('#referee').data().referee,
+                assistantReferee1 : $('#assistant1').data().referee,
+                assistantReferee2 : $('#assistant2').data().referee,
+                priceReferee: $('#sueldoArbitro').val(),
+                priceReferee: $('#sueldoAsistente').val()
             });
         });
         $("#addReff").on("click",function(){
-            $("#btnAddReferee").show();
+            $("#addReferee").show();
             $("#btnAddAs1").hide();
             $("#btnAddAs2").hide();
             app.showRef();
         });
         $("#addAssistant1").on("click",function(){
+            $("#addReferee").hide();
             $("#btnAddAs1").show();
-            $("#btnAddReferee").hide();
             $("#btnAddAs2").hide();
             app.showRef();
         });
         $("#addAssistant2").on("click",function(){
-            $("#btnAddAs2").show();
+            $("#addReferee").hide();
             $("#btnAddAs1").hide();
-            $("#btnAddReferee").hide();
+            $("#btnAddAs2").show();
             app.showRef();
         });
+
+        $("#addMatch").on("click",app.showMatch)
+        $( "#selectable2" ).selectable();
     },
     initDatatable : function(id) {
         app.table = $(id).DataTable({
@@ -151,31 +142,93 @@ var app = {
                 .attr("aria-labelledby",element.name+"-tab");
                 if(cont==0){compHeader.addClass("show active");}
 
+                btn.on("click",function(){
+                    $(".nav-link").removeClass("active").attr("aria-selected","false");
+                    btn.addClass("active").attr("aria-selected","true");
+
+                    $(".tab-pane").removeClass("show active")
+                    compHeader.addClass("show active")
+                })
+
                 container.append(compHeader);
                 var teamlist = $("<ol>")
                 teamlist.addClass("selectable")
                 element.refereeList.forEach(team=>{
-                    var teamDiv = $('<li>').attr('id',team.id).addClass("form-control").text(team.name);
-                    teamDiv.data("team",team);
-                    teamDiv.data("competition",element);
+                    var teamDiv = $('<li>').attr('id',team.id).addClass("form-control").text(team.firstname+" "+team.name);
+                    teamDiv.data("referee",team);
+                    teamDiv.data("category",element);
                     teamDiv.on("click",function (e) { 
                         if(e.ctrlKey){
                             e.preventDefault();
                         }
                     });
+                    if(team.nevera){
+                        teamDiv.hide();
+                    }
                     $(teamlist).append(teamDiv);
                 })
                 $(compHeader).append(teamlist);
                 teamlist.selectable({
                     tolerance: "fit"
                 });
+                
                 cont++; 
             });
+            $(".ui-selectee").on("click",function () {
+                $(".selectable").children().each(function(){
+                    $(this).removeClass("ui-selected");
+                })
+
+                $(this).addClass("ui-selected")
+            })
             
             //TODO: VALIDAR EQUIPOS SELECCIONADOS
 
         }});
         
+    },loadMatch :function () {
+        $.ajax({
+            url: app.backend + 'match/findAll',
+            method: 'GET',
+            success : function(result) {
+                result.forEach(match =>{
+                    $("<li>").addClass("form-control").attr("id",match.id).text(match.local.name+" vs "+match.visitor.name).data("match",match)
+                    .appendTo($("#selectable2"));
+                    
+                })
+                
+            },
+            error: function(request) {
+                 alert(request.responseJSON.message);
+            }
+
+        })
+    },
+    addMatch : function() {
+        var match = $("#selectable2").children('li.ui-selected');
+        console.log("wsdasfas")
+        if(match.length>1){
+            alert("No puedes elegir más de un partido para esta designación");
+        }else{
+            $("#match").val(match.data().match.local.name+" vs "+match.data().match.visitor.name).removeData().data(match.data())
+            $('#matchModal').removeClass("show");
+            $('#matchModal').css("display","none");
+        }
+    },showMatch : function(){
+        $("#addPartido").on("click",app.addMatch);
+        
+        $('#matchModal').addClass("show");
+        $('#matchModal').css("display","block");
+        $('#closeMatch').on("click",function(){
+            $('#matchModal').removeClass("show");
+            $('#matchModal').css("display","none");
+            console.log("Cerrado el modal de partidos.");
+        })
+        $('#closeMatche').on("click",function(){
+            $('#matchModal').removeClass("show");
+            $('#matchModal').css("display","none");
+            console.log("Cerrado el modal de partidos.");
+        })
     },
     showRef : function () {  
         $('#playersModal').addClass("show");
@@ -244,7 +297,6 @@ var app = {
             method: 'DELETE',
             contentType: "application/json; charset=utf-8",
             success: function(result) {
-            alert(result)
                 $("#msg").text('Se eliminó la designación correctamente');
                 $("#msg").show();
                 app.table.ajax.reload();
@@ -262,4 +314,62 @@ var app = {
 
 $(document).ready(function(){
     app.init();
+
+    $("#addReferee").on("click",function () {
+        var ref = $(".ui-selected");
+
+        if(ref.length>1){
+            alert("No puedes seleccionar más de un árbitro")
+        }else{
+            if(ref.data().referee.id===$("#assistant1").data().id||ref.data().referee.id===$("#assistant2").data().id){
+                alert("Ya has seleccionado al "+ref.data().referee.name+" como arbitro.")
+            }else{
+                $("#referee").val(ref.data().referee.firstname+" "+ref.data().referee.name).removeData().data(ref.data().referee)
+                $('#playersModal').removeClass("show");
+                $('#playersModal').css("display","none");
+            }
+        }
+    })
+    $("#btnAddAs1").on("click",function () {
+        var ref = $(".ui-selected");
+
+        if(ref.length>1){
+            alert("No puedes seleccionar más de un árbitro")
+        }else{
+            if(ref.data().referee.id===$("#referee").data().id||ref.data().referee.id===$("#assistant2").data().id){
+                alert("Ya has seleccionado al "+ref.data().referee.name+" como arbitro.")
+            }else{
+                $("#assistant1").val(ref.data().referee.firstname+" "+ref.data().referee.name).removeData().data(ref.data().referee)
+                $('#playersModal').removeClass("show");
+                $('#playersModal').css("display","none");
+            }
+        }
+    })
+
+    $("#btnAddAs2").on("click",function () {
+        var ref = $(".ui-selected");
+
+        if(ref.length>1){
+            alert("No puedes seleccionar más de un árbitro")
+        }else{
+            if(ref.data().referee.id===$("#referee").data().id||ref.data().referee.id===$("#assistant1").data().id){
+                alert("Ya has seleccionado al "+ref.data().referee.name+" como arbitro.")
+            }else{
+                $("#assistant2").val(ref.data().referee.firstname+" "+ref.data().referee.name).removeData().data(ref.data().referee)
+                $('#playersModal').removeClass("show");
+                $('#playersModal').css("display","none");
+            }
+        }
+    })
+
+    $('#close').on("click",function(){
+        $('#playersModal').removeClass("show");
+        $('#playersModal').css("display","none");
+        console.log("Cerrado el modal de jugadores.");
+    })
+    $('#closeReferee').on("click",function(){
+        $('#playersModal').removeClass("show");
+        $('#playersModal').css("display","none");
+        console.log("Cerrado el modal de jugadores.");
+    })
 });

@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <link rel="stylesheet" href="css/main.css" type="text/css">
+    <link rel="stylesheet" href="css/crud/designation.css" type="text/css">
 
 </head>
 <body>
@@ -111,7 +112,7 @@
                         <div class="form-group">
                             <label for="sueldoAsistente">Sueldo Asistentes</label>
                             <div class="input-group">
-                              <input type="number" min="0.00" max="10000.00" step="0.01" class="form-control" id="sueldoAsistente" placeholder="Sueldo Árbitro" aria-describedby="inputGroupPrepend1" required>
+                              <input type="number" min="0.00" max="10000.00" step="0.01" class="form-control" id="sueldoAsistente" placeholder="Sueldo Asistente" aria-describedby="inputGroupPrepend1" required>
                                 <span class="input-group-text" id="inputGroupPrepend1">€</span>
                             </div>
                         </div>
@@ -128,7 +129,7 @@
 </div>
 
 <div class="modal fade" id="playersModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" id="arbitros" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Árbitros</h5>
@@ -150,6 +151,30 @@
                 <button type="button" id="btnAddAs1" class="btn btn-success">Añadir</button>
                 <button type="button" id="btnAddAs2" class="btn btn-success">Añadir</button>
                 <button type="button" class="btn btn-secondary" id="closeReferee">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="matchModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog" id="matches" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Partidos</h5>
+                <button type="button" class="close" aria-label="Close" id="closeMatch">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="tabsMatch">
+                    <ul id="selectable2">
+
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="addPartido" class="btn btn-success">Añadir</button>
+                <button type="button" class="btn btn-secondary" id="closeMatche">Cerrar</button>
             </div>
         </div>
     </div>

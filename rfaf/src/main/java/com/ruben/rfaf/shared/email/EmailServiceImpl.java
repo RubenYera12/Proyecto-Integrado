@@ -59,7 +59,7 @@ public class EmailServiceImpl implements EmailService {
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
         helper.setFrom(new InternetAddress("no_reply@example.com", "Comité Árbitros"));
-        helper.setTo(designation.getMainReferee().getEmail());
+        helper.setTo(designation.getAssistantReferee1().getEmail());
         helper.setSubject("Aviso desde el Comité de Árbitros.");
         String contenido = estado+"\n \n" +
                 "Código designación:" + designation.getId() + "\n" +
@@ -90,7 +90,7 @@ public class EmailServiceImpl implements EmailService {
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
         helper.setFrom(new InternetAddress("no_reply@example.com", "Comité Árbitros"));
-        helper.setTo(designation.getMainReferee().getEmail());
+        helper.setTo(designation.getAssistantReferee2().getEmail());
         helper.setSubject("Aviso desde el Comité de Árbitros.");
         String contenido = estado+"\n \n" +
                 "Código designación:" + designation.getId() + "\n" +

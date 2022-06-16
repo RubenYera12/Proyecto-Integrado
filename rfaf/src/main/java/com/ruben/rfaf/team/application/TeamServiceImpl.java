@@ -37,6 +37,7 @@ public class TeamServiceImpl implements TeamService {
 
         if (team.getCompetition().getId()==null||team.getCompetition().getId().equals("")){
             team.setCompetition(null);
+            teamRepository.save(team);
         }else {
             Competition competition = competitionRepository
                     .findById(team.getCompetition().getId())
@@ -47,11 +48,13 @@ public class TeamServiceImpl implements TeamService {
                     comp = true;
             }
             if (!comp) {
+                team.setCompetition(competition);
+                teamRepository.save(team);
                 competition.getTeamList().add(team);
                 competitionRepository.save(competition);
             }
         }
-        return teamRepository.save(team);
+        return team;
     }
 
     @Override
@@ -80,6 +83,17 @@ public class TeamServiceImpl implements TeamService {
         });
 
         if (team.getCompetition().getId()==null||team.getCompetition().getId().equals("")){
+            if(teamOptional.getCompetition()!=null){
+                Optional<Competition> competition = competitionRepository.findById(teamOptional.getCompetition().getId());
+                if(competition.isPresent())
+                    for (Team team1 : competition.get().getTeamList()) {
+                        if (team1.getId().equalsIgnoreCase(team.getId())){
+                            competition.get().getTeamList().remove(team1);
+                            competitionRepository.save(competition.get());
+                        }
+
+                    }
+            }
             team.setCompetition(null);
         }else {
             Competition competition = competitionRepository

@@ -218,25 +218,25 @@ var app = {
       },
     create : function(data) {
         console.log(data)
-        // $.ajax({
-        //     url: app.backend + 'team/create',
-        //     data : JSON.stringify(data),
-        //     method: 'POST',
-        //     dataType : 'json',
-        //     contentType: "application/json; charset=utf-8",
-        //     success : function(json) {
-        //         $("#msg").text('Se guardó el equipo correctamente');
-        //         $("#msg").show();
-        //         $('#personaModal').modal('hide');
-        //         app.table.ajax.reload();
-        //         setTimeout(function(){
-        //             $("#msg").hide();
-        //         }, 5000);
-        //     },
-        //       error: function(request) {
-        //            alert(request.responseJSON.message);
-        //       }
-        // })
+        $.ajax({
+            url: app.backend + 'team/create',
+            data : JSON.stringify(data),
+            method: 'POST',
+            dataType : 'json',
+            contentType: "application/json; charset=utf-8",
+            success : function(json) {
+                $("#msg").text('Se guardó el equipo correctamente');
+                $("#msg").show();
+                $('#personaModal').modal('hide');
+                app.table.ajax.reload();
+                setTimeout(function(){
+                    $("#msg").hide();
+                }, 5000);
+            },
+              error: function(request) {
+                   alert(request.responseJSON.message);
+              }
+        })
     },
     update : function(data) {
         console.log(data.category_id);
