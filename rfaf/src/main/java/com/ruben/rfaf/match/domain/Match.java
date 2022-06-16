@@ -5,7 +5,6 @@ import com.ruben.rfaf.StringPrefixedSequenceIdGenerator;
 import com.ruben.rfaf.competition.domain.Competition;
 import com.ruben.rfaf.match.infrastructure.dto.InputMatchDTO;
 import com.ruben.rfaf.team.domain.Team;
-import com.ruben.rfaf.referee.domain.Referee;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +18,7 @@ import java.util.Date;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name="partidos")
 public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "matchSeq")
@@ -36,8 +36,8 @@ public class Match {
     private Competition competition;
     private String season;
     @Temporal(TemporalType.DATE)
-    private Date matchDate;
-    private Float hour;
+    private Date fecha;
+    private Float hora;
     @ManyToOne
 
     private Team local;
@@ -48,8 +48,8 @@ public class Match {
         setId(inputMatchDTO.getId());
         setCompetition(inputMatchDTO.getCompetition());
         setSeason(inputMatchDTO.getSeason());
-        setMatchDate(inputMatchDTO.getMatchDate());
-        setHour(inputMatchDTO.getHour());
+        setFecha(inputMatchDTO.getMatchDate());
+        setHora(inputMatchDTO.getHour());
         setLocal(inputMatchDTO.getLocal());
         setVisitor(inputMatchDTO.getVisitor());
     }

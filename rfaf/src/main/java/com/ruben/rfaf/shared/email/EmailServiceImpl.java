@@ -2,7 +2,6 @@ package com.ruben.rfaf.shared.email;
 
 import com.ruben.rfaf.designation.domain.Designation;
 import lombok.AllArgsConstructor;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -35,9 +34,9 @@ public class EmailServiceImpl implements EmailService {
                 "Código designación:" + designation.getId() + "\n" +
                 "Para: " + designation.getMainReferee().getNombreCompleto() + "\n" +
                 "En función de: ARBITRO\n \n" +
-                "Fecha partido: " + new Date(designation.getMatch().getMatchDate().getTime()).toLocalDate()
+                "Fecha partido: " + new Date(designation.getMatch().getFecha().getTime()).toLocalDate()
                 .format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + "\n" +
-                "Hora de comienzo: "+String.format("%.2f", designation.getMatch().getHour()) + "\n \n" +
+                "Hora de comienzo: "+String.format("%.2f", designation.getMatch().getHora()) + "\n \n" +
                 "Campo: " + designation.getMatch().getLocal().getStadium() + "\n \n" +
                 "Competición: " + designation.getMatch().getCompetition().getName() +"\n \n"+
                 "Equipo de casa: " + designation.getMatch().getLocal().getName() + "\n" +
@@ -66,9 +65,9 @@ public class EmailServiceImpl implements EmailService {
                 "Código designación:" + designation.getId() + "\n" +
                 "Para: " + designation.getAssistantReferee1().getNombreCompleto() + "\n" +
                 "En función de: ASISTENTE 1\n \n" +
-                "Fecha partido: " + new Date(designation.getMatch().getMatchDate().getTime()).toLocalDate()
+                "Fecha partido: " + new Date(designation.getMatch().getFecha().getTime()).toLocalDate()
                 .format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + "\n" +
-                "Hora de comienzo: "+String.format("%.2f", designation.getMatch().getHour()) + "\n \n" +
+                "Hora de comienzo: "+String.format("%.2f", designation.getMatch().getHora()) + "\n \n" +
                 "Campo: " + designation.getMatch().getLocal().getStadium() + "\n \n" +
                 "Competición: " + designation.getMatch().getCompetition().getName() +"\n \n"+
                 "Equipo de casa: " + designation.getMatch().getLocal().getName() + "\n" +
@@ -97,9 +96,9 @@ public class EmailServiceImpl implements EmailService {
                 "Código designación:" + designation.getId() + "\n" +
                 "Para: " + designation.getAssistantReferee2().getNombreCompleto() + "\n" +
                 "En función de: ASISTENTE 2\n \n" +
-                "Fecha partido: " + new Date(designation.getMatch().getMatchDate().getTime()).toLocalDate()
+                "Fecha partido: " + new Date(designation.getMatch().getFecha().getTime()).toLocalDate()
                 .format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + "\n" +
-                "Hora de comienzo: "+String.format("%.2f", designation.getMatch().getHour()) + "\n \n" +
+                "Hora de comienzo: "+String.format("%.2f", designation.getMatch().getHora()) + "\n \n" +
                 "Campo: " + designation.getMatch().getLocal().getStadium() + "\n \n" +
                 "Competición: " + designation.getMatch().getCompetition().getName() +"\n \n"+
                 "Equipo de casa: " + designation.getMatch().getLocal().getName() + "\n" +

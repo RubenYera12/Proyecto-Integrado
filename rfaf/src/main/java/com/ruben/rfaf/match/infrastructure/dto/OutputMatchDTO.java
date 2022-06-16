@@ -2,7 +2,6 @@ package com.ruben.rfaf.match.infrastructure.dto;
 
 import com.ruben.rfaf.competition.domain.Competition;
 import com.ruben.rfaf.match.domain.Match;
-import com.ruben.rfaf.referee.domain.Referee;
 import com.ruben.rfaf.team.domain.Team;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,8 +26,8 @@ public class OutputMatchDTO {
         setId(match.getId());
         setCompetition(match.getCompetition());
         setSeason(match.getSeason());
-        setMatchDate(match.getMatchDate());
-        setHour(match.getHour());
+        setMatchDate(match.getFecha());
+        setHour(match.getHora());
         setLocal(match.getLocal());
         setVisitor(match.getVisitor());
     }

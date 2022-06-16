@@ -2,21 +2,20 @@ package com.ruben.rfaf.designation.application;
 
 import com.ruben.rfaf.designation.infrastructure.repository.DesignationRepository;
 import com.ruben.rfaf.designation.domain.Designation;
-import com.ruben.rfaf.match.infrastructure.repository.GameRepository;
+import com.ruben.rfaf.match.infrastructure.repository.MatchRepository;
 import com.ruben.rfaf.referee.infrastructure.repository.RefereeRepository;
 import com.ruben.rfaf.shared.email.EmailService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 @Service
 public class DesignationServiceImpl implements DesignationService {
 
     private final DesignationRepository designationRepository;
-    private final GameRepository gameRepository;
+    private final MatchRepository matchRepository;
     private final RefereeRepository refereeRepository;
     private final EmailService emailService;
 
@@ -39,14 +38,14 @@ public class DesignationServiceImpl implements DesignationService {
     @Override
     public Designation assign(Designation designation) throws Exception {
         //Comprobamos los datos de la designacion
-        designation.setMatch(gameRepository
+        designation.setMatch(matchRepository
                 .findById(designation.getMatch().getId())
                 .orElseThrow(()->new Exception("No se ha encontrado el partido.")));
 
-        //Comprobamos que el partido seleccionado no tenga una designacion asociada
-        Optional<Designation> designationCheck = designationRepository.findByMatchId(designation.getMatch().getId());
-        if (designationCheck.isPresent())
-            throw new Exception("El partido seleccionado ya tiene una designación asociada");
+//        //Comprobamos que el partido seleccionado no tenga una designacion asociada
+//        Optional<Designation> designationCheck = designationRepository.findByMatchId(designation.getMatch().getId());
+//        if (designationCheck.isPresent())
+//            throw new Exception("El partido seleccionado ya tiene una designación asociada");
 
         designation.setMainReferee(refereeRepository
                 .findById(designation.getMainReferee().getId())

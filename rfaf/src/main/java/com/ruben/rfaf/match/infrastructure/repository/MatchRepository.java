@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface GameRepository extends JpaRepository<Match,String> {
+public interface MatchRepository extends JpaRepository<Match,String> {
     @Query("Select m from Match m where LOCAL_ID like ?1 or VISITOR_ID like ?1")
     List<Match> findByTeamId(String teamId);
 }

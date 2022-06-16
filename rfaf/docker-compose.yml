@@ -9,27 +9,29 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: RfafDB
+    ports:
+      - 3306:3306
   
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin
-    links:
-      - mysqlRFAF
-    environment:
-      PMA_HOST: mysqlRFAF
-      PMA_PORT: 3306
-      PMA_ARBITRARY: 1
-    restart: always
-    ports:
-      - 8081:80
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   container_name: phpmyadmin
+  #   links:
+  #     - mysqlRFAF
+  #   environment:
+  #     PMA_HOST: mysqlRFAF
+  #     PMA_PORT: 3306
+  #     PMA_ARBITRARY: 1
+  #   restart: always
+  #   ports:
+  #     - 8081:80
 
-  backempresaapplication:
-    image: ryermar659/rfafapplication
-    container_name: rfafApplication
-    ports:
-      - "8080:8080"
-    depends_on:
+  # backempresaapplication:
+  #   image: ryermar659/rfafapplication
+  #   container_name: rfafApplication
+  #   ports:
+  #     - "8080:8080"
+  #   depends_on:
 
-      - "mysqlRFAF"
-    environment:
-      spring.datasource.url: jdbc:mysql://mysqlRFAF:3306/RfafDB
+  #     - "mysqlRFAF"
+  #   environment:
+  #     spring.datasource.url: jdbc:mysql://mysqlRFAF:3306/RfafDB

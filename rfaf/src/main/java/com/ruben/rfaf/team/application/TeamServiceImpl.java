@@ -3,7 +3,7 @@ package com.ruben.rfaf.team.application;
 import com.ruben.rfaf.competition.domain.Competition;
 import com.ruben.rfaf.competition.infrastructure.repository.CompetitionRepository;
 import com.ruben.rfaf.match.domain.Match;
-import com.ruben.rfaf.match.infrastructure.repository.GameRepository;
+import com.ruben.rfaf.match.infrastructure.repository.MatchRepository;
 import com.ruben.rfaf.player.domain.Player;
 import com.ruben.rfaf.player.infrastructure.repository.PlayerRepository;
 import com.ruben.rfaf.team.domain.Team;
@@ -22,7 +22,7 @@ public class TeamServiceImpl implements TeamService {
     private final TeamRepository teamRepository;
     private final PlayerRepository playerRepository;
     private final CompetitionRepository competitionRepository;
-    private final GameRepository gameRepository;
+    private final MatchRepository matchRepository;
     @Override
     public Team addTeam(Team team) throws Exception {
         Optional<Team> teamOptional = teamRepository.findByNameIgnoreCase(team.getName());
@@ -113,7 +113,7 @@ public class TeamServiceImpl implements TeamService {
     public String deleteById(String id) throws Exception {
         Team team = teamRepository.findById(id).orElseThrow(()->new Exception("No se ha encontrado el equipo"));
 
-        List<Match> matchList = gameRepository.findByTeamId(id);
+        List<Match> matchList = matchRepository.findByTeamId(id);
         if (matchList.size()>0)
             throw new Exception("No se puede borrar el equipo, ya que tiene partidos asociados.");
 
