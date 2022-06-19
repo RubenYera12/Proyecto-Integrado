@@ -38,3 +38,8 @@ input[type=file]::-webkit-file-upload-button:hover, .dt-button{
 .footer-section {
     margin-top: 30px;
 }
+
+.ms-content .mc-table table tr td img.imgActa {
+    width: 50px;
+    height: 50px;
+}

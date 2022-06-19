@@ -19,4 +19,5 @@ public class InputPlayerDTO {
     private Team team;
     private int number;
     private int sancion;
+    private String image_url;
 }

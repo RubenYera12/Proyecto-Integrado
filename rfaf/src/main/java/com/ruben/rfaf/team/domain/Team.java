@@ -35,7 +35,6 @@ public class Team {
     private String image;
     private String coach;
     @OneToMany
-    @JsonIgnore
     private List<Player> players;
     private String stadium;
     @ManyToOne

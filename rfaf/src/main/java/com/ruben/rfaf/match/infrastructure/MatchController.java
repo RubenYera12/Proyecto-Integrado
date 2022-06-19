@@ -39,6 +39,15 @@ public class MatchController {
         return ResponseEntity.ok(outputMatchDTOList);
     }
 
+    @GetMapping("findNoDesignationMatches")
+    public ResponseEntity<List<OutputMatchDTO>> findNoDesignationMatches(){
+        List<OutputMatchDTO> outputMatchDTOList = new ArrayList<>();
+        for (Match match : matchService.findMatchWithNoDesignation()) {
+            outputMatchDTOList.add(new OutputMatchDTO(match));
+        }
+        return ResponseEntity.ok(outputMatchDTOList);
+    }
+
     @DeleteMapping("delete/{id}")
     public ResponseEntity<String> delete(@PathVariable String id) throws Exception {
         return ResponseEntity.ok(matchService.delete(id));

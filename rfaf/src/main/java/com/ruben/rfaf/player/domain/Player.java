@@ -40,6 +40,7 @@ public class Player {
     private Team team;
     private int number;
     private int sancion;
+    private String image_url;
 
     public Player(InputPlayerDTO inputPlayerDTO) {
         setId(inputPlayerDTO.getId());
@@ -50,5 +51,6 @@ public class Player {
         setTeam(inputPlayerDTO.getTeam());
         setNumber(inputPlayerDTO.getNumber());
         setSancion(inputPlayerDTO.getSancion());
+        setImage_url(inputPlayerDTO.getImage_url());
     }
 }

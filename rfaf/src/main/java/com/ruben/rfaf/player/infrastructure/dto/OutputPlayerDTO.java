@@ -20,6 +20,7 @@ public class OutputPlayerDTO {
     private Team team;
     private int number;
     private int sancion;
+    private String image_url;
     public OutputPlayerDTO(Player player){
         setId(player.getId());
         setLicencia(player.getLicenseNum());
@@ -29,5 +30,6 @@ public class OutputPlayerDTO {
         setTeam(player.getTeam());
         setNumber(player.getNumber());
         setSancion(player.getSancion());
+        setImage_url(player.getImage_url());
     }
 }

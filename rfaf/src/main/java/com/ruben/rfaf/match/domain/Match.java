@@ -32,7 +32,6 @@ public class Match {
             })
     private String id;
     @ManyToOne
-    @JsonIgnore
     private Competition competition;
     private String season;
     @Temporal(TemporalType.DATE)

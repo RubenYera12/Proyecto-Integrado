@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>rfaf - RefereeCrud</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css'>
+    <link rel='stylesheet' type='text/css' href='https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css'>
+    <link rel='stylesheet' type='text/css' href='https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css'>
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="css/main.css" type="text/css">
+
+</head>
+<body>
+
+    <div th:replace="partials/header">...</div>
+    
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="datos-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="datos-tab-pane" aria-selected="true">Datos</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="alineaciones-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="alineaciones-tab-pane" aria-selected="false">Alineaciones</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="goles-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="goles-tab-pane" aria-selected="false">Goles</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tarjetas-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" type="button" role="tab" aria-controls="tarjetas-tab-pane" aria-selected="false">Tarjetas</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="incidencias-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" type="button" role="tab" aria-controls="incidencias-tab-pane" aria-selected="false">Otras Incidencias</button>
+        </li>
+      </ul>
+      <div class="col-12">
+        <button class="btn btn-success" id="guardar">Guardar</button>
+      </div>
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="datos-tab-pane" role="tabpanel" aria-labelledby="datos-tab" tabindex="0">
+          <div class="container">
+              <div class="ms-content">
+                <div class="mc-table datos">
+                  <table>
+                      <tbody>
+                          <tr>
+                              <td class="left-team">
+                                  <img src="sd" id="imgLocal" class="imgActa" alt="">
+                                  <h6 id="nameLocal"></h6>
+                              </td>
+                              <td class="mt-content">
+                                <div class="mc-op">Estadio: <span id="stadium"></span></div>
+                                <h4>VS</h4>
+                                <div class="mc-op" id="fecha">15 September 2019</div>
+                                <div class="mc-op" id="nameCompetition"></div>
+                                <div class="mc-op">
+                                  <img src="ds" id="imgCompetition" class="imgActa" alt="Competion">
+                                </div>  
+
+                              </td>
+                              <td class="right-team">
+                                  <img src="dc" id="imgVisitante" class="imgActa" alt="">
+                                  <h6 id="nameVisitante"></h6>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  <form>
+                    <div class="container">
+                      <div class="row">
+                        <div class="form-group col-sm">
+                          <label for="inicio">Hora inicio</label>
+                          <input type="text" class="form-control" id="inicio" placeholder="Introduce la hora del encuentro">
+                        </div>
+                        <div class="form-group col-sm">
+                          <label for="segundaParte">Hora segunda parte</label>
+                          <input type="text" class="form-control" id="segundaParte" placeholder="Introduce la hora del encuentro">
+                        </div>
+                      </div>
+                        <div class="form-group">
+                          <input type="checkbox" class="form-check-label success" id="desfibrilador">
+                          <label for="desfibrilador">Desfibrilador</label>
+                      </div>
+                    </div>
+                </form>
+              </div>
+              </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="alineaciones-tab-pane" role="tabpanel" aria-labelledby="alineaciones-tab" tabindex="0">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-6" id="local">
+                <div class="entrenador-local">
+                  Entrenador:<span id="localCoach"> Carlo Ancelotti</span>
+                </div>
+                <table id="jugadoresLocales"></table>
+
+              </div>
+              <div class="col-sm-6" id="visitante">
+                <div class="entrenador-visitante">
+                  Entrenador:<span id="visitorCoach"> Carlo Ancelotti</span>
+                </div>
+                <table id="jugadoresVisitantes"></table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="goles-tab-pane" role="tabpanel" aria-labelledby="goles-tab" tabindex="0">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-6" id="goleslocal">
+                <div class="form-group">
+                  <label for="minGolLocal">Minuto</label>
+                  <input type="number" min="1" max="90" class="form-control" id="minGolLocal" placeholder="Introduce el minuto">
+                </div>
+                <div class="form-group">
+                  <label for="jugadorLocal">Jugador</label>
+                  <select class="form-control" aria-label=".form-select-lg example" id="jugadorLocal"></select>
+                </div>
+                <div class="col-12">
+                  <button class="btn btn-success" id="addGolLocal">Guardar Gol</button>
+                </div>
+                <table id="golesLocales"></table>
+              </div>
+              <div class="col-sm-6" id="golesvisitante">
+                <div class="form-group">
+                  <label for="minGolVisitante">Minuto</label>
+                  <input type="number" min="1" max="90" class="form-control" id="minGolVisitante" placeholder="Introduce el minuto">
+                </div>
+                <div class="form-group">
+                  <label for="jugadorLocal">Jugador</label>
+                  <select class="form-control" aria-label=".form-select-lg example" id="jugadorVistante"></select>
+                </div>
+                <div class="col-12">
+                  <button class="btn btn-success" id="addGolVisitante">Guardar Gol</button>
+                </div>
+                <table id="golesVisitantes"></table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="tarjetas-tab-pane" role="tabpanel" aria-labelledby="tarjetas-tab" tabindex="0">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-6" id="tarjetaslocal">
+                <div class="form-group">
+                  <label for="colorTarjetaLocal">Tarjeta</label>
+                  <select class="form-control" aria-label=".form-select-lg example" id="colorTarjetaLocal">
+                    <option value="AMARILLA">Amarilla</option>
+                    <option value="ROJA">ROJA</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="minGolLocal">Minuto</label>
+                  <input type="number" min="1" max="90" class="form-control" id="minTarjetaLocal" placeholder="Introduce el minuto">
+                </div>
+                <div class="form-group">
+                  <label for="jugadorLocal">Jugador</label>
+                  <select class="form-control" aria-label=".form-select-lg example" id="jugadorLocalTarjeta"></select>
+                </div>
+                <div class="form-group">
+                  <label for="minGolVisitante">Motivo</label>
+                  <textarea class="form-control" id="motivoTarjetaLocal" placeholder="Introduce el motivo" rows="3"></textarea>
+                </div>
+                <div class="col-12">
+                  <button class="btn btn-success" id="addTarjetaLocal">Guardar Tarjeta</button>
+                </div>
+                <table id="tarjetasLocales"></table>
+              </div>
+              <div class="col-sm-6" id="Tarjetasvisitante">
+                <div class="form-group">
+                  <label for="colorTarjetaVisitante">Tarjeta</label>
+                  <select class="form-control" aria-label=".form-select-lg example" id="colorTarjetaVisitante">
+                    <option value="AMARILLA">Amarilla</option>
+                    <option value="ROJA">ROJA</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="minTarjetaVisitante">Minuto</label>
+                  <input type="number" min="1" max="90" class="form-control" id="minTarjetaVisitante" placeholder="Introduce el minuto">
+                </div>
+                <div class="form-group">
+                  <label for="jugadorVistanteTarjeta">Jugador</label>
+                  <select class="form-control" aria-label=".form-select-lg example" id="jugadorVistanteTarjeta"></select>
+                </div>
+                <div class="form-group">
+                  <label for="motivoTarjetaVisitante">Motivo</label>
+                  <textarea class="form-control" id="motivoTarjetaVisitante" placeholder="Introduce el motivo" rows="3"></textarea>
+                </div>
+                <div class="col-12">
+                  <button class="btn btn-success" id="addTarjetaVisitante">Guardar Tarjeta</button>
+                </div>
+                <table id="tarjetasVisitantes"></table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="incidencias-tab-pane" role="tabpanel" aria-labelledby="tarjetas-tab" tabindex="0">
+          <div class="container">
+            <div class="row">
+              <div class="col-12" id="incidendias">
+                <div class="form-group">
+                  <label for="publico">Público</label>
+                  <textarea class="form-control" id="publico" placeholder="Introduce la incidencia con respecto al público"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="terreno">Deficiencias en el terreno de juego</label>
+                  <textarea class="form-control" id="terreno" placeholder="Introduce las deficiencias del terreno de juego"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="observaciones">Otras observaciones</label>
+                  <textarea class="form-control" id="observaciones" placeholder="Introduce otras observaciones"></textarea>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    <div class="designacion"></div>
+    <div th:insert="~{partials/footer :: footer}">...</div>
+    
+    
+    <script src="js/jquery-3.3.1.min.js" ></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- Js Plugins -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/acta.js"></script>
+
+
+    </body>
+    
+    </html>

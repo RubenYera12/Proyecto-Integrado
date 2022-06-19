@@ -4,26 +4,26 @@ var app = {
     init: function() {
         app.initDatatable('#categories');
         app.loadReferee();
-        app.loadMatch();
+        
         $("#create").click(function(){
             app.create({
                 match : $('#match').data().match,
-                mainReferee : $('#referee').data().referee,
-                assistantReferee1 : $('#assistant1').data().referee,
-                assistantReferee2 : $('#assistant2').data().referee,
+                mainReferee : $('#referee').data(),
+                assistantReferee1 : $('#assistant1').data(),
+                assistantReferee2 : $('#assistant2').data(),
                 priceReferee: $('#sueldoArbitro').val(),
-                priceReferee: $('#sueldoAsistente').val()
+                priceAssistant: $('#sueldoAsistente').val()
             });
         });
         $("#update").click(function(){
             app.update({
                 id: $('#id').val(),
-                match : $('#match').data().match,
-                mainReferee : $('#referee').data().referee,
-                assistantReferee1 : $('#assistant1').data().referee,
-                assistantReferee2 : $('#assistant2').data().referee,
+                match : $('#match').data(),
+                mainReferee : $('#referee').data(),
+                assistantReferee1 : $('#assistant1').data(),
+                assistantReferee2 : $('#assistant2').data(),
                 priceReferee: $('#sueldoArbitro').val(),
-                priceReferee: $('#sueldoAsistente').val()
+                priceAssistant: $('#sueldoAsistente').val()
             });
         });
         $("#addReff").on("click",function(){
@@ -188,10 +188,11 @@ var app = {
         
     },loadMatch :function () {
         $.ajax({
-            url: app.backend + 'match/findAll',
+            url: app.backend + 'match/findNoDesignationMatches',
             method: 'GET',
             success : function(result) {
                 result.forEach(match =>{
+                    $("#selectable2").empty();
                     $("<li>").addClass("form-control").attr("id",match.id).text(match.local.name+" vs "+match.visitor.name).data("match",match)
                     .appendTo($("#selectable2"));
                     
@@ -215,6 +216,7 @@ var app = {
             $('#matchModal').css("display","none");
         }
     },showMatch : function(){
+        app.loadMatch();
         $("#addPartido").on("click",app.addMatch);
         
         $('#matchModal').addClass("show");

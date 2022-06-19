@@ -44,9 +44,9 @@ public class DesignationServiceImpl implements DesignationService {
                 .orElseThrow(()->new Exception("No se ha encontrado el partido.")));
 
         //Comprobamos que el partido seleccionado no tenga una designacion asociada
-        Optional<Designation> designationCheck = designationRepository.findByMatchId(designation.getMatch().getId());
-        if (designationCheck.isPresent())
-            throw new Exception("El partido seleccionado ya tiene una designación asociada");
+//        Optional<Designation> designationCheck = designationRepository.findByMatchId(designation.getMatch().getId());
+//        if (designationCheck.isPresent())
+//            throw new Exception("El partido seleccionado ya tiene una designación asociada");
 
         //Comprobamos que los arbitros no esten repetidos
         if (designation.getMainReferee().getEmail().equals(designation.getAssistantReferee1().getEmail()) ||

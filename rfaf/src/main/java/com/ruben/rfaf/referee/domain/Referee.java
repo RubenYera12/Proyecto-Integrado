@@ -52,7 +52,7 @@ public class Referee {
     @ManyToOne
     @JsonIgnore
     private Category category;
-    private boolean nevera;
+    private boolean nevera=false;
     @OneToMany
     private List<Designation> designationList=new ArrayList<>();
 

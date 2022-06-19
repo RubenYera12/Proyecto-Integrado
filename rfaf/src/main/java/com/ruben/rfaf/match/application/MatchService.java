@@ -12,6 +12,8 @@ public interface MatchService {
 
     List<Match> findAll();
 
+    List<Match> findMatchWithNoDesignation();
+
     Match updateGame(Match match, String id) throws Exception;
 
     String delete(String id) throws Exception;

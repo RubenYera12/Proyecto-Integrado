@@ -11,6 +11,7 @@ import com.ruben.rfaf.team.infrastructure.repository.TeamRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,6 +56,15 @@ public class MatchServiceImpl implements MatchService {
     public List<Match> findAll() {
         return matchRepository.findAll();
     }
+
+    @Override
+    public List<Match> findMatchWithNoDesignation(){
+        List<Designation> designationList=designationRepository.findAll();
+        List<String> ids=new ArrayList<>();
+        designationList.forEach(element->{
+            ids.add(element.getMatch().getId());
+        });
+        return  matchRepository.findByIdNotIn(ids);}
 
     @Override
     public Match updateGame(Match match, String id) throws Exception {

@@ -65,4 +65,13 @@ public class TemplateController {
         return new ModelAndView("designationCrud");
     }
 
+    @RequestMapping(value = "/acta",method = RequestMethod.GET)
+    public ModelAndView acta(){
+        return new ModelAndView("acta");
+    }
+
+    @RequestMapping(value = "/partials/actaJugador",method = RequestMethod.GET)
+    public ModelAndView partial(){
+        return new ModelAndView("partials/actaJugador");
+    }
 }
