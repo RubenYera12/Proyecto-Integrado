@@ -33,13 +33,10 @@ public class Designation {
     @OneToOne
     private Match match;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnore
     private Referee mainReferee;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnore
     private Referee assistantReferee1;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnore
     private Referee assistantReferee2;
     private Float priceReferee;
     private Float priceAssistant;

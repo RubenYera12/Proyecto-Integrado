@@ -19,9 +19,7 @@ public class TemplateController {
 
     @RequestMapping(value = "/game", method = RequestMethod.GET)
     public ModelAndView game() {
-        ModelAndView mav = new ModelAndView("game");
-        mav.addObject("standardDate", new Date());
-        return mav;
+        return new ModelAndView("game");
     }
 
     @RequestMapping(value = "/categoryCrud", method = RequestMethod.GET)
@@ -71,7 +69,12 @@ public class TemplateController {
     }
 
     @RequestMapping(value = "/partials/actaJugador",method = RequestMethod.GET)
-    public ModelAndView partial(){
+    public ModelAndView partialasdasd(){
         return new ModelAndView("partials/actaJugador");
+    }
+
+    @RequestMapping(value = "/partials/gameJugador",method = RequestMethod.GET)
+    public ModelAndView gameJugador(){
+        return new ModelAndView("partials/gameJugador");
     }
 }

@@ -149,7 +149,6 @@ function guardar(){
 }
 
 function loadActaDatos(designation){
-    console.log(designation)
     $("#imgLocal").attr("src",designation.match.local.image);
     $("#imgVisitante").attr("src",designation.match.visitor.image);
     $("#nameLocal").text(designation.match.local.name);
