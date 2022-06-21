@@ -46,6 +46,8 @@ public class RefereeServiceImpl implements RefereeService {
             throw new Exception("El usuario con email: " + referee.getEmail() + " ya existe");
         if (referee2.isPresent())
             throw new Exception("Ya existe el usuario con licencia: "+referee.getLicenseNum());
+
+        referee.setPassword(referee.getLicenseNum());
         return refereeRepository.save(referee);
     }
 

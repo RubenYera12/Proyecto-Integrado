@@ -1,5 +1,7 @@
 package com.ruben.rfaf.designation.application;
 
+import com.ruben.rfaf.acta.application.ActaService;
+import com.ruben.rfaf.acta.domain.Acta;
 import com.ruben.rfaf.designation.infrastructure.repository.DesignationRepository;
 import com.ruben.rfaf.designation.domain.Designation;
 import com.ruben.rfaf.match.infrastructure.repository.MatchRepository;
@@ -19,6 +21,7 @@ public class DesignationServiceImpl implements DesignationService {
     private final MatchRepository matchRepository;
     private final RefereeRepository refereeRepository;
     private final EmailService emailService;
+    private final ActaService actaService;
 
     @Override
     public Designation findById(String id) throws Exception {
@@ -72,6 +75,9 @@ public class DesignationServiceImpl implements DesignationService {
         designation.setStatus("ACEPTADA");
 
         designation = designationRepository.save(designation);
+        Acta acta = new Acta();
+        acta.setDesignation(designation);
+        actaService.create(acta);
 
         emailService.emailDesignacionArbitro(designation, "CONFIRMACION");
         emailService.emailDesignacionAsistente1(designation, "CONFIRMACION");

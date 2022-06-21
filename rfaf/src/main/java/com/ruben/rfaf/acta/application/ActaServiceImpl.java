@@ -13,8 +13,8 @@ import com.ruben.rfaf.yellowCard.infraestructure.YellowCardRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -93,5 +93,22 @@ public class ActaServiceImpl implements ActaService{
     @Override
     public Acta findActaById(String id) throws Exception {
         return actaRepository.findById(id).orElseThrow(()->new Exception("No se ha encontrado el acta"));
+    }
+
+    @Override
+    public List<Acta> findAll() {
+
+        return actaRepository.findAll();
+    }
+
+    @Override
+    public List<Acta> findAllByCompetitionId(String id) {
+
+        List<Acta> actaList = new ArrayList<>();
+        actaRepository.findAll().forEach(acta -> {
+            if (acta.getDesignation().getMatch().getCompetition().getId().equals(id))
+                actaList.add(acta);
+        });
+        return actaList;
     }
 }

@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("api/acta")
 
@@ -32,5 +35,23 @@ public class ActaController {
     @GetMapping("full/{id}")
     public ResponseEntity<FullActaOutputDto> findFullActaById(@PathVariable String id) throws Exception {
         return ResponseEntity.ok(new FullActaOutputDto(actaService.findActaById(id)));
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<ActaOutputDto>> findAll(){
+        List<ActaOutputDto> actaOutputDtoList = new ArrayList<>();
+        actaService.findAll().forEach(acta -> {
+            actaOutputDtoList.add(new ActaOutputDto(acta));
+        });
+        return ResponseEntity.ok(actaOutputDtoList);
+    }
+
+    @GetMapping("getByCompetition/{id}")
+    public ResponseEntity<List<ActaOutputDto>> findByCompetition(@PathVariable String id){
+        List<ActaOutputDto> actaOutputDtoList = new ArrayList<>();
+        actaService.findAllByCompetitionId(id).forEach(acta -> {
+            actaOutputDtoList.add(new ActaOutputDto(acta));
+        });
+        return ResponseEntity.ok(actaOutputDtoList);
     }
 }

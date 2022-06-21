@@ -18,6 +18,7 @@ public class ActaOutputDto {
     private Designation designation;
     private Integer golesLocal;
     private Integer golesVisitante;
+    private Boolean finalizado;
 
 
     public ActaOutputDto(Acta acta) {
@@ -25,5 +26,6 @@ public class ActaOutputDto {
         this.designation = acta.getDesignation();
         this.golesLocal = acta.getGoalsLocal().size();
         this.golesVisitante = acta.getGoalsVisitor().size();
+        this.finalizado=acta.getFinalizado();
     }
 }

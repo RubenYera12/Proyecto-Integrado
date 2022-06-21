@@ -61,7 +61,7 @@ public class Acta {
     private String deficienciasTerreno;
     private String otrasObservaciones;
 
-    private Boolean finalizado;
+    private Boolean finalizado=false;
 
     public Acta(ActaInputDto actaInputDto){
         this.id=actaInputDto.getId();

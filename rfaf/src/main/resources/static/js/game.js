@@ -25,6 +25,14 @@ function loadActa(acta){
     $("#nameCompetition").text(acta.designation.match.competition.name);
     $("span#stadium").text(acta.designation.match.local.stadium);
     $("#fecha").text(acta.designation.match.fecha);
+
+    if(acta.finalizado){
+        var golesLocales = acta.goalsLocal.length;
+        var golesVisitantes = acta.goalsVisitor.length;
+        $("#resultado").text(golesLocales+" : "+golesVisitantes);
+    }else{
+        $("#resultado").text("VS");
+    }
 }
 
 function loadLocal(acta){

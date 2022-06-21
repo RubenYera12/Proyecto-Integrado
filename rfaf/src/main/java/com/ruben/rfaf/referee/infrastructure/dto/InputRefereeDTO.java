@@ -10,7 +10,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class InputRefereeDTO {
     private String licenseNum;
-    private String password;
+    private String password="1234";
     private String name;
     private String firstname;
     private String email;

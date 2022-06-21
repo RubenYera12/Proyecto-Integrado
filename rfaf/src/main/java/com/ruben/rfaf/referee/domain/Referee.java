@@ -38,7 +38,7 @@ public class Referee {
     private String id;
     @Column(unique = true)
     private String licenseNum;
-    private String password;
+    private String password="1234";
     private String name;
     private String firstname;
     @Column(unique = true)

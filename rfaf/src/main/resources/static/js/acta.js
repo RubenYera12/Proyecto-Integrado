@@ -143,7 +143,7 @@ function guardar(){
         dataType : 'json',
         contentType: "application/json; charset=utf-8",
         success: function (response) {
-            
+            $(location).prop('href', "/game?acta_id="+acta_id)
         }
     });
 }

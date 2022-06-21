@@ -7,7 +7,7 @@
     <meta name="keywords" content="Specer, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>RFAF - Game</title>
+    <title>RFAF - Partido</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet">
@@ -26,21 +26,6 @@
 
 <body>
 <div th:insert="~{partials/header :: header}">...</div>
-
-    <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="img/mainBackground2.jpeg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="bs-text">
-                        <h2></h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Breadcrumb Section End -->
-
     <!-- Club Section Begin -->
     <section class="club-section spad">
         <div class="container">
@@ -50,21 +35,21 @@
                         <tbody>
                             <tr>
                                 <td class="left-team">
-                                    <img src="sd" id="imgLocal" class="imgActa" alt="">
+                                    <img src="img/defaultTeam.png" id="imgLocal" class="imgActa" alt="">
                                     <h6 class="nameLocal"></h6>
                                 </td>
                                 <td class="mt-content">
                                 <div class="mc-op">Estadio: <span id="stadium"></span></div>
-                                <h4>VS</h4>
-                                <div class="mc-op" id="fecha">15 September 2019</div>
+                                <h4 id="resultado">VS</h4>
+                                <div class="mc-op" id="fecha"></div>
                                 <div class="mc-op" id="nameCompetition"></div>
                                 <div class="mc-op">
-                                    <img src="ds" id="imgCompetition" class="imgActa" alt="Competion">
+                                    <img src="img/defaultCompetition.png" id="imgCompetition" class="imgActa" alt="Competion">
                                 </div>  
 
                                 </td>
                                 <td class="right-team">
-                                    <img src="dc" id="imgVisitante" class="imgActa" alt="">
+                                    <img src="img/defaultTeam.png" id="imgVisitante" class="imgActa" alt="">
                                     <h6 class="nameVisitante"></h6>
                                 </td>
                             </tr>

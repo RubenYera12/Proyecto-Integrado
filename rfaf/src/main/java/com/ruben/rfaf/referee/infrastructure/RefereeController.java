@@ -5,7 +5,9 @@ import com.ruben.rfaf.referee.application.RefereeService;
 import com.ruben.rfaf.referee.domain.Referee;
 import com.ruben.rfaf.referee.infrastructure.dto.InputRefereeDTO;
 import com.ruben.rfaf.referee.infrastructure.dto.OutputRefereeDTO;
+import com.ruben.rfaf.shared.security.MyController;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +20,8 @@ import java.util.List;
 public class RefereeController {
     private final RefereeService refereeService;
     private final CategoryRepository categoryRepository;
+    private MyController myController;
+
     // Request para insertar un Arbitro en la base de datos
     @PostMapping("/create")
     public ResponseEntity<OutputRefereeDTO> addReferee(@RequestBody InputRefereeDTO inputRefereeDTO) throws Exception {

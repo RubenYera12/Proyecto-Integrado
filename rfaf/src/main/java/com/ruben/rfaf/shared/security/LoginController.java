@@ -2,6 +2,7 @@ package com.ruben.rfaf.shared.security;
 
 import com.ruben.rfaf.referee.application.RefereeService;
 import com.ruben.rfaf.referee.domain.Referee;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,19 +25,24 @@ public class LoginController {
     @Autowired
     RefereeService refereeService;
 
-    @GetMapping("login")
+    @GetMapping("api/login")
     public ResponseEntity<String> login(
-            @RequestParam("email") String email, @RequestParam("password") String pwd)
+            @RequestHeader("email") String email, @RequestHeader("password") String pwd,HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         Referee referee = refereeService.findByEmail(email);
         String password = referee.getPassword();
+        String id = referee.getId();
 
         if (!pwd.equals(password)) throw new Exception("Password erroneo");
         String rol = (referee.getAdmin()) ? "ROLE_ADMIN" : "ROLE_USER";
-        return new ResponseEntity<>(getJWTToken(email, rol), HttpStatus.OK);
+
+        String token = getJWTToken(id,email, rol);
+        HttpSession sesion = request.getSession();
+        sesion.setAttribute("token", token);
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
-    private String getJWTToken(String username, String rol) {
+    private String getJWTToken(String id,String username, String rol) {
 
         String secretKey = "mySecretKey";
         List<GrantedAuthority> grantedAuthorities =
@@ -43,7 +50,7 @@ public class LoginController {
 
         String token =
                 Jwts.builder()
-                        .setId("softtekJWT")
+                        .setId((id))
                         .setSubject(username)
                         .claim(
                                 "authorities",

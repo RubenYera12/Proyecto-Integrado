@@ -36,6 +36,7 @@ public class FullActaOutputDto {
     private String publico;
     private String deficienciasTerreno;
     private String otrasObservaciones;
+    private Boolean finalizado;
 
     public FullActaOutputDto(Acta acta){
         this.id=acta.getId();
@@ -54,6 +55,7 @@ public class FullActaOutputDto {
         this.publico=acta.getPublico();
         this.deficienciasTerreno=acta.getDeficienciasTerreno();
         this.otrasObservaciones=acta.getOtrasObservaciones();
+        this.finalizado=acta.getFinalizado();
 
     }
 }
