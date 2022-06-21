@@ -16,7 +16,12 @@ $(document).ready(function(){
                 password:password
             },
             success: function (response) {
-                $(location).prop('href', $(location).attr('href'))
+                if($(location).attr('href')=="http://localhost:8080/login"){
+                    $(location).prop('href', "http://localhost:8080/");
+                }else{
+                    $(location).prop('href', $(location).attr('href'));
+                    
+                }
             },
             error: function(request,msg,error) {
                 $("#msg").text('Usuario o contraseña incorrectos');
