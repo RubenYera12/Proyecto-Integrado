@@ -191,8 +191,9 @@ var app = {
             url: app.backend + 'match/findNoDesignationMatches',
             method: 'GET',
             success : function(result) {
+                $("#selectable2").empty();
                 result.forEach(match =>{
-                    $("#selectable2").empty();
+                    
                     $("<li>").addClass("form-control").attr("id",match.id).text(match.local.name+" vs "+match.visitor.name).data("match",match)
                     .appendTo($("#selectable2"));
                     
